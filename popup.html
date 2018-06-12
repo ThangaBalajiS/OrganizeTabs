@@ -2,15 +2,23 @@
   <html>
     <head>
       <style>
-        button {
-          height: 30px;
-          width: 30px;
-          outline: none;
+        .site-list-item {
+            padding: 10px;
+            background: #e3e3e3;
+            margin: 2px;
+            cursor: pointer;
+            text-transform: capitalize;
+        }
+
+        .site-list-item:hover {
+            background: #656363;
         }
       </style>
     </head>
     <body>
-      <button id="changeColor"></button>
+      <div id="popup-space" > 
+      <div data-domain="all" class="site-list-item" >All</div>
+      </div>
       <script src="popup.js"></script>
     </body>
   </html>

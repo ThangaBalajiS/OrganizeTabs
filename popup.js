@@ -1,28 +1,28 @@
-chrome.tabs.getAllInWindow(null,function(tabs){
+chrome.tabs.getAllInWindow(null, function (tabs) {
     var itemArray = [];
-    for( tab in tabs ){
-        var temp = getDomainFromUrl(tabs[tab].url); 
-        if( itemArray.indexOf( temp ) === -1 ){
-            document.getElementById('popup-space').innerHTML += '<div data-domain="'+temp+'" class="site-list-item">'+temp+'</div>'; 
+    for (tab in tabs) {
+        var temp = getDomainFromUrl(tabs[tab].url);
+        if (itemArray.indexOf(temp) === -1) {
+            document.getElementById('popup-space').innerHTML += '<div data-domain="' + temp + '" class="site-list-item">' + temp + '</div>';
             itemArray.push(temp);
         }
     }
 });
 
-var items = document.getElementsByClassName('site-list-item');
+setTimeout(function(){
+    var items = document.getElementsByClassName('site-list-item');
+    for (var i = 0; i < items.length; i++) {
+        items[i].addEventListener('click', function(){
+            var domainName = this.getAttribute('data-domain');
+            chrome.tabs.create({index:0,url:'organizedTabs.html?site='+domainName});
+        }, false);
+    }
+},0);
 
-console.log(items)
-for(var i = 0; i < items.length; i++) {
 
-    console.log(items[i]);
-    // items[i].addEventListener('click', function(){
-    //     console.log("items[i].getAttribute('data-domain')");
-    // }, false);
-}
-
-function getDomainFromUrl(url){
+function getDomainFromUrl(url) {
 
     return url.split('/')[2] || '';
-    
+
 
 }

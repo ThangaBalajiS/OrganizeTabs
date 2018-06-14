@@ -5,7 +5,6 @@
     var div_target = document.getElementById('target_div');
 
     chrome.tabs.getAllInWindow(null, function (tabs) {
-        console.log(tabs);
         for (count in tabs) {
             if (getDomainFromUrl(tabs[count].url) === siteName) {
                 var tab = tabs[count];

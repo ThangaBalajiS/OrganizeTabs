@@ -1,10 +1,17 @@
 chrome.tabs.getAllInWindow(null, function (tabs) {
     var itemArray = [];
     for (tab in tabs) {
-        var temp = getDomainFromUrl(tabs[tab].url);
-        if (temp && itemArray.indexOf(temp) === -1 ) {
-            document.getElementById('popup-space').innerHTML += '<div data-domain="' + temp + '" class="site-list-item">' + temp + '</div>';
-            itemArray.push(temp);
+        var tabDomain = getDomainFromUrl(tabs[tab].url),
+            tabUrl = tabs[tab].url,
+            tabTitle = tabs[tab].title,
+            tabFavIconUrl = tabs[tab].favIconUrl;
+
+            tabDomain = tabDomain.replace( "www.",'' );
+
+
+        if (tabDomain && itemArray.indexOf(tabDomain) === -1 ) {
+            document.getElementById('popup-space').innerHTML += '<div data-title="'+tabTitle+' data-favicon="'+tabFavIconUrl+' data-url="'+tabUrl+'" data-domain="' + tabDomain + '" class="site-list-item">' + tabDomain + '</div>';
+            itemArray.push(tabDomain);
         }
     }
 });
@@ -22,10 +29,10 @@ setTimeout(function(){
 
 function getDomainFromUrl(url) {
     var splitedUrl = url.split('/');
-    if( splitedUrl[0] !== 'chrome-extension:' ){
+    if( splitedUrl[0] !== 'chrome-extension:' && splitedUrl[0] !== 'chrome:'  ){
         return url.split('/')[2] || '';
     }else{
-        return null;
+       return '';
     }
 
 }

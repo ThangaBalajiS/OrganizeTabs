@@ -2,7 +2,7 @@
     "name": "Sindhichitaan Sai",
     "version": "1.0",
     "description": "Group Tabs",
-    "permissions": ["tabs","activeTab","storage"],
+    "permissions": ["tabs","activeTab","storage","bookmarks"],
     "background": {
         "scripts": ["background.js"],
         "persistent": false

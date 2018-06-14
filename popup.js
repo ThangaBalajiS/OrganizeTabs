@@ -2,7 +2,7 @@ chrome.tabs.getAllInWindow(null, function (tabs) {
     var itemArray = [];
     for (tab in tabs) {
         var temp = getDomainFromUrl(tabs[tab].url);
-        if (itemArray.indexOf(temp) === -1) {
+        if (temp && itemArray.indexOf(temp) === -1 ) {
             document.getElementById('popup-space').innerHTML += '<div data-domain="' + temp + '" class="site-list-item">' + temp + '</div>';
             itemArray.push(temp);
         }
@@ -21,8 +21,11 @@ setTimeout(function(){
 
 
 function getDomainFromUrl(url) {
-
-    return url.split('/')[2] || '';
-
+    var splitedUrl = url.split('/');
+    if( splitedUrl[0] !== 'chrome-extension:' ){
+        return url.split('/')[2] || '';
+    }else{
+        return null;
+    }
 
 }

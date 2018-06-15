@@ -14,7 +14,6 @@
                 condition = true;
             }else if (siteName === 'selected'){
                 condition = tab.highlighted;
-                console.log( condition )
             }else{
                 condition = domain === siteName;
             }
@@ -35,7 +34,10 @@
 
             var oldDataOfSite = JSON.parse(localStorage[siteName]);
             console.log(oldDataOfSite);
-            var newDataOfSite = JSON.stringify(oldDataOfSite.push(tabsListForLocalStorage));
+            if( tabsListForLocalStorage.length ){
+                oldDataOfSite.push(tabsListForLocalStorage);
+            }
+            var newDataOfSite = JSON.stringify(oldDataOfSite);
             localStorage.setItem(siteName,newDataOfSite);
 
         } else {
@@ -43,8 +45,7 @@
         }
 
     });
-
-    renderTabs();
+     setTimeout(renderTabs(),0);
     function renderTabs() {
         if (localStorage.hasOwnProperty(siteName)) {
             var tabsFromSite = JSON.parse(localStorage[siteName]);

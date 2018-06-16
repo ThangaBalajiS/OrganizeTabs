@@ -82,14 +82,13 @@ setTimeout(function(){
                 }
 
 
-
+                if( siteExists.flag ){
+                    chrome.tabs.reload(siteExists.id);
+                }else{
+                    chrome.tabs.create({index:0,url:reDirUrl});
+                }
             });
 
-            if( siteExists.flag ){
-                
-            }else{
-                chrome.tabs.create({index:0,url:reDirUrl});
-            }
 
         }, false);
     }

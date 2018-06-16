@@ -1,24 +1,27 @@
 (function () {
     var url = new URL(window.location.href);
     var siteName = url.searchParams.get('site');
-    console.log(siteName);
     var div_target = document.getElementById('target_div');
-
+/* 
     chrome.tabs.getAllInWindow(null, function (tabs) {
         var tabsListForLocalStorage = [];
         for (count in tabs) {
             var tab = tabs[count];
             var domain = getDomainFromUrl(tab.url);
+            domain = domain.replace( "www.",'' );
             var condition = false;
+            debugger;
             if( siteName === 'all' ){
                 condition = true;
             }else if (siteName === 'selected'){
                 condition = tab.highlighted;
+                //domain = 'selected';
             }else{
                 condition = domain === siteName;
             }
             
             if (domain && condition) {
+                
 
                 var tempTabDetailObject = {
                     id: tab.id,
@@ -27,7 +30,7 @@
                     favIcon: tab.favIconUrl,
                 };
                 tabsListForLocalStorage.push(tempTabDetailObject);
-                chrome.tabs.remove(tab.id);
+             
             }
         }
         if (localStorage.hasOwnProperty(siteName)) {
@@ -35,7 +38,7 @@
             var oldDataOfSite = JSON.parse(localStorage[siteName]);
             console.log(oldDataOfSite);
             if( tabsListForLocalStorage.length ){
-                oldDataOfSite.push(tabsListForLocalStorage);
+                oldDataOfSite = oldDataOfSite.concat(tabsListForLocalStorage);
             }
             var newDataOfSite = JSON.stringify(oldDataOfSite);
             localStorage.setItem(siteName,newDataOfSite);
@@ -43,15 +46,24 @@
         } else {
             localStorage.setItem(siteName, JSON.stringify(tabsListForLocalStorage));
         }
-
     });
-     setTimeout(renderTabs(),0);
+ */
+
+ renderTabs();
     function renderTabs() {
         if (localStorage.hasOwnProperty(siteName)) {
             var tabsFromSite = JSON.parse(localStorage[siteName]);
             for (count in tabsFromSite) {
                 var tab = tabsFromSite[count];
                 div_target.innerHTML += '<div class="item-card" > <div class="item-card-image" > <img src="' + tab.favIcon + '"/> </div><div class="item-card-title">' + tab.title + '</div><div class="item-card-link" ><a target="_blank" href="' + tab.url + '"> Goto Site</a> </div></div>'
+                chrome.tabs.get(tab.id,function(){
+                    if(chrome.runtime.lastError){
+
+                    }else{
+                        
+                    }
+                })
+                
             }
         } else {
             div_target.innerHTML += '<div>Nothing Found</div>'

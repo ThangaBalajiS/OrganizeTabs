@@ -1,3 +1,6 @@
+var extBaseUrl = 'chrome-extension://'+chrome.runtime.id+'/';
+var siteExists = {flag:false,id:0};
+
 chrome.tabs.getAllInWindow(null, function (tabs) {
     var itemArray = [];
     for (tab in tabs) {
@@ -20,8 +23,74 @@ setTimeout(function(){
     var items = document.getElementsByClassName('site-list-item');
     for (var i = 0; i < items.length; i++) {
         items[i].addEventListener('click', function(){
-            var domainName = this.getAttribute('data-domain');
-            chrome.tabs.create({index:0,url:'organizedTabs.html?site='+domainName});
+            var siteName = this.getAttribute('data-domain');
+            var reDirUrl = 'organizedTabs.html?site='+siteName;
+            chrome.tabs.getAllInWindow(null, function (tabs) {
+                var tabsListForLocalStorage = [];
+                for (count in tabs) {
+                    var tab = tabs[count];
+                    var domain = getDomainFromUrl(tab.url);
+                    domain = domain.replace( "www.",'' );
+                    var condition = false;
+                    debugger;
+                    if( siteName === 'all' ){
+                        condition = true;
+                    }else if (siteName === 'selected'){
+                        condition = tab.highlighted;
+                    }else{
+                        condition = domain === siteName;
+                    }
+                    
+                    if (domain && condition) {
+                        
+        
+                        var tempTabDetailObject = {
+                            id: tab.id,
+                            title: tab.title,
+                            url: tab.url,
+                            favIcon: tab.favIconUrl,
+                        };
+                        tabsListForLocalStorage.push(tempTabDetailObject);
+                        
+                     
+                    }else{
+
+                        if( tab.url === extBaseUrl+reDirUrl ){
+                            siteExists = {flag:true,id:tab.id};
+                        }
+
+                    }
+
+                }
+
+                tabsListForLocalStorage.map(function(tabb){
+                    chrome.tabs.remove(tabb.id);
+                })
+                
+                if (localStorage.hasOwnProperty(siteName)) {
+        
+                    var oldDataOfSite = JSON.parse(localStorage[siteName]);
+                    console.log(oldDataOfSite);
+                    if( tabsListForLocalStorage.length ){
+                        oldDataOfSite = oldDataOfSite.concat(tabsListForLocalStorage);
+                    }
+                    var newDataOfSite = JSON.stringify(oldDataOfSite);
+                    localStorage.setItem(siteName,newDataOfSite);
+        
+                } else {
+                    localStorage.setItem(siteName, JSON.stringify(tabsListForLocalStorage));
+                }
+
+
+
+            });
+
+            if( siteExists.flag ){
+                
+            }else{
+                chrome.tabs.create({index:0,url:reDirUrl});
+            }
+
         }, false);
     }
 },0);

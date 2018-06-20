@@ -1,5 +1,5 @@
-var extBaseUrl = 'chrome-extension://'+chrome.runtime.id+'/';
-var siteExists = {flag:false,id:0};
+var extBaseUrl = 'chrome-extension://' + chrome.runtime.id + '/';
+var siteExists = { flag: false, id: 0 };
 
 chrome.tabs.getAllInWindow(null, function (tabs) {
     var itemArray = [];
@@ -9,41 +9,41 @@ chrome.tabs.getAllInWindow(null, function (tabs) {
             tabTitle = tabs[tab].title,
             tabFavIconUrl = tabs[tab].favIconUrl;
 
-            tabDomain = tabDomain.replace( "www.",'' );
+        tabDomain = tabDomain.replace("www.", '');
 
 
-        if (tabDomain && itemArray.indexOf(tabDomain) === -1 ) {
-            document.getElementById('popup-space').innerHTML += '<div data-title="'+tabTitle+' data-favicon="'+tabFavIconUrl+' data-url="'+tabUrl+'" data-domain="' + tabDomain + '" class="site-list-item">' + tabDomain + '</div>';
+        if (tabDomain && itemArray.indexOf(tabDomain) === -1) {
+            document.getElementById('popup-space').innerHTML += '<div data-title="' + tabTitle + ' data-favicon="' + tabFavIconUrl + ' data-url="' + tabUrl + '" data-domain="' + tabDomain + '" class="site-list-item">' + tabDomain + '</div>';
             itemArray.push(tabDomain);
         }
     }
 });
 
-setTimeout(function(){
+setTimeout(function () {
     var items = document.getElementsByClassName('site-list-item');
     for (var i = 0; i < items.length; i++) {
-        items[i].addEventListener('click', function(){
+        items[i].addEventListener('click', function () {
             var siteName = this.getAttribute('data-domain');
-            var reDirUrl = 'organizedTabs.html?site='+siteName;
+            var reDirUrl = 'templates/dashboard.html';
             chrome.tabs.getAllInWindow(null, function (tabs) {
                 var tabsListForLocalStorage = [];
                 for (count in tabs) {
                     var tab = tabs[count];
                     var domain = getDomainFromUrl(tab.url);
-                    domain = domain.replace( "www.",'' );
+                    domain = domain.replace("www.", '');
                     var condition = false;
                     debugger;
-                    if( siteName === 'all' ){
+                    if (siteName === 'all') {
                         condition = true;
-                    }else if (siteName === 'selected'){
-                        condition = tab.highlighted;
-                    }else{
-                        condition = domain === siteName;
+                    } else if (siteName === 'selected') {
+                        condition = tab.highlighted  ;
+                    } else {
+                        condition = domain === siteName ;
                     }
-                    
-                    if (domain && condition) {
-                        
-        
+
+                    if (domain && condition && tab.audible !== true) {
+
+
                         var tempTabDetailObject = {
                             id: tab.id,
                             title: tab.title,
@@ -51,56 +51,56 @@ setTimeout(function(){
                             favIcon: tab.favIconUrl,
                         };
                         tabsListForLocalStorage.push(tempTabDetailObject);
-                        
-                     
-                    }else{
 
-                        if( tab.url === extBaseUrl+reDirUrl ){
-                            siteExists = {flag:true,id:tab.id};
+
+                    } else {
+
+                        if (tab.url === extBaseUrl + reDirUrl) {
+                            siteExists = { flag: true, id: tab.id };
                         }
 
                     }
 
                 }
 
-                tabsListForLocalStorage.map(function(tabb){
+                tabsListForLocalStorage.map(function (tabb) {
                     chrome.tabs.remove(tabb.id);
                 })
-                
+
                 if (localStorage.hasOwnProperty(siteName)) {
-        
+
                     var oldDataOfSite = JSON.parse(localStorage[siteName]);
                     console.log(oldDataOfSite);
-                    if( tabsListForLocalStorage.length ){
+                    if (tabsListForLocalStorage.length) {
                         oldDataOfSite = oldDataOfSite.concat(tabsListForLocalStorage);
                     }
                     var newDataOfSite = JSON.stringify(oldDataOfSite);
-                    localStorage.setItem(siteName,newDataOfSite);
-        
+                    localStorage.setItem(siteName, newDataOfSite);
+
                 } else {
                     localStorage.setItem(siteName, JSON.stringify(tabsListForLocalStorage));
                 }
 
 
-                if( siteExists.flag ){
+                if (siteExists.flag) {
                     chrome.tabs.reload(siteExists.id);
-                }else{
-                    chrome.tabs.create({index:0,url:reDirUrl});
+                } else {
+                    chrome.tabs.create({ index: 0, url: reDirUrl });
                 }
             });
 
 
         }, false);
     }
-},0);
+}, 0);
 
 
 function getDomainFromUrl(url) {
     var splitedUrl = url.split('/');
-    if( splitedUrl[0] !== 'chrome-extension:' && splitedUrl[0] !== 'chrome:'  ){
+    if (splitedUrl[0] !== 'chrome-extension:' && splitedUrl[0] !== 'chrome:') {
         return url.split('/')[2] || '';
-    }else{
-       return '';
+    } else {
+        return '';
     }
 
 }

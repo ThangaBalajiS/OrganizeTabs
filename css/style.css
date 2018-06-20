@@ -1,0 +1,23 @@
+.site-list-item {
+    padding: 10px;
+    background: #f5f5f7;
+    color: #383838;
+    margin: 10px 5px;
+    cursor: pointer;
+    text-transform: capitalize;
+    font-weight: 500;
+}
+
+.site-list-item:hover {
+    background: #656363;
+}
+#popup-space{
+  font-family: 'Roboto', sans-serif;
+}
+
+.dashboard-left-bar{
+    width: 200px;
+    height: 100vh;
+    float: left;
+    background: #e3e3e3;
+}

@@ -1,10 +1,11 @@
 (function () {
     var url = new URL(window.location.href);
-    var siteName = url.searchParams.get('site');
     var div_target = document.getElementById('target_div');
 
     renderTabs();
+    addListenersToAll();
     function renderTabs() {
+        var siteName = localStorage.selectedCategory || 'all' ;
         if (localStorage.hasOwnProperty(siteName)) {
             div_target.innerHTML = '';
             var tabsFromSite = JSON.parse(localStorage[siteName]);
@@ -19,29 +20,38 @@
         } else {
             div_target.innerHTML += '<div>Nothing Found</div>'
         }
-    
+    }
 
+ function addListenersToAll(){
     setTimeout(function () {
-
-        var items = document.getElementsByClassName('icon-card-close');
-        for (var i = 0; i < items.length; i++) {
-            items[i].addEventListener('click', function () {
+        var siteName = localStorage.selectedCategory || 'all' ;
+        var closeIcons = document.getElementsByClassName('icon-card-close');
+        for (var i = 0; i < closeIcons.length; i++) {
+            closeIcons[i].addEventListener('click', function () {
                 var tabId = this.getAttribute("data-tab-id");
-                var tabsFromSite = JSON.parse(localStorage[siteName]) || [];
+                var tabsFromSite = JSON.parse(localStorage[siteName]);
                 if (tabsFromSite.length) {
                     var newList = tabsFromSite.filter(function (item) {
                         return item.id !== Number(tabId);
                     });
                     localStorage[siteName] = JSON.stringify(newList);
                     renderTabs();
+                    addRemovingListener();
                 }
 
             });
         }
+        var categories = document.getElementsByClassName('categories-item');
+        for (var count = 0; count < categories.length;count++){
+            categories[count].addEventListener('click',function(){
+                localStorage.setItem('selectedCategory',this.getAttribute('data-category'));
+                renderTabs();
+                addListenersToAll();
+            });
+        }
 
     }, 0);
-
-    }
+ }   
 }());
 
 

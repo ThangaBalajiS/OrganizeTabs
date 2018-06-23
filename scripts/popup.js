@@ -1,4 +1,5 @@
 var extBaseUrl = 'chrome-extension://' + chrome.runtime.id + '/';
+var reDirUrl = 'templates/dashboard.html';
 var siteExists = { flag: false, id: 0 };
 
 chrome.tabs.getAllInWindow(null, function (tabs) {
@@ -24,7 +25,6 @@ setTimeout(function () {
     for (var i = 0; i < items.length; i++) {
         items[i].addEventListener('click', function () {
             var siteName = this.getAttribute('data-domain');
-            var reDirUrl = 'templates/dashboard.html';
             chrome.tabs.getAllInWindow(null, function (tabs) {
                 var tabsListForLocalStorage = [];
                 for (count in tabs) {
@@ -54,9 +54,9 @@ setTimeout(function () {
 
 
                     } else {
-
                         if (tab.url === extBaseUrl + reDirUrl) {
                             siteExists = { flag: true, id: tab.id };
+                            console.log('here');
                         }
 
                     }
@@ -65,12 +65,14 @@ setTimeout(function () {
 
                 tabsListForLocalStorage.map(function (tabb) {
                     chrome.tabs.remove(tabb.id);
-                })
+                });
 
+                if( siteName === 'selected' ){
+                    siteName = 'all';
+                }
                 if (localStorage.hasOwnProperty(siteName)) {
 
                     var oldDataOfSite = JSON.parse(localStorage[siteName]);
-                    console.log(oldDataOfSite);
                     if (tabsListForLocalStorage.length) {
                         oldDataOfSite = oldDataOfSite.concat(tabsListForLocalStorage);
                     }
@@ -78,6 +80,7 @@ setTimeout(function () {
                     localStorage.setItem(siteName, newDataOfSite);
 
                 } else {
+                    
                     localStorage.setItem(siteName, JSON.stringify(tabsListForLocalStorage));
                 }
 
@@ -87,6 +90,7 @@ setTimeout(function () {
                 } else {
                     chrome.tabs.create({ index: 0, url: reDirUrl });
                 }
+                console.log(extBaseUrl+reDirUrl);
             });
 
 

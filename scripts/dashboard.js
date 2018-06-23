@@ -36,7 +36,7 @@
                     });
                     localStorage[siteName] = JSON.stringify(newList);
                     renderTabs();
-                    addRemovingListener();
+                    addListenersToAll();
                 }
 
             });

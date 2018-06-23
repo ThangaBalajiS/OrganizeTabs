@@ -36,9 +36,9 @@ setTimeout(function () {
                     if (siteName === 'all') {
                         condition = true;
                     } else if (siteName === 'selected') {
-                        condition = tab.highlighted  ;
+                        condition = tab.highlighted;
                     } else {
-                        condition = domain === siteName ;
+                        condition = domain === siteName;
                     }
 
                     if (domain && condition && tab.audible !== true) {
@@ -67,20 +67,42 @@ setTimeout(function () {
                     chrome.tabs.remove(tabb.id);
                 });
 
-                if( siteName === 'selected' ){
+                if (siteName === 'selected') {
                     siteName = 'all';
                 }
-                if (localStorage.hasOwnProperty(siteName)) {
 
-                    var oldDataOfSite = JSON.parse(localStorage[siteName]);
-                    if (tabsListForLocalStorage.length) {
-                        oldDataOfSite = oldDataOfSite.concat(tabsListForLocalStorage);
+                if (localStorage.hasOwnProperty(siteName) || siteName !== 'all' ) {
+                    if (!localStorage.hasOwnProperty('similar')) {
+                        localStorage.similar = JSON.stringify({});
+                    }
+                    var oldDataOfSite ='';
+                    if( siteName === 'all' ){
+                        oldDataOfSite = JSON.parse(localStorage[siteName]);
+                    }
+                    debugger;
+                    if (siteName !== 'all') {
+                        if( tabsListForLocalStorage.length ){
+                            var tempVals = [],
+                                tempSimilar = JSON.parse(localStorage.similar);
+                            
+                            if (tempSimilar.hasOwnProperty(siteName) ){
+                                tempVals = tempSimilar.siteName;
+                            }
+
+                            oldDataOfSite = extend({},tempSimilar,{[siteName]:tempVals.concat(tabsListForLocalStorage)});
+                            siteName = 'similar';
+                        }
+                    } else {
+
+                        if (tabsListForLocalStorage.length) {
+                            oldDataOfSite = oldDataOfSite.concat(tabsListForLocalStorage);
+                        }
                     }
                     var newDataOfSite = JSON.stringify(oldDataOfSite);
                     localStorage.setItem(siteName, newDataOfSite);
 
                 } else {
-                    
+
                     localStorage.setItem(siteName, JSON.stringify(tabsListForLocalStorage));
                 }
 
@@ -90,7 +112,6 @@ setTimeout(function () {
                 } else {
                     chrome.tabs.create({ index: 0, url: reDirUrl });
                 }
-                console.log(extBaseUrl+reDirUrl);
             });
 
 
@@ -107,4 +128,11 @@ function getDomainFromUrl(url) {
         return '';
     }
 
+}
+function extend() {
+    for (var i = 1; i < arguments.length; i++)
+        for (var key in arguments[i])
+            if (arguments[i].hasOwnProperty(key))
+                arguments[0][key] = arguments[i][key];
+    return arguments[0];
 }

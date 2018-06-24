@@ -56,7 +56,6 @@ setTimeout(function () {
                     } else {
                         if (tab.url === extBaseUrl + reDirUrl) {
                             siteExists = { flag: true, id: tab.id };
-                            console.log('here');
                         }
 
                     }

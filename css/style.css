@@ -24,18 +24,12 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-.dashboard-left-bar{
-    width: 200px;
-    height: 100vh;
-    background: #e3e3e3;
-    position: fixed;
-}
-
 #target_div {
     margin-left: 200px;
+    width: calc(100% - 200px);
     display: flex;
     background:#f7faff;
-    /* position:relative; */
+    position:relative;
 }
 
 .site-card{
@@ -122,6 +116,7 @@ body {
 .modal-item{
     display:flex;
     justify-content:space-between;
+    padding:10px
 }
 .modal-item-title {
     width: 410px;
@@ -131,9 +126,105 @@ body {
 }
 .modal-item-remove{
     opacity:0;
+    font-weight:400;
+    cursor:pointer;
     transition: opacity 0.1s ease;
+}
+.modal-item:hover {
+    font-weight:600;
 }
 
 .modal-item:hover .modal-item-remove{
     opacity:1;
+}
+.dashboard-left-bar{
+    width: 200px;
+    height: 100vh;
+    background: #ffffff;
+    position: fixed;
+}
+
+.dashboard-left-bar-footer{
+    position:absolute;
+    bottom:0px;
+    padding:20px 20px 30px 20px;
+}
+
+.dashboard-left-bar-categories{
+    position:absolute;
+    top:40%;
+    /* width: 100%; */
+    padding:20px;
+}
+.dashboard-left-bar-header{
+    padding:20px
+}
+.categories-item{
+    font-weight:600;
+    width: 160px;
+    cursor:pointer;
+    padding:5px;
+    margin-bottom:2px;
+}
+
+.modal-site-img {
+    width: 60px;
+    height: 60px;
+}
+.modal-header{
+    display:flex;
+    align-items:center;
+    font-size:1.5rem;
+    padding-bottom:40px;
+}
+.modal-header-title{
+    margin-left:20px;
+}
+
+.all-content-wrap{
+    width:100%;
+    padding: 30px;
+}
+.item-card{
+    margin: 10px;
+    padding: 5px;
+    background: #fff;
+    position: relative;
+    min-width: 150px;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 150px;
+    box-sizing: border-box;
+}
+
+.item-card-image {
+    height: 60px;
+    width: 60px;
+    margin: 30px auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.icon-card-close {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    top: 6px;
+    /* display: none; */
+    color: rgba(0,0,0,0.5);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.item-card-title {
+    width: 150px;
+    text-overflow: ellipsis;
+    margin: 10px;
+    white-space: nowrap;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.item-card-wrap {
+    display: inline-block;
 }

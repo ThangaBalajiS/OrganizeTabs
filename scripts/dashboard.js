@@ -140,3 +140,31 @@ function extend() {
                 arguments[0][key] = arguments[i][key];
     return arguments[0];
 }
+
+(function(){
+    var s = document.getElementsByTagName('input'),
+    f  = document.getElementsByTagName('form'),
+    a = document.getElementsByClassName('after');
+
+    s[0].addEventListener('focus',function(){
+  if( f[0].classList.contains('open') ) return;
+  f[0].classList.add('in');
+  setTimeout(function(){
+    f[0].classList.add('open'); 
+    f[0].classList.remove('in');
+  }, 1300);
+});
+
+a[0].addEventListener('click', function(e){
+  e.preventDefault(); 
+  console.log(f[0].classList,1);
+  if( !f[0].classList.contains('open') ) return;
+   s[0].value = '';
+  f[0].classList.add('close');
+  f[0].classList.remove('open');
+  setTimeout(function(){
+    f[0].classList.remove('close');
+  }, 1300);
+})
+
+}());

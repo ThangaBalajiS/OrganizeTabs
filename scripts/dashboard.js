@@ -57,7 +57,7 @@
                     renderTabs();
                 });
                 if( categories[count].getAttribute('data-category') === localStorage.selectedCategory ){
-                    categories[count].style.background = 'blue';
+                    categories[count].style.background = '#EFF7FF';
                 }else{
                     categories[count].style.background = 'unset';
                 }

@@ -52,7 +52,7 @@ body {
 
 .site-card-wrap:hover .site-card{
     transform:translateY(-10px);
-    box-shadow: 0 10px 6px -6px  #00000040;
+    box-shadow: 0px 20px 35px -16px #2d81b121;
 }
 
 .site-card img{

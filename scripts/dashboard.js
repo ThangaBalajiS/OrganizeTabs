@@ -1,6 +1,7 @@
 (function () {
     var url = new URL(window.location.href);
     var div_target = document.getElementById('target_div');
+    var categories = document.getElementsByClassName('categories-item');
 
     renderTabs();
     function renderTabs() {
@@ -13,7 +14,7 @@
                 if (tabsFromSite.length) {
                     for (count in tabsFromSite) {
                         var tab = tabsFromSite[count];
-                        tempDOMString += '<div class="item-card-wrap" ><div class="item-card" > <div data-tab-id="' + tab.id + '" class="icon-card-close" >x</div><a target="_blank" href="' + tab.url + '"> <div class="item-card-image" style="background:url('+tab.favIcon+');background-size:cover;" ></div></a></div><div class="item-card-title">' + tab.title + '</div></div>'
+                        tempDOMString += '<div class="item-card-wrap" ><div data-tab-id="' + tab.id + '" class="icon-card-close" >x</div><a target="_blank" href="' + tab.url + '"> <div class="item-card" > <div class="item-card-image" style="background:url('+tab.favIcon+');background-size:cover;" ></div></div></a><div class="item-card-title">' + tab.title + '</div></div>'
                     }
                     div_target.innerHTML += '<div class="all-content-wrap" >'+tempDOMString+'</div>';
                 } else {
@@ -49,23 +50,19 @@
             for (var i = 0; i < closeIcons.length; i++) {
                 closeIcons[i].addEventListener('click', ItemClose);
             }
-            var categories = document.getElementsByClassName('categories-item');
-            
+
+            var sites = document.getElementsByClassName('site-card');
+            for (var j = 0; j < sites.length; j++) {
+                sites[j].addEventListener('click', similarItemClick);
+            }
+
+                    
             for (var count = 0; count < categories.length; count++) {
-                categories[count].addEventListener('click', function () {
-                    localStorage.setItem('selectedCategory', this.getAttribute('data-category'));
-                    renderTabs();
-                });
                 if( categories[count].getAttribute('data-category') === localStorage.selectedCategory ){
                     categories[count].style.background = '#EFF7FF';
                 }else{
                     categories[count].style.background = 'unset';
                 }
-            }
-
-            var sites = document.getElementsByClassName('site-card');
-            for (var j = 0; j < sites.length; j++) {
-                sites[j].addEventListener('click', similarItemClick);
             }
 
             var pagesInModal = document.getElementsByClassName('modal-item-remove');
@@ -130,6 +127,15 @@
         renderTabs();
     }
 
+(function(){
+    for (var count = 0; count < categories.length; count++) {
+        categories[count].addEventListener('click', function () {
+            localStorage.setItem('selectedCategory', this.getAttribute('data-category'));
+            this.style.background = '#EFF7FF';
+            renderTabs();
+        });
+    }
+}());
 
 }());
 
@@ -141,30 +147,3 @@ function extend() {
     return arguments[0];
 }
 
-(function(){
-    var s = document.getElementsByTagName('input'),
-    f  = document.getElementsByTagName('form'),
-    a = document.getElementsByClassName('after');
-
-    s[0].addEventListener('focus',function(){
-  if( f[0].classList.contains('open') ) return;
-  f[0].classList.add('in');
-  setTimeout(function(){
-    f[0].classList.add('open'); 
-    f[0].classList.remove('in');
-  }, 1300);
-});
-
-a[0].addEventListener('click', function(e){
-  e.preventDefault(); 
-  console.log(f[0].classList,1);
-  if( !f[0].classList.contains('open') ) return;
-   s[0].value = '';
-  f[0].classList.add('close');
-  f[0].classList.remove('open');
-  setTimeout(function(){
-    f[0].classList.remove('close');
-  }, 1300);
-})
-
-}());

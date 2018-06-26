@@ -14,9 +14,9 @@
                 if (tabsFromSite.length) {
                     for (count in tabsFromSite) {
                         var tab = tabsFromSite[count];
-                        tempDOMString += '<div class="item-card-wrap" ><div data-tab-id="' + tab.id + '" class="icon-card-close" >x</div><a target="_blank" href="' + tab.url + '"> <div class="item-card" > <div class="item-card-image" style="background:url('+tab.favIcon+');background-size:cover;" ></div></div></a><div class="item-card-title">' + tab.title + '</div></div>'
+                        tempDOMString += '<div class="item-card-wrap" ><div data-tab-id="' + tab.id + '" class="icon-card-close" >x</div><a target="_blank" href="' + tab.url + '"> <div class="item-card" > <div class="item-card-image" style="background:url(' + tab.favIcon + ');background-size:cover;" ></div></div></a><div class="item-card-title">' + tab.title + '</div></div>'
                     }
-                    div_target.innerHTML += '<div class="all-content-wrap" >'+tempDOMString+'</div>';
+                    div_target.innerHTML += '<div class="all-content-wrap" >' + tempDOMString + '</div>';
                 } else {
                     div_target.innerHTML = '<div class="no-card-found" > Nothing Found </div>'
                 }
@@ -26,15 +26,15 @@
                 div_target.innerHTML = '';
                 for (var count in sitesArray) {
                     var site = sitesArray[count];
-                    if( sites[site].length ){
-                    div_target.innerHTML += '<div class="site-card-wrap" ><div data-site="' + site + '" class="site-card" > <div class="site-card-img-wrap" ><img src="' + sites[site][0].favIcon + '" /></div> <div class="site-card-item-count" >' + sites[site].length + '</div> </div></div>';
-                    }else{
+                    if (sites[site].length) {
+                        div_target.innerHTML += '<div class="site-card-wrap" ><div data-site="' + site + '" class="site-card" > <div class="site-card-img-wrap" ><img src="' + sites[site][0].favIcon + '" /></div> <div class="site-card-item-count" >' + sites[site].length + '</div> </div></div>';
+                    } else {
                         //TODO
                         //delete that key from localstorage if empty
                     }
                 }
                 div_target.innerHTML += '<div id="dashboard-overlay" class="overlay" ></div><div id="dashboard-site-modal" class="modal" ></div>';
-            
+
             }
 
         } else {
@@ -56,20 +56,21 @@
                 sites[j].addEventListener('click', similarItemClick);
             }
 
-                    
+
             for (var count = 0; count < categories.length; count++) {
-                if( categories[count].getAttribute('data-category') === localStorage.selectedCategory ){
+                if (categories[count].getAttribute('data-category') === localStorage.selectedCategory) {
                     categories[count].style.background = '#EFF7FF';
-                }else{
+                } else {
                     categories[count].style.background = 'unset';
                 }
             }
 
             var pagesInModal = document.getElementsByClassName('modal-item-remove');
-            console.log(pagesInModal);
             for (var k = 0; k < pagesInModal.length; k++) {
                 pagesInModal[k].addEventListener('click', removeThisPageFromSite);
             }
+
+
 
         }, 0);
     }
@@ -91,11 +92,17 @@
         });
 
         var tempContent = selectedSites.map(function (site) {
-            return '<div class="modal-item" ><div class="modal-item-title">' + site.title + '</div><div data-site="' + selectedSiteName + '" data-item="' + site.id + '" class="modal-item-remove" >x</div></div>'
+            return '<div class="modal-item" ><a href="'+site.url+'" target="_blank" ><div class="modal-item-title">' + site.title + '</div></a><div data-site="' + selectedSiteName + '" data-item="' + site.id + '" class="modal-item-remove" >x</div></div>'
         });
         modal.innerHTML = '';
-        modal.innerHTML += '<div class="modal-header"><div class="modal-site-img" style="background:url('+selectedSites[0].favIcon+');background-size:cover;" ></div><div class="modal-header-title" >'+selectedSiteName+'</div></div>';
+        modal.innerHTML += '<div class="modal-header"><div class="modal-site-img" style="background:url(' + selectedSites[0].favIcon + ');background-size:cover;" ></div><div class="modal-header-title" >' + selectedSiteName + '</div><div id="open-all-of-this-site" data-site-name="'+selectedSiteName+'" >open all</div></div>';
         modal.innerHTML += '<div class="modal-body">' + tempContent.join("") + '</div>';
+        var openAllInSite = document.getElementById('open-all-of-this-site');
+        openAllInSite.addEventListener('click',function(){
+           var targetSite =  this.getAttribute('data-site-name');
+           var pagesInSite = JSON.parse(localStorage.similar)[targetSite];
+           openTheseTabs(pagesInSite);
+        });
         addListenersToAll();
     }
 
@@ -127,17 +134,53 @@
         renderTabs();
     }
 
-(function(){
-    for (var count = 0; count < categories.length; count++) {
-        categories[count].addEventListener('click', function () {
-            localStorage.setItem('selectedCategory', this.getAttribute('data-category'));
-            this.style.background = '#EFF7FF';
+    (function () {
+        for (var count = 0; count < categories.length; count++) {
+            categories[count].addEventListener('click', function () {
+                localStorage.setItem('selectedCategory', this.getAttribute('data-category'));
+                this.style.background = '#EFF7FF';
+                renderTabs();
+            });
+        }
+
+        var allOpener = document.getElementById('open-all-tabs');
+        allOpener.addEventListener('click', function () {
+            var tempCategory = localStorage.selectedCategory;
+            var parsedTabs = JSON.parse(localStorage[tempCategory]);
+            if (tempCategory === 'all') {
+                openTheseTabs(parsedTabs);
+            } else if (tempCategory === 'similar') {
+                var tempItemArray = Object.keys( parsedTabs );
+                tempItemArray.map(function(item){
+                    openTheseTabs(parsedTabs[item]);
+                });
+            }
+        });
+
+        var removeAll = document.getElementById('remove-all-tabs');
+        removeAll.addEventListener('click',function(){
+            var tempCategory = localStorage.selectedCategory;
+            var parsedTabs = JSON.parse(localStorage[tempCategory]);
+            if (tempCategory === 'all') {
+                localStorage.setItem(tempCategory,JSON.stringify([]));
+            } else if (tempCategory === 'similar') {
+                localStorage.setItem(tempCategory,JSON.stringify({}));
+            }
             renderTabs();
         });
-    }
-}());
+
+
+
+    }());
 
 }());
+
+function openTheseTabs(tabs){
+    tabs.map(function (tab) {
+        chrome.tabs.create({ index: 1, url: tab.url });
+    });
+}
+
 
 function extend() {
     for (var i = 1; i < arguments.length; i++)

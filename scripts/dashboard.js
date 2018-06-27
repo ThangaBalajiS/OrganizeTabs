@@ -2,20 +2,23 @@
     var url = new URL(window.location.href);
     var div_target = document.getElementById('target_div');
     var categories = document.getElementsByClassName('categories-item');
-    var closeIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13"><polygon fill="#26262680" fill-rule="evenodd" points="752.473 263.392 752.473 269.475 749.803 269.475 749.803 263.392 744.138 263.392 744.138 260.762 749.803 260.762 749.803 254.801 752.473 254.801 752.473 260.762 758.138 260.762 758.138 263.392" transform="rotate(45 687.657 -765.157)"/></svg>';
+    var closeIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 13 13"><polygon fill="#26262660" fill-rule="evenodd" points="752.473 263.392 752.473 269.475 749.803 269.475 749.803 263.392 744.138 263.392 744.138 260.762 749.803 260.762 749.803 254.801 752.473 254.801 752.473 260.762 758.138 260.762 758.138 263.392" transform="rotate(45 687.657 -765.157)"/></svg>';
 
     renderTabs();
     function renderTabs(searchString) {
         var siteName = localStorage.selectedCategory || 'all';
+
         if (localStorage.hasOwnProperty(siteName)) {
             if (siteName === 'all') {
                 div_target.innerHTML = '';
                 var tempDOMString = '';
                 var tabsFromSite = JSON.parse(localStorage[siteName]);
+                
                 if (tabsFromSite.length) {
+                    
                     for (count in tabsFromSite) {
                         var tab = tabsFromSite[count];
-                        var renderCondition = searchString ? tab.title.toLowerCase().includes(searchString) : true;
+                        var renderCondition = searchString ? tab.title.toLowerCase().includes(searchString.toLowerCase()) : true;
                         if(renderCondition){
                         tempDOMString += '<div class="item-card-wrap-outer" ><div class="item-card-wrap" ><div data-tab-id="' + tab.id + '" class="icon-card-close" >'+closeIcon+'</div><a target="_blank" href="' + tab.url + '"> <div class="item-card" > <div class="item-card-image" style="background:url(' + tab.favIcon + ');background-size:cover;" ></div></div></a><div class="item-card-title">' + tab.title + '</div></div></div>'
                         }
@@ -30,13 +33,12 @@
                 div_target.innerHTML = '';
                 for (var count in sitesArray) {
                     var site = sitesArray[count];
-                    var renderCondition = searchString ? site.toLowerCase().includes(searchString) : true;
+                    var renderCondition = searchString ? site.toLowerCase().includes(searchString.toLowerCase()) : true;
                        
                     if (sites[site].length && renderCondition ) {
-                        div_target.innerHTML += '<div class="site-card-wrap" ><div data-site="' + site + '" class="site-card" > <div class="site-card-img-wrap" ><img src="' + sites[site][0].favIcon + '" /></div> <div class="site-card-item-count" >' + sites[site].length + '</div> </div></div>';
-                    } else {
-                        //TODO
-                        //delete that key from localstorage if empty
+                        div_target.innerHTML += '<div class="site-card-wrap" > <div data-site="' + site + '" class="site-card" > <div data-site="'+site+'" class="remove-site" >'+closeIcon+'</div> <div class="site-card-img-wrap" ><img src="' + sites[site][0].favIcon + '" /></div> <div class="site-card-item-count" >' + sites[site].length + '</div> </div><div class="site-name" >'+site+'</div></div>';
+                    } else if(!sites[site].length) {
+                        removeSite(site);
                     }
                 }
                 div_target.innerHTML += '<div id="dashboard-overlay" class="overlay" ></div><div id="dashboard-site-modal" class="modal" ></div>';
@@ -47,6 +49,19 @@
             div_target.innerHTML = '<div class="nothing-found" >Nothing Found</div>';
         }
         addListenersToAll();
+        (function updateCount(){
+        
+        if( localStorage.similar ){
+            var siteCount = document.getElementById('site-count');
+            var tabsFromSite = JSON.parse(localStorage.similar);
+            siteCount.innerText =  Object.keys(tabsFromSite).length;
+        }
+        if( localStorage.all ){
+            var tabsFromAll = JSON.parse(localStorage.all);
+            var allCount = document.getElementById('all-count');
+            allCount.innerHTML =  Object.keys(tabsFromAll).length;
+        }
+        }());
     }
 
     function addListenersToAll() {
@@ -67,14 +82,25 @@
             for (var count = 0; count < categories.length; count++) {
                 if (categories[count].getAttribute('data-category') === localStorage.selectedCategory) {
                     categories[count].style.background = '#EFF7FF';
+                    categories[count].style.color = '#3b99fc';
                 } else {
                     categories[count].style.background = 'unset';
+                    categories[count].style.color = '#000000';
                 }
             }
 
             var pagesInModal = document.getElementsByClassName('modal-item-remove');
             for (var k = 0; k < pagesInModal.length; k++) {
                 pagesInModal[k].addEventListener('click', removeThisPageFromSite);
+            }
+
+            var siteRemoveButtons = document.getElementsByClassName('remove-site');
+            for(var l = 0;l < siteRemoveButtons.length; l++){
+                siteRemoveButtons[l].addEventListener('click',function(e){
+                    removeSite(this.getAttribute('data-site'));
+                    e.stopPropagation();
+                    renderTabs();
+                });
             }
 
 
@@ -198,6 +224,11 @@ function openTheseTabs(tabs){
     });
 }
 
+function removeSite(site){
+    var tempSites = JSON.parse(localStorage.similar);
+    delete tempSites[site];
+    localStorage.setItem('similar',JSON.stringify(tempSites));
+}
 
 function extend() {
     for (var i = 1; i < arguments.length; i++)

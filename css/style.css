@@ -360,8 +360,6 @@ div#open-all-of-this-site:hover {
     text-overflow: ellipsis;
 }
 
-.item-card-wrap:hover {}
-
 .item-card-wrap:hover .icon-card-close {
     opacity: 1;
 }

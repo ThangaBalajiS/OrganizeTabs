@@ -9,12 +9,11 @@ chrome.tabs.getAllInWindow(null, function (tabs) {
             tabUrl = tabs[tab].url,
             tabTitle = tabs[tab].title,
             tabFavIconUrl = tabs[tab].favIconUrl;
-
         tabDomain = tabDomain.replace("www.", '');
 
 
         if (tabDomain && itemArray.indexOf(tabDomain) === -1) {
-            document.getElementById('popup-space').innerHTML += '<div data-title="' + tabTitle + ' data-favicon="' + tabFavIconUrl + ' data-url="' + tabUrl + '" data-domain="' + tabDomain + '" class="site-list-item">' + tabDomain + '</div>';
+            document.getElementById('domain-list').innerHTML += '<div data-title="' + tabTitle + '" data-favicon="' + tabFavIconUrl + '" data-url="' + tabUrl + '" data-domain="' + tabDomain + '" class="site-list-item">' + tabDomain + '</div>';
             itemArray.push(tabDomain);
         }
     }
@@ -32,7 +31,6 @@ setTimeout(function () {
                     var domain = getDomainFromUrl(tab.url);
                     domain = domain.replace("www.", '');
                     var condition = false;
-                    debugger;
                     if (siteName === 'all') {
                         condition = true;
                     } else if (siteName === 'selected') {
@@ -78,7 +76,6 @@ setTimeout(function () {
                     if( siteName === 'all' ){
                         oldDataOfSite = JSON.parse(localStorage[siteName]);
                     }
-                    debugger;
                     if (siteName !== 'all') {
                         if( tabsListForLocalStorage.length ){
                             var tempVals = [],

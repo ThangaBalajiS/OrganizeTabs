@@ -2,9 +2,10 @@
     var url = new URL(window.location.href);
     var div_target = document.getElementById('target_div');
     var categories = document.getElementsByClassName('categories-item');
+    var closeIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13"><polygon fill="#26262680" fill-rule="evenodd" points="752.473 263.392 752.473 269.475 749.803 269.475 749.803 263.392 744.138 263.392 744.138 260.762 749.803 260.762 749.803 254.801 752.473 254.801 752.473 260.762 758.138 260.762 758.138 263.392" transform="rotate(45 687.657 -765.157)"/></svg>';
 
     renderTabs();
-    function renderTabs() {
+    function renderTabs(searchString) {
         var siteName = localStorage.selectedCategory || 'all';
         if (localStorage.hasOwnProperty(siteName)) {
             if (siteName === 'all') {
@@ -14,7 +15,10 @@
                 if (tabsFromSite.length) {
                     for (count in tabsFromSite) {
                         var tab = tabsFromSite[count];
-                        tempDOMString += '<div class="item-card-wrap" ><div data-tab-id="' + tab.id + '" class="icon-card-close" >x</div><a target="_blank" href="' + tab.url + '"> <div class="item-card" > <div class="item-card-image" style="background:url(' + tab.favIcon + ');background-size:cover;" ></div></div></a><div class="item-card-title">' + tab.title + '</div></div>'
+                        var renderCondition = searchString ? tab.title.toLowerCase().includes(searchString) : true;
+                        if(renderCondition){
+                        tempDOMString += '<div class="item-card-wrap-outer" ><div class="item-card-wrap" ><div data-tab-id="' + tab.id + '" class="icon-card-close" >'+closeIcon+'</div><a target="_blank" href="' + tab.url + '"> <div class="item-card" > <div class="item-card-image" style="background:url(' + tab.favIcon + ');background-size:cover;" ></div></div></a><div class="item-card-title">' + tab.title + '</div></div></div>'
+                        }
                     }
                     div_target.innerHTML += '<div class="all-content-wrap" >' + tempDOMString + '</div>';
                 } else {
@@ -26,7 +30,9 @@
                 div_target.innerHTML = '';
                 for (var count in sitesArray) {
                     var site = sitesArray[count];
-                    if (sites[site].length) {
+                    var renderCondition = searchString ? site.toLowerCase().includes(searchString) : true;
+                       
+                    if (sites[site].length && renderCondition ) {
                         div_target.innerHTML += '<div class="site-card-wrap" ><div data-site="' + site + '" class="site-card" > <div class="site-card-img-wrap" ><img src="' + sites[site][0].favIcon + '" /></div> <div class="site-card-item-count" >' + sites[site].length + '</div> </div></div>';
                     } else {
                         //TODO
@@ -53,7 +59,8 @@
 
             var sites = document.getElementsByClassName('site-card');
             for (var j = 0; j < sites.length; j++) {
-                sites[j].addEventListener('click', similarItemClick);
+                var tempSiteName = sites[j].getAttribute('data-site');
+                sites[j].addEventListener('click', similarItemClick.bind(this,tempSiteName));
             }
 
 
@@ -76,8 +83,8 @@
     }
 
 
-    function similarItemClick() {
-        var selectedSiteName = this.getAttribute('data-site'),
+    function similarItemClick(passedSite) {
+        var selectedSiteName = passedSite,
             selectedSites = JSON.parse(localStorage.similar)[selectedSiteName] || [],
             modal = document.getElementById('dashboard-site-modal'),
             overlay = document.getElementById('dashboard-overlay');
@@ -89,10 +96,11 @@
             overlay.classList.remove('show');
             modal.classList.remove('show');
             overlay.removeEventListener('click', function () { });
+            renderTabs();
         });
 
         var tempContent = selectedSites.map(function (site) {
-            return '<div class="modal-item" ><a href="'+site.url+'" target="_blank" ><div class="modal-item-title">' + site.title + '</div></a><div data-site="' + selectedSiteName + '" data-item="' + site.id + '" class="modal-item-remove" >x</div></div>'
+            return '<div class="modal-item" ><a href="'+site.url+'" target="_blank" ><div class="modal-item-title">' + site.title + '</div></a><div data-site="' + selectedSiteName + '" data-item="' + site.id + '" class="modal-item-remove" >'+closeIcon+'</div></div>'
         });
         modal.innerHTML = '';
         modal.innerHTML += '<div class="modal-header"><div class="modal-site-img" style="background:url(' + selectedSites[0].favIcon + ');background-size:cover;" ></div><div class="modal-header-title" >' + selectedSiteName + '</div><div id="open-all-of-this-site" data-site-name="'+selectedSiteName+'" >open all</div></div>';
@@ -131,7 +139,11 @@
             return item.id !== Number(tabId);
         });
         localStorage.similar = JSON.stringify(extend({}, JSON.parse(localStorage.similar), { [siteOfPage]: newList }));
-        renderTabs();
+        if( !newList.length ){
+            renderTabs();
+        }else{
+            similarItemClick(siteOfPage);
+        }
     }
 
     (function () {
@@ -142,6 +154,11 @@
                 renderTabs();
             });
         }
+
+        var searchBar = document.getElementById('search-bar');
+        searchBar.addEventListener('keyup',function(e){
+            renderTabs(e.target.value);
+        });
 
         var allOpener = document.getElementById('open-all-tabs');
         allOpener.addEventListener('click', function () {

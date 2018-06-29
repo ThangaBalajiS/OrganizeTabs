@@ -2,6 +2,8 @@ var extBaseUrl = 'chrome-extension://' + chrome.runtime.id + '/';
 var reDirUrl = 'templates/dashboard.html';
 var siteExists = { flag: false, id: 0 };
 
+document.body.style.background = '#fff';
+
 chrome.tabs.getAllInWindow(null, function (tabs) {
     var itemArray = [];
     for (tab in tabs) {
@@ -113,6 +115,23 @@ setTimeout(function () {
 
         }, false);
     }
+
+    document.getElementById('open-dashboard').addEventListener('click',function(){
+       chrome.tabs.getAllInWindow(null,function(tabs){
+           var hasDashboardOpened = false;
+           for( tab in tabs){
+               if( tabs[tab].url === extBaseUrl + reDirUrl ){
+                   hasDashboardOpened = true;
+                   chrome.tabs.update(tabs[tab].id,{selected:true});
+               }
+               
+              
+           }
+            if( !hasDashboardOpened ){
+                chrome.tabs.create({ index: 0, url: reDirUrl });
+            } 
+       }); 
+    });
 }, 0);
 
 

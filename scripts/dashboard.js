@@ -2,7 +2,7 @@
     var url = new URL(window.location.href);
     var div_target = document.getElementById('target_div');
     var categories = document.getElementsByClassName('categories-item');
-    var closeIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 13 13"><polygon fill="#26262660" fill-rule="evenodd" points="752.473 263.392 752.473 269.475 749.803 269.475 749.803 263.392 744.138 263.392 744.138 260.762 749.803 260.762 749.803 254.801 752.473 254.801 752.473 260.762 758.138 260.762 758.138 263.392" transform="rotate(45 687.657 -765.157)"/></svg>';
+    var closeIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 13 13"><polygon fill="#26262695" fill-rule="evenodd" points="752.473 263.392 752.473 269.475 749.803 269.475 749.803 263.392 744.138 263.392 744.138 260.762 749.803 260.762 749.803 254.801 752.473 254.801 752.473 260.762 758.138 260.762 758.138 263.392" transform="rotate(45 687.657 -765.157)"/></svg>';
 
     renderTabs();
     function renderTabs(searchString) {
@@ -18,7 +18,7 @@
                     
                     for (count in tabsFromSite) {
                         var tab = tabsFromSite[count];
-                        var renderCondition = searchString ? tab.title.toLowerCase().includes(searchString.toLowerCase()) : true;
+                        var renderCondition = searchString ? tab.title.toLowerCase().includes(searchString.toLowerCase()) || tab.url.toLowerCase().includes(searchString.toLowerCase())  : true;
                         if(renderCondition){
                         tempDOMString += '<div class="item-card-wrap-outer" ><div class="item-card-wrap" ><div data-tab-id="' + tab.id + '" class="icon-card-close" >'+closeIcon+'</div><a target="_blank" href="' + tab.url + '"> <div class="item-card" > <div class="item-card-image" style="background:url(' + tab.favIcon + ');background-size:cover;" ></div></div></a><div class="item-card-title">' + tab.title + '</div></div></div>'
                         }
@@ -54,12 +54,26 @@
         if( localStorage.similar ){
             var siteCount = document.getElementById('site-count');
             var tabsFromSite = JSON.parse(localStorage.similar);
-            siteCount.innerText =  Object.keys(tabsFromSite).length;
+            if(Object.keys(tabsFromSite).length){
+                siteCount.innerText =  Object.keys(tabsFromSite).length;
+                !siteCount.classList.contains('count-class') && siteCount.classList.add('count-class');
+            }else{
+                siteCount.innerText = '';
+                siteCount.classList.contains('count-class') && siteCount.classList.remove('count-class');
+            }
         }
         if( localStorage.all ){
             var tabsFromAll = JSON.parse(localStorage.all);
             var allCount = document.getElementById('all-count');
-            allCount.innerHTML =  Object.keys(tabsFromAll).length;
+            console.log(tabsFromAll.length);
+            if(tabsFromAll.length){
+                allCount.innerHTML =  tabsFromAll.length;
+                !allCount.classList.contains('count-class') && allCount.classList.add('count-class');
+            }else{
+                allCount.innerHTML = '';
+                allCount.classList.contains('count-class') && allCount.classList.remove('count-class');
+            }
+            
         }
         }());
     }
@@ -202,6 +216,7 @@
 
         var removeAll = document.getElementById('remove-all-tabs');
         removeAll.addEventListener('click',function(){
+            if(confirm("Are you sure? Want to remove everything?")){
             var tempCategory = localStorage.selectedCategory;
             var parsedTabs = JSON.parse(localStorage[tempCategory]);
             if (tempCategory === 'all') {
@@ -210,6 +225,7 @@
                 localStorage.setItem(tempCategory,JSON.stringify({}));
             }
             renderTabs();
+        }
         });
 
 

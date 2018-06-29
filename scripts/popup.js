@@ -62,9 +62,7 @@ setTimeout(function () {
 
                 }
 
-                tabsListForLocalStorage.map(function (tabb) {
-                    chrome.tabs.remove(tabb.id);
-                });
+
 
                 if (siteName === 'selected') {
                     siteName = 'all';
@@ -80,13 +78,14 @@ setTimeout(function () {
                     }
                     if (siteName !== 'all') {
                         if( tabsListForLocalStorage.length ){
+                            
                             var tempVals = [],
                                 tempSimilar = JSON.parse(localStorage.similar);
-                            
                             if (tempSimilar.hasOwnProperty(siteName) ){
-                                tempVals = tempSimilar.siteName;
+                                tempVals = tempSimilar[siteName];
                             }
-
+                            
+                            
                             oldDataOfSite = extend({},tempSimilar,{[siteName]:tempVals.concat(tabsListForLocalStorage)});
                             siteName = 'similar';
                         }
@@ -110,6 +109,10 @@ setTimeout(function () {
                 } else {
                     chrome.tabs.create({ index: 0, url: reDirUrl });
                 }
+
+                tabsListForLocalStorage.map(function (tabb) {
+                    chrome.tabs.remove(tabb.id);
+                });
             });
 
 

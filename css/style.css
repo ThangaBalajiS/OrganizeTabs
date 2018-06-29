@@ -4,9 +4,6 @@ body {
     background: #f0f2fa;
 }
 
-.body-container {
-}
-
 .site-list-item {
     padding: 10px;
     background: #f3f6fd;
@@ -15,7 +12,7 @@ body {
     cursor: pointer;
     transition: background 0.3s ease;
     text-transform: capitalize;
-    font-weight: 500;
+    font-weight: 600;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -30,8 +27,8 @@ body {
 }
 
 #target_div {
-    margin-left: 330px;
-    width: calc(100% - 390px);
+    margin-left: 350px;
+    width: calc(100% - 380px);
     position:relative;
 }
 
@@ -78,6 +75,7 @@ body {
     width:100%;
     position: fixed;
     top: 0;
+    left: 0;
 }
 
 #dashboard-site-modal{
@@ -93,7 +91,7 @@ body {
 
 .modal{
     display: none;
-    position:absolute;
+    position: fixed;
     left:50%;
     top:50%;
     border-radius: 6px;
@@ -120,6 +118,7 @@ body {
     justify-content:space-between;
     color: #5d5d5d;
     cursor: pointer;
+    align-items: center;
 }
 .modal-item-title {
     width: 410px;
@@ -189,7 +188,7 @@ body {
 
 .all-content-wrap{
     width:100%;
-    padding: 30px;
+    padding: 15px;
 }
 .item-card{
     margin: 10px;
@@ -256,7 +255,8 @@ body {
     position: absolute;
     color: #000000;
     right: 10%;
-    width: 231px;
+    width: 250px;
+    font-size: 13px;
     justify-content: space-between;
 }
 
@@ -355,7 +355,7 @@ div#open-all-of-this-site:hover {
     overflow: hidden;
     padding: 10px 5px 0px 5px;
     box-sizing: border-box;
-    color: #8e8989;
+    color: #313131;
     white-space: nowrap;
     text-transform: capitalize;
     text-overflow: ellipsis;
@@ -377,15 +377,13 @@ div#open-all-of-this-site:hover {
     padding: 20px;
     background: #3b99fc;
     text-align: center;
-    /* width: 100%; */
-    /* max-width: 200px; */
-    /* min-width: 200px; */
-    bottom: 0;
     color: #fff;
-    letter-spacing: 1px;
-    /* position: absolute; */
+    margin: 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 div#extension-name {

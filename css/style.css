@@ -30,6 +30,7 @@ body {
     margin-left: 350px;
     width: calc(100% - 380px);
     position:relative;
+    min-height: 100vh;
 }
 
 .site-card{
@@ -157,7 +158,9 @@ body {
     padding:20px;
 }
 .dashboard-left-bar-header{
-    padding:20px
+    padding:20px;
+    display: flex;
+    align-items: center;
 }
 .categories-item{
     font-weight: 500;
@@ -379,6 +382,7 @@ div#open-all-of-this-site:hover {
     text-align: center;
     color: #fff;
     margin: 10px;
+    cursor: pointer;
     border-radius: 3px;
     font-size: 12px;
     letter-spacing: 1.2px;
@@ -389,8 +393,46 @@ div#open-all-of-this-site:hover {
 div#extension-name {
     font-size: 18px;
     font-weight: 600;
+    margin-left: 15px;
 }
 
 .footer-item {
     padding: 10px 0;
 }
+
+.no-card-found {
+    position: absolute;
+    left: 50%;
+    text-align: center;
+    top: 39%;
+    transform: translate(-50%,-50%);
+}
+
+.nothing-found-head {
+    width: 245px;
+    margin: 0 auto;
+    font-weight: 600;
+    padding-right: 17px;
+    position: relative;
+    line-height: 2.5;
+    font-size: 17px;
+}
+
+.nothing-found-desc {
+    width: 245px;
+    margin: 0 auto;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #00000060;
+}
+
+span.nf-head-emoji img {
+    height: 25px;
+    position: absolute;
+    top: 7px;
+    right: 40px;
+}
+
+.logo-img {}

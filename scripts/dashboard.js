@@ -3,6 +3,7 @@
     var div_target = document.getElementById('target_div');
     var categories = document.getElementsByClassName('categories-item');
     var closeIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 13 13"><polygon fill="#313131" fill-rule="evenodd" points="752.473 263.392 752.473 269.475 749.803 269.475 749.803 263.392 744.138 263.392 744.138 260.762 749.803 260.762 749.803 254.801 752.473 254.801 752.473 260.762 758.138 260.762 758.138 263.392" transform="rotate(45 687.657 -765.157)"/></svg>';
+    var nothingFound = '<div class="no-card-found" ><div class="nothing-found-head" >No Tabs Found <span class="nf-head-emoji" ><img src="../assets/emoji.png"/></span></div> <div class="nothing-found-desc" >Group tabs in the popup to make them appear here!</div><img style="height:350px;" src="../assets/nothing-found.jpg" /> </div>';
 
     renderTabs();
     function renderTabs(searchString) {
@@ -25,12 +26,13 @@
                     }
                     div_target.innerHTML += '<div class="all-content-wrap" >' + tempDOMString + '</div>';
                 } else {
-                    div_target.innerHTML = '<div class="no-card-found" > Nothing Found </div>'
+                    div_target.innerHTML = nothingFound;
                 }
             } else if (siteName === 'similar') {
                 var sites = JSON.parse(localStorage[siteName]);
                 var sitesArray = Object.keys(sites);
                 div_target.innerHTML = '';
+                if( sitesArray.length ){
                 for (var count in sitesArray) {
                     var site = sitesArray[count];
                     var renderCondition = searchString ? site.toLowerCase().includes(searchString.toLowerCase()) : true;
@@ -42,7 +44,9 @@
                     }
                 }
                 div_target.innerHTML += '<div id="dashboard-overlay" class="overlay" ></div><div id="dashboard-site-modal" class="modal" ></div>';
-
+            }else{
+                div_target.innerHTML += nothingFound;
+            }
             }
 
         } else {

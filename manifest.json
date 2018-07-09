@@ -1,7 +1,7 @@
 {
-    "name": "Tabs Manager",
-    "version": "0.1.0",
-    "description": "Group Tabs",
+    "name": "Infinite Tabs Manager",
+    "version": "0.1.4",
+    "description": "Makes your Chrome faster and efficient",
     "permissions": ["tabs","activeTab","storage"],
     "background": {
         "scripts": ["background.js"],

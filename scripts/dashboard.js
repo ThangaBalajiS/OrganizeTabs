@@ -50,13 +50,13 @@
             }
 
         } else {
-            div_target.innerHTML = '<div class="nothing-found" >Nothing Found</div>';
+            div_target.innerHTML = nothingFound;
         }
         addListenersToAll();
         (function updateCount(){
-        
-        if( localStorage.similar ){
             var siteCount = document.getElementById('site-count');
+        if( localStorage.similar ){
+            
             var tabsFromSite = JSON.parse(localStorage.similar);
             if(Object.keys(tabsFromSite).length){
                 siteCount.innerText =  Object.keys(tabsFromSite).length;
@@ -65,11 +65,14 @@
                 siteCount.innerText = '';
                 siteCount.classList.contains('count-class') && siteCount.classList.remove('count-class');
             }
+        }else{
+                siteCount.innerText = '';
+                siteCount.classList.contains('count-class') && siteCount.classList.remove('count-class');
         }
+
+        var allCount = document.getElementById('all-count');
         if( localStorage.all ){
             var tabsFromAll = JSON.parse(localStorage.all);
-            var allCount = document.getElementById('all-count');
-            console.log(tabsFromAll.length);
             if(tabsFromAll.length){
                 allCount.innerHTML =  tabsFromAll.length;
                 !allCount.classList.contains('count-class') && allCount.classList.add('count-class');
@@ -77,7 +80,9 @@
                 allCount.innerHTML = '';
                 allCount.classList.contains('count-class') && allCount.classList.remove('count-class');
             }
-            
+        }else{
+            allCount.innerHTML = '';
+            allCount.classList.contains('count-class') && allCount.classList.remove('count-class');
         }
         }());
     }
@@ -98,7 +103,7 @@
 
 
             for (var count = 0; count < categories.length; count++) {
-                if (categories[count].getAttribute('data-category') === localStorage.selectedCategory) {
+                if (categories[count].getAttribute('data-category') === (localStorage.selectedCategory || 'all')) {
                     categories[count].style.background = '#EFF7FF';
                     categories[count].style.color = '#3b99fc';
                 } else {
@@ -206,7 +211,7 @@
 
         var allOpener = document.getElementById('open-all-tabs');
         allOpener.addEventListener('click', function () {
-            var tempCategory = localStorage.selectedCategory;
+            var tempCategory = localStorage.selectedCategory || 'all';
             var parsedTabs = JSON.parse(localStorage[tempCategory]);
             if (tempCategory === 'all') {
                 openTheseTabs(parsedTabs);
@@ -221,7 +226,7 @@
         var removeAll = document.getElementById('remove-all-tabs');
         removeAll.addEventListener('click',function(){
             if(confirm("Are you sure? Want to remove everything?")){
-            var tempCategory = localStorage.selectedCategory;
+            var tempCategory = localStorage.selectedCategory || 'all' ;
             var parsedTabs = JSON.parse(localStorage[tempCategory]);
             if (tempCategory === 'all') {
                 localStorage.setItem(tempCategory,JSON.stringify([]));

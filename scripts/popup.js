@@ -1,10 +1,11 @@
-var extBaseUrl = 'chrome-extension://' + chrome.runtime.id + '/';
+var extBaseUrl = 'moz-extension://' + browser.runtime.id + '/';
 var reDirUrl = 'templates/dashboard.html';
 var siteExists = { flag: false, id: 0 };
 
 document.body.style.background = '#fff';
 
-chrome.tabs.getAllInWindow(null, function (tabs) {
+var myQuery = browser.tabs.query({currentWindow:true});
+myQuery.then(function (tabs) {
     var itemArray = [];
     for (tab in tabs) {
         var tabDomain = getDomainFromUrl(tabs[tab].url),
@@ -19,14 +20,17 @@ chrome.tabs.getAllInWindow(null, function (tabs) {
             itemArray.push(tabDomain);
         }
     }
-});
+},function(){});
 
 setTimeout(function () {
+    
     var items = document.getElementsByClassName('site-list-item');
     for (var i = 0; i < items.length; i++) {
         items[i].addEventListener('click', function () {
+            console.log(items);
             var siteName = this.getAttribute('data-domain');
-            chrome.tabs.getAllInWindow(null, function (tabs) {
+            var myQuery = browser.tabs.query({currentWindow:true});
+                myQuery.then(function (tabs) {
                 var tabsListForLocalStorage = [];
                 for (count in tabs) {
                     var tab = tabs[count];
@@ -76,6 +80,7 @@ setTimeout(function () {
                     if( siteName === 'all' ){
                         oldDataOfSite = JSON.parse(localStorage[siteName]);
                     }
+                    console.log(siteName);
                     if (siteName !== 'all') {
                         if( tabsListForLocalStorage.length ){
                             
@@ -84,7 +89,7 @@ setTimeout(function () {
                             if (tempSimilar.hasOwnProperty(siteName) ){
                                 tempVals = tempSimilar[siteName];
                             }
-                            
+                           
                             
                             oldDataOfSite = extend({},tempSimilar,{[siteName]:tempVals.concat(tabsListForLocalStorage)});
                             siteName = 'similar';
@@ -113,7 +118,7 @@ setTimeout(function () {
                 tabsListForLocalStorage.map(function (tabb) {
                     chrome.tabs.remove(tabb.id);
                 });
-            });
+            },function(){});
 
 
         }, false);
@@ -140,7 +145,7 @@ setTimeout(function () {
 
 function getDomainFromUrl(url) {
     var splitedUrl = url.split('/');
-    if (splitedUrl[0] !== 'chrome-extension:' && splitedUrl[0] !== 'chrome:') {
+    if (splitedUrl[0] !== 'moz-extension:' && splitedUrl[0] !== 'about:') {
         return url.split('/')[2] || '';
     } else {
         return '';

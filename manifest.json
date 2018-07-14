@@ -1,6 +1,6 @@
 {
     "name": "Infinite Tabs Manager",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "Makes your Chrome faster and efficient",
     "permissions": ["tabs","activeTab","storage"],
     "background": {

@@ -194,9 +194,8 @@ body {
     padding: 15px;
 }
 .item-card{
-    margin: 10px;
+    padding: 10px;
     width: 200px;
-    box-sizing: border-box;
 }
 
 .item-card-image {
@@ -397,7 +396,7 @@ div#extension-name {
 }
 
 .footer-item {
-    padding: 10px 0;
+    padding: 5px 0;
 }
 
 .no-card-found {
@@ -435,4 +434,21 @@ span.nf-head-emoji img {
     right: 40px;
 }
 
-.logo-img {}
+.corousel-wrap{
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    height: 400px;
+    width: 640px;
+}
+
+#corousel-wrap-wrap{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: #00000080;
+}

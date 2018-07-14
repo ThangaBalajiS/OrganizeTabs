@@ -194,6 +194,13 @@ a{
     text-decoration: none;
 }
 
+.how-it-works{
+    width: 640px;
+    margin: 50px auto;
+    text-align: center;
+    font-size: 30px;
+}
+
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 400px) {
@@ -225,6 +232,9 @@ a{
         .itm-section.features .feature2 .left-content-wrap img{
         width:400px;
     }
-    
+    .how-it-works{
+        width: 100%;
+        margin: 20px 0;
+    }
 
 } 

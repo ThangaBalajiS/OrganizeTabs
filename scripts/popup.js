@@ -1,10 +1,11 @@
-var extBaseUrl = 'chrome-extension://' + chrome.runtime.id + '/';
+var extBaseUrl = 'moz-extension://' + browser.runtime.id + '/';
 var reDirUrl = 'templates/dashboard.html';
 var siteExists = { flag: false, id: 0 };
 
 document.body.style.background = '#fff';
 
-chrome.tabs.getAllInWindow(null, function (tabs) {
+var allTabsQuery = browser.tabs.query({currentWindow:true});
+    allTabsQuery.then(function (tabs) {
     var itemArray = [];
     for (tab in tabs) {
         var tabDomain = getDomainFromUrl(tabs[tab].url),
@@ -19,14 +20,15 @@ chrome.tabs.getAllInWindow(null, function (tabs) {
             itemArray.push(tabDomain);
         }
     }
-});
+},function(){});
 
 setTimeout(function () {
     var items = document.getElementsByClassName('site-list-item');
     for (var i = 0; i < items.length; i++) {
         items[i].addEventListener('click', function () {
             var siteName = this.getAttribute('data-domain');
-            chrome.tabs.getAllInWindow(null, function (tabs) {
+            var allTabsQuery1 = browser.tabs.query({currentWindow:true});
+            allTabsQuery1.then(function (tabs) {
                 var tabsListForLocalStorage = [];
                 for (count in tabs) {
                     var tab = tabs[count];
@@ -113,19 +115,21 @@ setTimeout(function () {
                 tabsListForLocalStorage.map(function (tabb) {
                     chrome.tabs.remove(tabb.id);
                 });
-            });
+            },function(){});
 
 
         }, false);
     }
 
     document.getElementById('open-dashboard').addEventListener('click',function(){
-       chrome.tabs.getAllInWindow(null,function(tabs){
+        var allTabsQuery = browser.tabs.query({currentWindow:true});
+        allTabsQuery.then(function (tabs) {
            var hasDashboardOpened = false;
            for( tab in tabs){
+               console.log( tabs[tab].url, extBaseUrl + reDirUrl );
                if( tabs[tab].url === extBaseUrl + reDirUrl ){
                    hasDashboardOpened = true;
-                   chrome.tabs.update(tabs[tab].id,{selected:true});
+                   chrome.tabs.update(tabs[tab].id,{highlighted:true});
                }
                
               
@@ -133,7 +137,7 @@ setTimeout(function () {
             if( !hasDashboardOpened ){
                 chrome.tabs.create({ index: 0, url: reDirUrl });
             } 
-       }); 
+       },function(){}); 
     });
 }, 0);
 

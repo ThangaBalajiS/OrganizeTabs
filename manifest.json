@@ -4,8 +4,7 @@
     "description": "Group Tabs",
     "permissions": ["tabs","activeTab","storage"],
     "background": {
-        "scripts": ["background.js"],
-        "persistent": false
+        "scripts": ["background.js"]
     },    
     "browser_action": {
         "default_popup": "popup.html"

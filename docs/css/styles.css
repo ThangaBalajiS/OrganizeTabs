@@ -217,9 +217,15 @@ a{
         flex-direction: column;
     }
 
+.home .left-content-wrap{
+    padding-top:50px;
+}
     .itm-section.home img{
         width:400px;
+        padding-top:20px;
     }
+
+
 
     .itm-section.features .feature1{
         flex-direction:column;
@@ -233,12 +239,18 @@ a{
         flex-direction:column;
         padding-top:50px;
     }
+
+
         .itm-section.features .feature2 .left-content-wrap img{
-        width:400px;
+        width:700px;
     }
     .how-it-works{
         width: 100%;
         margin: 20px 0;
     }
+
+.right-content{
+    width:100%;
+}
 
 } 

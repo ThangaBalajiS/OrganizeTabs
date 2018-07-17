@@ -1,5 +1,5 @@
 /* W3.CSS 4.10 February 2018 by Jan Egil and Borge Refsnes */
-html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
+html{box-sizing:border-box}*,
 /* Extract from normalize.css by Nicolas Gallagher and Jonathan Neal git.io/normalize */
 html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}
 article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}

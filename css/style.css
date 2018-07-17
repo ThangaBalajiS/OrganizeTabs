@@ -81,6 +81,7 @@ body {
 
 #dashboard-site-modal{
     padding:30px;
+    /* overflow: scroll; */
 }
 
 .overlay{
@@ -98,7 +99,7 @@ body {
     border-radius: 6px;
     background: #fff;
     z-index: 11;
-    width:450;
+    width: 450px;
     min-height: 180px;
     max-height: 650px;
     transform: translate(-50%,-50%);
@@ -182,7 +183,7 @@ body {
     display:flex;
     align-items:center;
     justify-content: space-between;
-    padding-bottom:40px;
+    padding-bottom: 30px;
 }
 .modal-header-title{
     /* margin-left: -100px; */
@@ -452,3 +453,5 @@ span.nf-head-emoji img {
     left: 0;
     background: #00000080;
 }
+
+.modal-body {height: 170px;overflow: scroll;}

@@ -245,7 +245,7 @@
 
 function openTheseTabs(tabs){
     tabs.map(function (tab) {
-        chrome.tabs.create({ index: 1, url: tab.url });
+        browser.tabs.create({ index: 1, url: tab.url });
     });
 }
 

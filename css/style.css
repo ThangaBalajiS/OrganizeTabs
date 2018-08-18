@@ -117,10 +117,11 @@ body {
 }
 .modal-item{
     display:flex;
-    justify-content:space-between;
+    justify-content:space-around;
     color: #5d5d5d;
     cursor: pointer;
     align-items: center;
+    padding-right: 4px;
 }
 .modal-item-title {
     width: 410px;
@@ -454,4 +455,9 @@ span.nf-head-emoji img {
     background: #00000080;
 }
 
-.modal-body {height: 170px;overflow: scroll;}
+.modal-body {
+    height: 170px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-right: 15px;
+}

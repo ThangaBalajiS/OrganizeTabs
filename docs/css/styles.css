@@ -71,7 +71,7 @@ background: linear-gradient(to bottom, #2B32B2, #1488CC); /* W3C, IE 10+/ Edge, 
 }
 
 .feature1 .right-content-wrap img{
-    max-width: 600px;
+    /* max-width: 600px; */
 }
 
 .feature-line1 {
@@ -109,14 +109,15 @@ background: linear-gradient(to bottom, #2B32B2, #1488CC); /* W3C, IE 10+/ Edge, 
     padding-top: 0;
 }
 .left-content-wrap img{
-    max-width: 700px;
-    max-height: 600px;
+    /* max-width: 700px; */
+    /* float: right; */
+    /* max-height: 600px; */
 }
 
 .left-content-wrap {
-    flex-basis: 60%;
+    flex-basis: 50%;
     display: flex;
-    justify-content: baseline;
+    justify-content: flex-end;
 }
 
 .right-content-wrap {

@@ -21,7 +21,7 @@
                         var tab = tabsFromSite[count];
                         var renderCondition = searchString ? tab.title.toLowerCase().includes(searchString.toLowerCase()) || tab.url.toLowerCase().includes(searchString.toLowerCase())  : true;
                         if(renderCondition){
-                        tempDOMString += '<div class="item-card-wrap-outer" ><div class="item-card-wrap" ><div data-tab-id="' + tab.id + '" class="icon-card-close" >'+closeIcon+'</div><a target="_blank" href="' + tab.url + '"> <div class="item-card" > <div class="item-card-image" style="background:url(' + tab.favIcon + ');background-size:cover;" ></div></div></a><div class="item-card-title">' + tab.title + '</div></div></div>'
+                        tempDOMString += '<div class="item-card-wrap-outer to-drag" ><div data-tab-id="' + tab.id + '" class="icon-card-close" >'+closeIcon+'</div><div class="item-card-wrap" data-url="'+tab.url+'" > <div class="item-card" > <div class="item-card-image" style="background:url(' + tab.favIcon + ');background-size:cover;" ></div></div><div class="item-card-title">' + tab.title + '</div></div></div>'
                         }
                     }
                     div_target.innerHTML += '<div class="all-content-wrap" >' + tempDOMString + '</div>';
@@ -85,6 +85,7 @@
             allCount.classList.contains('count-class') && allCount.classList.remove('count-class');
         }
         }());
+        window.dnd();
     }
 
     function addListenersToAll() {
@@ -127,6 +128,29 @@
             }
 
 
+            var longPressTime = 200;
+            var holdStart;
+            var allItems = $('.item-card-wrap');
+            for( var site = 0; site < allItems.length; site++ ){
+                $(allItems[site]).on( 'mousedown', function( e ) {
+                holdStart = new Date().getTime();
+            } );
+
+            $(allItems[site]).on( 'mouseleave', function( e ) {
+                holdStart = 0;
+            } );
+
+            $(allItems[site]).on( 'mouseup', function( e ) {
+                if ( new Date().getTime() >= ( holdStart + longPressTime )  ) {
+                } else {
+                    if( e.metaKey || e.ctrlKey ){
+                        $(this).parent().toggleClass( 'item-selected' );
+                    }else{
+                        chrome.tabs.create({index:1,url:$(this).attr('data-url')});
+                    }  
+                }
+            } );
+        }
 
         }, 0);
     }
@@ -164,7 +188,10 @@
     }
 
     //removes an item from category-all
-    function ItemClose() {
+    function ItemClose(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        console.log(e);
         var tabId = this.getAttribute("data-tab-id");
         var tabsFromSite = JSON.parse(localStorage.all);
         if (tabsFromSite.length) {

@@ -4,6 +4,8 @@
     <title>Dashboard - Tabs Manager</title>
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/corousel.css" rel="stylesheet">
+    <link href="../css/jquery-ui.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -15,13 +17,9 @@
                 </div>
                 <div id="extension-name">Tabs Manager</div>
             </div>
-            <div class="dashboard-left-bar-categories">
-                <div data-category="all" class="categories-item">Varied
-                    <div id="all-count" class="count-class"></div>
-                </div>
-                <div data-category="similar" class="categories-item">Similar
-                    <div id="site-count" class="count-class"></div>
-                </div>
+            <div class="groups-list" >
+                <div id="group-target" ></div>
+                <div class="add-group-btn" >Add New Group</div>
             </div>
 
             <div class="dashboard-left-bar-footer">
@@ -49,6 +47,14 @@
                 </div>
             </div>
         </div>
+        <div class="dashboard-left-bar-categories">
+            <div data-category="all" class="categories-item">Varied
+                <div id="all-count" class="count-class"></div>
+            </div>
+            <div data-category="similar" class="categories-item">Similar
+                <div id="site-count" class="count-class"></div>
+            </div>
+        </div>
         <div id="target_div"></div>
     </div>
     <div id="corousel-wrap-wrap">
@@ -67,7 +73,11 @@
             </div>
         </div>
     </div>
+    <script src="../scripts/vendor/jquery.min.js"></script>
+    <script src="../scripts/vendor/jquery-ui.min.js"></script>
+    <script src="../scripts/dnd-handler.js"></script>
     <script src="../scripts/dashboard.js"></script>
+    <script src="../scripts/group-manager.js"></script>
 </body>
 
 </html>

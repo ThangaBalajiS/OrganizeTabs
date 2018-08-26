@@ -45,10 +45,11 @@ setTimeout(function () {
 
 
                         var tempTabDetailObject = {
-                            id: tab.id,
+                            id: guid(),
+                            originId: tab.id,
                             title: tab.title,
                             url: tab.url,
-                            favIcon: tab.favIconUrl,
+                            favIcon: tab.favIconUrl || '../assets/null-icon.jpg' ,
                         };
                         tabsListForLocalStorage.push(tempTabDetailObject);
 
@@ -111,11 +112,11 @@ setTimeout(function () {
                 }
 
                 tabsListForLocalStorage.map(function (tabb) {
-                    chrome.tabs.remove(tabb.id);
+                    chrome.tabs.remove(tabb.originId);
                 });
             });
 
-
+            $(this).remove();
         }, false);
     }
 
@@ -153,4 +154,14 @@ function extend() {
             if (arguments[i].hasOwnProperty(key))
                 arguments[0][key] = arguments[i][key];
     return arguments[0];
+}
+
+function guid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+
+    return s4() + s4() +  s4();
 }

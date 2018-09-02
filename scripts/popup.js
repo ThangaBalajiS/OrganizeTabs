@@ -107,7 +107,9 @@ setTimeout(function () {
 
                 if (siteExists.flag) {
                     chrome.tabs.reload(siteExists.id);
+                    localStorage.selectedCategory = 'all';
                 } else {
+                    localStorage.selectedCategory = 'all';
                     chrome.tabs.create({ index: 0, url: reDirUrl });
                 }
 

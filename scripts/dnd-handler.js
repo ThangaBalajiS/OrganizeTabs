@@ -131,161 +131,257 @@ window.dnd = function () {
 
                 if ($(e.target).hasClass('delete')) {
 
-                    selectedItems.each(function (index, el) {
-                        var jEl = $(el);
-                        if (jEl.hasClass('item-card-wrap-outer')) {
-                            jEl = jEl.find('.item-card-wrap');
-                            var itemId = jEl.attr('data-id');
 
-                            if (selectedCategory === 'all') {
-                                var allArray = lStorage.all;
-                                lStorage.all = window.helpers.removeFromArray(allArray, itemId);
-                            } else {
-                                var allArray = lStorage.group[selectedCategory].all;
-                                lStorage.group[selectedCategory].all = window.helpers.removeFromArray(allArray, itemId);
-                            }
+                    swal({
+                        title: "Are you sure?",
+                        text: "This cannot be undone!",
+                        icon: "warning",
+                        buttons: [
+                            'No, cancel it!',
+                            'Yes, I am sure!'
+                        ],
+                        dangerMode: true,
+                    }).then(function (isConfirm) {
+                        if (isConfirm) {
+                            selectedItems.each(function (index, el) {
+                                var jEl = $(el);
+                                if (jEl.hasClass('item-card-wrap-outer')) {
+                                    jEl = jEl.find('.item-card-wrap');
+                                    var itemId = jEl.attr('data-id');
 
-                        } else if (jEl.hasClass('site-card-wrap')) {
-                            jEl = jEl.find('.site-card');
-                            var itemId = jEl.attr('data-site');
+                                    if (selectedCategory === 'all') {
+                                        var allArray = lStorage.all;
+                                        lStorage.all = window.helpers.removeFromArray(allArray, itemId);
+                                    } else {
+                                        var allArray = lStorage.group[selectedCategory].all;
+                                        lStorage.group[selectedCategory].all = window.helpers.removeFromArray(allArray, itemId);
+                                    }
 
-                            if (selectedCategory === 'all') {
-                                delete lStorage.similar[itemId];
+                                } else if (jEl.hasClass('site-card-wrap')) {
+                                    jEl = jEl.find('.site-card');
+                                    var itemId = jEl.attr('data-site');
 
-                            } else {
-                                delete lStorage.group[selectedCategory].similar[itemId];
-                            }
+                                    if (selectedCategory === 'all') {
+                                        delete lStorage.similar[itemId];
+
+                                    } else {
+                                        delete lStorage.group[selectedCategory].similar[itemId];
+                                    }
+                                }
+                                jEl.css('transform', 'scale(0)');
+                            });
+
+                            window.helpers.setStore(lStorage);
+                            setTimeout(function () {
+                                window.renderTabs();
+                            }, 300);
+                        } else {
+                            // swal("Cancelled", "Your tabs are now safe :)", "info");
+                            window.renderTabs();
                         }
-                        jEl.css('transform', 'scale(0)');
-                    });
+                    })
 
-                    window.helpers.setStore(lStorage);
-                    setTimeout(function () {
-                        window.renderTabs();
-                    }, 300);
+
+
 
                 } else if ($(e.target).hasClass('share')) {
-                    Parse.initialize("myAppIddasdasdasdasd");
-                    Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
-                    var tempValue = { all: [], similar: {} };
 
-                    selectedItems.each(function (index, el) {
-                        var jEl = $(el);
 
-                        if (jEl.hasClass('item-card-wrap-outer')) {
-                            jEl = jEl.find('.item-card-wrap');
-                            var newItem = {
-                                id: jEl.attr('data-id'),
-                                title: jEl.attr('data-title'),
-                                favIcon: jEl.attr('data-favicon'),
-                                url: jEl.attr('data-url')
-                            };
+                    swal({
+                        title: "Are you sure?",
+                        text: "wanna create a sharable link?",
+                        icon: "info",
+                        buttons: [
+                            'No, forget it!',
+                            'Yes, go ahead!'
+                        ],
+                    }).then(function (isConfirm) {
+                        if (isConfirm) {
+                            Parse.initialize("myAppIddasdasdasdasd");
+                            Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
+                            var tempValue = { all: [], similar: {} };
+                            var modal = document.getElementById('dashboard-site-modal');
+                            modal.innerHTML = 'Please Wait..';
+                            modal.classList.add( 'show' );
 
-                            tempValue.all.push(newItem);
+                            selectedItems.each(function (index, el) {
+                                var jEl = $(el);
 
-                        } else if (jEl.hasClass('site-card-wrap')) {
-                            jEl = jEl.find('.site-card');
-                            var itemId = jEl.attr('data-site');
+                                if (jEl.hasClass('item-card-wrap-outer')) {
+                                    jEl = jEl.find('.item-card-wrap');
+                                    var newItem = {
+                                        id: jEl.attr('data-id'),
+                                        title: jEl.attr('data-title'),
+                                        favIcon: jEl.attr('data-favicon'),
+                                        url: jEl.attr('data-url')
+                                    };
 
-                            if (selectedCategory === 'all') {
+                                    tempValue.all.push(newItem);
 
-                                tempValue.similar = $.extend({}, tempValue.similar, { [itemId]: lStorage.similar[itemId] });
+                                } else if (jEl.hasClass('site-card-wrap')) {
+                                    jEl = jEl.find('.site-card');
+                                    var itemId = jEl.attr('data-site');
+
+                                    if (selectedCategory === 'all') {
+
+                                        tempValue.similar = $.extend({}, tempValue.similar, { [itemId]: lStorage.similar[itemId] });
+                                    } else {
+                                        tempValue.similar = $.extend({}, tempValue.similar, { [itemId]: lStorage.group[selectedCategory].similar[itemId] });
+                                    }
+                                }
+                                jEl.css('transform', 'scale(0)');
+                                window.renderTabs();
+                                console.log(tempValue);
+
+                            });
+
+
+
+                            var GameScore = Parse.Object.extend("TabsData");
+                            var gameScore = new GameScore();
+                            var hash = window.helpers.guid() + window.helpers.guid();
+
+                            var tempLinks = [];
+                            if (localStorage.myLinks) {
+                                tempLinks = JSON.parse(localStorage.myLinks);
                             } else {
-                                tempValue.similar = $.extend({}, tempValue.similar, { [itemId]: lStorage.group[selectedCategory].similar[itemId] });
+                                tempLinks = [];
                             }
+
+                            tempLinks.push(hash);
+
+                            localStorage.myLinks = JSON.stringify(tempLinks);
+
+                            gameScore.set("hash", hash);
+                            gameScore.set("data", JSON.stringify(tempValue));
+                            gameScore.save()
+                                .then((gameScore) => {
+                                    // Execute any logic that should take place after the object is saved.
+                                    console.log('New object created with hash: ' + gameScore.get('hash'));
+
+                                    
+                                    var overlay = $('#dashboard-overlay').addClass('show');
+
+                                    var url =gameScore.get('hash');
+                                    
+
+                                    modal.classList.add( 'sharer' );
+
+                                    modal.innerHTML = '';
+                                    modal.innerHTML += '<div class="modal-ulla"><div class="modal-site-padam" style="background:url(https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fitabsmanager.tk%2F%3FsecureCode%3D'+ url +'&amp;size=150x150&amp);background-size:cover;" ></div><div class="share-modal-details" ><div class="sahre-title" >Untitled</div><div><div class="share-right-item share-desc" >Share this link or scan QR Code to view tabs in mobile</div><div class="share-right-item url" >http://itabsmanager.tk/?secureCode='+ url +' </div></div><div class="share-right-item cpy-btn" ><div class="copy-url-btn"> Copy URL </div><div class="url-gone-notice" >This link expires in 30 Days</div></div></div>';
+                                
+                                    overlay.on('click', function () {
+                                        overlay.removeClass('show');
+                                        modal.classList.remove('show');
+                                        overlay.off();
+                                    });
+
+                                }, (error) => {
+                                    // Execute any logic that should take place if the save fails.
+                                    // error is a Parse.Error with an error code and message.
+                                    alert('Failed to create new object, with error code: ' + error.message);
+                                });
+
+                        } else {
+                            window.renderTabs();
                         }
-                        jEl.css('transform', 'scale(0)');
-
                     });
-                    console.log(tempValue);
-
-                    window.renderTabs();
-                    var GameScore = Parse.Object.extend("TabsData");
-                    var gameScore = new GameScore();
-                    var hash = window.helpers.guid() + window.helpers.guid(); 
-
-                    var tempLinks = [];
-                    if( localStorage.myLinks ){
-                        tempLinks = JSON.parse(localStorage.myLinks);
-                    }else{
-                        tempLinks = [];
-                    }
-
-                    tempLinks.push( hash );
-
-                    localStorage.myLinks = JSON.stringify(tempLinks);
-
-                    gameScore.set("hash", hash);
-                    gameScore.set("data", JSON.stringify( tempValue ));
-                    gameScore.save()
-                        .then((gameScore) => {
-                            // Execute any logic that should take place after the object is saved.
-                            console.log('New object created with hash: ' + gameScore.get('hash'));
-                        }, (error) => {
-                            // Execute any logic that should take place if the save fails.
-                            // error is a Parse.Error with an error code and message.
-                            alert('Failed to create new object, with error code: ' + error.message);
-                        });
-
+                    
                 } else if ($(e.target).hasClass('add')) {
 
-                    var tempValue = { name: 'Untitled', all: [], similar: {} };
 
-                    selectedItems.each(function (index, el) {
-                        var jEl = $(el);
+                    swal({
+                        title: "Are you sure?",
+                        text: "wanna create a new group with the selected tabs?",
+                        icon: "info",
+                        buttons: [
+                            'No, forget it!',
+                            'Yeah, go ahead!'
+                        ],
+                        dangerMode: true,
+                    }).then(function (isConfirm) {
+                        if (isConfirm) {
 
-                        if (jEl.hasClass('item-card-wrap-outer')) {
-                            jEl = jEl.find('.item-card-wrap');
-                            var newItem = {
-                                id: jEl.attr('data-id'),
-                                title: jEl.attr('data-title'),
-                                favIcon: jEl.attr('data-favicon'),
-                                url: jEl.attr('data-url')
-                            };
+                            var tempValue = { name: 'Untitled', all: [], similar: {} };
 
-                            tempValue.all.push(newItem);
-                            if (selectedCategory === 'all') {
-                                lStorage.all = window.helpers.removeFromArray(allArray, itemId);
-                            } else {
-                                var allArray = lStorage.group[selectedCategory].all;
-                                lStorage.group[selectedCategory].all = window.helpers.removeFromArray(allArray, itemId);
-                            }
+                            selectedItems.each(function (index, el) {
+                                var jEl = $(el);
 
-                        } else if (jEl.hasClass('site-card-wrap')) {
-                            jEl = jEl.find('.site-card');
-                            var itemId = jEl.attr('data-site');
+                                if (jEl.hasClass('item-card-wrap-outer')) {
+                                    jEl = jEl.find('.item-card-wrap');
+                                    var newItem = {
+                                        id: jEl.attr('data-id'),
+                                        title: jEl.attr('data-title'),
+                                        favIcon: jEl.attr('data-favicon'),
+                                        url: jEl.attr('data-url')
+                                    };
 
-                            if (selectedCategory === 'all') {
+                                    tempValue.all.push(newItem);
+                                    if (selectedCategory === 'all') {
+                                        var allArray = lStorage.all;
+                                        lStorage.all = window.helpers.removeFromArray(allArray, newItem.id);
+                                    } else {
+                                        var allArray = lStorage.group[selectedCategory].all;
+                                        lStorage.group[selectedCategory].all = window.helpers.removeFromArray(allArray, newItem.id);
+                                    }
 
-                                tempValue.similar = $.extend({}, tempValue.similar, { [itemId]: lStorage.similar[itemId] });
-                                delete lStorage.similar[itemId];
-                            } else {
-                                tempValue.similar = $.extend({}, tempValue.similar, { [itemId]: lStorage.group[selectedCategory].similar[itemId] });
-                                delete lStorage.group[selectedCategory].similar[itemId];
-                            }
+                                } else if (jEl.hasClass('site-card-wrap')) {
+                                    jEl = jEl.find('.site-card');
+                                    var itemId = jEl.attr('data-site');
+
+                                    if (selectedCategory === 'all') {
+
+                                        tempValue.similar = $.extend({}, tempValue.similar, { [itemId]: lStorage.similar[itemId] });
+                                        delete lStorage.similar[itemId];
+                                    } else {
+                                        tempValue.similar = $.extend({}, tempValue.similar, { [itemId]: lStorage.group[selectedCategory].similar[itemId] });
+                                        delete lStorage.group[selectedCategory].similar[itemId];
+                                    }
+                                }
+                                jEl.css('transform', 'scale(0)');
+
+
+                            });
+
+                            var newGroupId = window.helpers.guid();
+                            lStorage.group = $.extend({}, lStorage.group, { [newGroupId]: tempValue });
+                            lStorage.groupOrder.unshift(newGroupId);
+                            window.helpers.setStore(lStorage);
+                            setTimeout(function () {
+                                window.renderTabs();
+                                window.renderGroups();
+                            }, 300);
+                        } else {
+                            window.renderTabs();
                         }
-                        jEl.css('transform', 'scale(0)');
-
                     });
-
-                    var newGroupId = window.helpers.guid();
-                    lStorage.group = $.extend({}, lStorage.group, { [newGroupId]: tempValue });
-                    lStorage.groupOrder.unshift(newGroupId);
-                    window.helpers.setStore(lStorage);
-                    setTimeout(function () {
-                        window.renderTabs();
-                        window.renderGroups();
-                    }, 300);
                 }
 
             },
-            over: function () {
+            over: function (e, i) {
                 $('.to-drop').droppable();
                 $('.to-drop').droppable('disable');
+                var selectedItems = $('.item-selected');
+                if (!selectedItems.length) {
+                    selectedItems = i.draggable;
+                }
+                selectedItems.css({
+                    'transform': 'scale(0.5)',
+                    'transition': 'all 200ms ease'
+                });
+
             },
-            out: function () {
+            out: function (e, i) {
+                var selectedItems = $('.item-selected');
+                if (!selectedItems.length) {
+                    selectedItems = i.draggable;
+                }
                 $('.to-drop').droppable();
                 $('.to-drop').droppable('enable');
+                selectedItems.css({ 'transform': 'scale(1)' });
+                setTimeout(function () {
+                    selectedItems.css({ 'transition': '' });
+                }, 200);
             },
 
         });
@@ -301,8 +397,17 @@ window.dnd = function () {
                 $('.to-drop').droppable();
                 $('.to-drop').droppable('enable');
             },
-            drop: function () {
-                console.log('sds');
+            drop: function (e, i) {
+
+
+                var selectedItems = $('.item-selected');
+
+                if (!selectedItems.length) {
+                    selectedItems = i.draggable;
+                }
+
+                selectedItems.css('transform', 'scale(1)');
+
                 $('.to-drop').droppable();
                 setTimeout(function () {
                     $('.to-drop').droppable('enable');

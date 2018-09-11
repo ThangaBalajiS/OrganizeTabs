@@ -1,4 +1,12 @@
 window.helpers = {
+    initStore : function(){
+        if( !localStorage.group ){
+            localStorage.group = '{}';
+        }
+        if( !localStorage.groupOrder ){
+            localStorage.groupOrder = '[]';
+        }
+    },
     getStore : function(){
         return  {
             all: JSON.parse( localStorage.all ),

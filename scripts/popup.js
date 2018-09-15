@@ -2,7 +2,13 @@ var extBaseUrl = 'chrome-extension://' + chrome.runtime.id + '/';
 var reDirUrl = 'templates/dashboard.html';
 var siteExists = { flag: false, id: 0 };
 
-document.body.style.background = '#fff';
+window.helpers.initStore();
+
+if( localStorage.darkMode ){
+    document.body.classList.add( 'dark-mode' );
+}else{
+    document.body.classList.remove( 'dark-mode' );
+}
 
 chrome.tabs.getAllInWindow(null, function (tabs) {
     var itemArray = [];
@@ -49,7 +55,7 @@ setTimeout(function () {
                             originId: tab.id,
                             title: tab.title,
                             url: tab.url,
-                            favIcon: tab.favIconUrl || '../assets/null-icon.jpg' ,
+                            favIcon: tab.favIconUrl || '../assets/null-icon.png' ,
                         };
                         tabsListForLocalStorage.push(tempTabDetailObject);
 

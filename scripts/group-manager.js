@@ -15,14 +15,14 @@
                     selectedStyle = 'selected-group';
                 }
 
-                $('#group-target').append('<div class="group-list-item to-drop group-item-mods ' + selectedStyle + ' " data-id="' + item + '" ><div class="group-name" >' + groups[item].name + '</div><div class="group-options" >' + optionsIcon + '</div> <div class="group-options-dd" style="display:none;" > <div class="group-dd-item rename" data-action="rename" data-id="' + item + '" > Rename </div><div class="group-dd-item share" data-action="share" data-id="' + item + '" > Share </div> <div class="group-dd-item delete" data-action="delete" data-id="' + item + '" > Delete </div> </div>  </div>');
+                $('#group-target').append('<div class="group-list-item to-drop group-item-mods ' + selectedStyle + ' " data-id="' + item + '" ><div class="group-name" >' + groups[item].name + '</div><div class="group-options" >' + optionsIcon + '</div> <div class="group-options-dd" style="display:none;" > <div class="group-dd-item rename" data-action="rename" data-id="' + item + '" > R </div><div class="group-dd-item share" data-action="share" data-id="' + item + '" > S </div> <div class="group-dd-item delete" data-action="delete" data-id="' + item + '" > D </div> </div>  </div>');
             });
             setTimeout(function () {
 
                 $('.group-options').on('click', function (e) {
                     e.stopPropagation();
                     var dropdownn = $(this).siblings('.group-options-dd');
-                    dropdownn.css({ 'display': 'block' });
+                    dropdownn.css({ 'display': 'flex' });
                     dropdownn.off();
                     dropdownn.on('click', function (e) {
                         var dataId = $(e.target).data('id');

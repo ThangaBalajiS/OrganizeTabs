@@ -1,12 +1,32 @@
 (function () {
     var div_target = document.getElementById('target_div');
-    var closeIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 13 13"><polygon fill="#313131" fill-rule="evenodd" points="752.473 263.392 752.473 269.475 749.803 269.475 749.803 263.392 744.138 263.392 744.138 260.762 749.803 260.762 749.803 254.801 752.473 254.801 752.473 260.762 758.138 260.762 758.138 263.392" transform="rotate(45 687.657 -765.157)"/></svg>';
+    var closeIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 13 13"><polygon points="752.473 263.392 752.473 269.475 749.803 269.475 749.803 263.392 744.138 263.392 744.138 260.762 749.803 260.762 749.803 254.801 752.473 254.801 752.473 260.762 758.138 260.762 758.138 263.392" transform="rotate(45 687.657 -765.157)"/></svg>';
     var nothingFound = '<div class="no-card-found" ><div class="nothing-found-head" >No Tabs Found <span class="nf-head-emoji" ><img src="../assets/emoji.png"/></span></div> <div class="nothing-found-desc" >Group tabs in the popup to make them appear here!</div><img style="height:350px;" src="../assets/nothing-found.jpg" /> </div>';
 
     window.helpers.initStore();
     $( document ).on( 'click',function(e){
         $( '.group-options-dd' ).css('display','none');
     } );
+
+    Parse.initialize("myAppIddasdasdasdasd");
+    Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
+
+    if( localStorage.darkMode ){
+        $('body').addClass( 'dark-mode' );
+        window.darkMode = true;
+    }
+
+    $( '.logo-img' ).on( 'click',function(){
+        if(! window.darkMode ){
+            $('body').addClass('dark-mode');
+            window.darkMode = true;
+            localStorage.darkMode = true;
+        }else{
+            $('body').removeClass('dark-mode');
+            window.darkMode = false;
+            localStorage.darkMode = '';
+        }
+    });
 
     $(document).keydown(function(e) {
         if( (e.metaKey || e.ctrlKey ) && e.keyCode === 65 ){
@@ -30,11 +50,11 @@
 
         var selectedGroup = localStorage.selectedCategory;
 
+        var isEmpty = 0;
         for (var singleCategory in actualCategories) {
 
             var siteName = actualCategories[singleCategory];
           //  if (localStorage.hasOwnProperty(siteName)) {
-                var isEmpty = 0;
                 if (siteName === 'all') {
                     var tempDOMString = '';
                     var tabsFromSite = [];
@@ -79,7 +99,7 @@
                             var renderCondition = searchString ? site.toLowerCase().includes(searchString.toLowerCase()) : true;
 
                             if (sites[site].length && renderCondition  ) {
-                                div_target.innerHTML += '<div class="site-card-wrap to-drag" > <div data-site="' + site + '" class="site-card" >  <div class="site-card-img-wrap" ><img src="' + sites[site][0].favIcon + '" /></div> <div class="site-card-item-count" >' + sites[site].length + '</div> </div><div class="site-name" >' + site + '</div></div>';
+                                div_target.innerHTML += '<div class="site-card-wrap to-drag" > <div data-site="' + site + '" class="site-card" > <div data-site="'+site+'" class="remove-site" >'+closeIcon+'</div> <div class="site-card-img-wrap" ><img src="' + sites[site][0].favIcon + '" /></div> <div class="site-card-item-count" >' + sites[site].length + '</div> </div><div class="site-name" >' + site + '</div></div>';
                             } else if (!sites[site].length) {
                                 removeSite(site);
                             }
@@ -88,13 +108,14 @@
                         isEmpty++;
                     }
                 }
-                if (isEmpty > 1) {
-                    div_target.innerHTML = nothingFound;
-                }
+             
             // } else {
             //     div_target.innerHTML = nothingFound;
             // }
 
+        }
+        if (isEmpty > 1) {
+            div_target.innerHTML = nothingFound;
         }
         addListenersToAll();
 
@@ -124,6 +145,7 @@
                 });
 
                 $(sites[j]).on('mouseup', function (e) {
+                    if( e.target === this ){
                     if (new Date().getTime() >= (siteHoldStart + longPressTime)) {
 
                         //handle long press if needed
@@ -133,12 +155,13 @@
                             $(this).parent().toggleClass('item-selected');
                         } else {
                             if ($('.item-selected').length) {
-                                $('.item-selected').removeClass('item-selected');
+                               $('.item-selected').removeClass('item-selected');
                             } else {
                                 similarItemClick($(e.target).closest('.site-card').attr('data-site'));
                             }
                         }
                     }
+                }
                 });
             }
 
@@ -146,6 +169,14 @@
             var pagesInModal = $('.modal-item-remove');
             for (var k = 0; k < pagesInModal.length; k++) {
                 pagesInModal[k].addEventListener('click', removeThisPageFromSite);
+            }
+            var siteRemoveButtons = document.getElementsByClassName('remove-site');
+            for(var l = 0;l < siteRemoveButtons.length; l++){
+                siteRemoveButtons[l].addEventListener('click',function(e){
+                    removeSite(this.getAttribute('data-site'));
+                    e.stopPropagation();
+                    renderTabs();
+                });
             }
 
 
@@ -156,7 +187,7 @@
                 $(allItems[site]).on('mousedown', function (e) {
                     if( !$(this).parent().hasClass( 'item-selected' ) && !(e.metaKey || e.ctrlKey) ){
                         if ($('.item-selected').length) {
-                            $('.item-selected').removeClass('item-selected');
+                          //  $('.item-selected').removeClass('item-selected');
                         }
                     }
                     holdStart = new Date().getTime();
@@ -167,6 +198,8 @@
                 });
 
                 $(allItems[site]).on('mouseup', function (e) {
+                    console.log( e.target );
+                    if( e.target === this ){
                     if (new Date().getTime() >= (holdStart + longPressTime)) {
 
                         //handle long press if needed
@@ -182,6 +215,7 @@
                             }
                         }
                     }
+                }
                 });
             }
 
@@ -259,31 +293,16 @@
             renderTabs(e.target.value);
         });
 
-        // var allOpener = document.getElementById('open-all-tabs');
-        // allOpener.addEventListener('click', function () {
-        //     var tempCategory = localStorage.selectedCategory || 'all';
-        //     var parsedTabs = JSON.parse(localStorage[tempCategory]);
-        //     if (tempCategory === 'all') {
-        //         openTheseTabs(parsedTabs);
-        //     }
-        // });
-
-        // var removeAll = document.getElementById('remove-all-tabs');
-        // removeAll.addEventListener('click', function () {
-        //     if (confirm("Are you sure? Want to remove everything?")) {
-        //         var tempCategory = localStorage.selectedCategory || 'all';
-        //         if (tempCategory === 'all') {
-        //             localStorage.setItem(tempCategory, JSON.stringify([]));
-        //         } else if (tempCategory === 'similar') {
-        //             localStorage.setItem(tempCategory, JSON.stringify({}));
-        //         }
-        //         renderTabs();
-        //     }
-        // });
     }());
 
     $('#target_div').on('click', function (e) {
+        if( e.target === this ){
+            console.log($(e.target).delegate());
+        }else{
+            console.log( 'aaa');
+        }
         if ($(e.target).attr('id') === 'target_div') {
+        //    / console.log('dasdsad');
             $('.item-selected').removeClass('item-selected');
         }
     });

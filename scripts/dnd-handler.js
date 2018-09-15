@@ -115,6 +115,7 @@ window.dnd = function () {
             tolerance: 'pointer',
             accept: '.to-drag',
             drop: function (e, i) {
+                console.log( 'gsgd' );
                 $(e.target).addClass('drop-ok');
                 $('.to-drop').droppable();
                 setTimeout(function () {
@@ -399,7 +400,9 @@ window.dnd = function () {
             },
             drop: function (e, i) {
 
-
+                if( $( '.ui-droppable-hover' ).length ){
+                    $( '.ui-droppable-hover' ).removeClass( 'ui-droppable-hover' );
+                }
                 var selectedItems = $('.item-selected');
 
                 if (!selectedItems.length) {

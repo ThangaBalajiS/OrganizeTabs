@@ -1,5 +1,11 @@
 window.helpers = {
     initStore : function(){
+        if( !localStorage.all ){
+            localStorage.all = '[]';
+        }
+        if( !localStorage.similar ){
+            localStorage.similar = '{}';
+        }
         if( !localStorage.group ){
             localStorage.group = '{}';
         }
@@ -44,5 +50,8 @@ window.helpers = {
     removeFromObject: function(obj,key){
         delete obj[key];
         return obj;
+    },
+    getCurrentDate: function(){
+        return new Date().toString().substr(4,6);
     }
 }

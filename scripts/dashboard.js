@@ -74,7 +74,7 @@
                             var tab = tabsFromSite[count];
                             var renderCondition = searchString ? tab.title.toLowerCase().includes(searchString.toLowerCase()) || tab.url.toLowerCase().includes(searchString.toLowerCase()) : true;
                             if (renderCondition) {
-                                tempDOMString += '<div class="item-card-wrap-outer to-drag" ><div class="item-card-wrap" data-title="'+ tab.title +'" data-favicon="'+ tab.favIcon +'" data-id="' + tab.id + '" data-url="' + tab.url + '" > <div class="item-card" > <div class="item-card-image" > <img src="' + tab.favIcon + '" /> </div><div class="item-card-title">' + tab.title + '</div></div></div></div>'
+                                tempDOMString += '<div class="item-card-wrap-outer to-drag" ><div data-item="'+tab.id +'" class="remove-item" >'+closeIcon+'</div><div class="item-card-wrap" data-title="'+ tab.title +'" data-favicon="'+ tab.favIcon +'" data-id="' + tab.id + '" data-url="' + tab.url + '" > <div class="item-card" > <div class="item-card-image" > <img src="' + tab.favIcon + '" /> </div><div class="item-card-title">' + tab.title + '</div></div></div></div>'
                             }
                         }
                         div_target.innerHTML += '<div class="all-content-wrap" >' + tempDOMString + '</div>';
@@ -99,7 +99,7 @@
                             var renderCondition = searchString ? site.toLowerCase().includes(searchString.toLowerCase()) : true;
 
                             if (sites[site].length && renderCondition  ) {
-                                div_target.innerHTML += '<div class="site-card-wrap to-drag" > <div data-site="' + site + '" class="site-card" > <div data-site="'+site+'" class="remove-site" >'+closeIcon+'</div> <div class="site-card-img-wrap" ><img src="' + sites[site][0].favIcon + '" /></div> <div class="site-card-item-count" >' + sites[site].length + '</div> </div><div class="site-name" >' + site + '</div></div>';
+                                div_target.innerHTML += '<div class="site-card-wrap to-drag" ><div data-site="'+site+'" class="remove-site" >'+closeIcon+'</div> <div data-site="' + site + '" class="site-card" >  <div class="site-card-img-wrap" ><img src="' + sites[site][0].favIcon + '" /></div> <div class="site-card-item-count" >' + sites[site].length + '</div> </div><div class="site-name" >' + site + '</div></div>';
                             } else if (!sites[site].length) {
                                 removeSite(site);
                             }
@@ -145,7 +145,6 @@
                 });
 
                 $(sites[j]).on('mouseup', function (e) {
-                    if( e.target === this ){
                     if (new Date().getTime() >= (siteHoldStart + longPressTime)) {
 
                         //handle long press if needed
@@ -161,7 +160,7 @@
                             }
                         }
                     }
-                }
+
                 });
             }
 
@@ -178,6 +177,18 @@
                     renderTabs();
                 });
             }
+
+            $( '.remove-item' ).on('click',function(){
+                lStorage = window.helpers.getStore();
+                var tempSites = {};
+                if( localStorage.selectedCategory === 'all' ){
+                    lStorage.all =  window.helpers.removeFromArray(lStorage.all,this.getAttribute( 'data-item' ));
+                } else {
+                    lStorage.group[localStorage.selectedCategory].all = window.helpers.removeFromArray(lStorage.group[localStorage.selectedCategory].all,this.getAttribute('data-item'));       
+                }
+                window.helpers.setStore( lStorage );
+                renderTabs();
+            } );
 
 
             var holdStart;
@@ -198,8 +209,6 @@
                 });
 
                 $(allItems[site]).on('mouseup', function (e) {
-                    console.log( e.target );
-                    if( e.target === this ){
                     if (new Date().getTime() >= (holdStart + longPressTime)) {
 
                         //handle long press if needed
@@ -215,7 +224,7 @@
                             }
                         }
                     }
-                }
+                
                 });
             }
 
@@ -316,9 +325,14 @@ function openTheseTabs(tabs) {
 }
 
 function removeSite(site) {
-    var tempSites = JSON.parse(localStorage.similar);
-    delete tempSites[site];
-    localStorage.setItem('similar', JSON.stringify(tempSites));
+    lStorage = window.helpers.getStore();
+    var tempSites = {};
+    if( localStorage.selectedCategory === 'all' ){
+        delete lStorage.similar[site];
+    } else {
+        delete lStorage.group[localStorage.selectedCategory].similar[site];       
+    }
+    window.helpers.setStore( lStorage );
 }
 
 

@@ -411,8 +411,31 @@ div#open-all-of-this-site:hover {
     position: absolute;
     top: 6px;
     right: 6px;
+    z-index: 2;
     transition: opacity 0.3s ease;
     opacity: 0;
+}
+
+.remove-item {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    z-index: 2;
+    background: #20cbd4;
+    padding: 3px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    border-radius: 50%;
+}
+
+.remove-item svg,
+.remove-site svg {
+    fill: currentColor;
+}
+
+.item-card-wrap-outer:hover .remove-item{
+    opacity: 1;
 }
 
 .site-name {
@@ -429,8 +452,14 @@ div#open-all-of-this-site:hover {
 .dark-mode .site-name{
     color: #fff;
 }
+.item-card-wrap-outer.item-selected .remove-item,
+.item-card-wrap-outer.ui-draggable-dragging .remove-item,
+.site-card-wrap.item-selected .remove-site,
+.site-card-wrap.ui-draggable-dragging .remove-site {
+    opacity: 0;
+}
 
-.site-card:hover .remove-site {
+.site-card-wrap:hover .remove-site {
     opacity: 1;
 }
 
@@ -578,7 +607,8 @@ span.group-options {
     color: #fff;
 }
 
-.item-selected > div:first-child{
+.item-selected  div.site-card,
+.item-selected div.item-card-wrap{
     box-sizing: border-box;
     background: #2f93ff;
     color: #fff;
@@ -675,6 +705,7 @@ input#group-name-editor {
     padding: 15px;
     border-radius: 50%;
     position: absolute;
+    cursor: pointer;
     transition: all 300ms ease;
 }
 .dropper-item.delete{

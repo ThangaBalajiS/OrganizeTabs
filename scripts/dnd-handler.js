@@ -111,28 +111,16 @@ window.dnd = function () {
             }
         });
 
-        $('.tab-actions').droppable({
-            tolerance: 'pointer',
-            accept: '.to-drag',
-            drop: function (e, i) {
-                console.log( 'gsgd' );
-                $(e.target).addClass('drop-ok');
-                $('.to-drop').droppable();
-                setTimeout(function () {
-                    $('.to-drop').droppable('enable');
-                }, 210);
+        $('.dropper-item').off();
+        $('.dropper-item').on('click', function (e) {
+            e.stopPropagation();
+            var selectedItems = $('.item-selected');
+            var lStorage = window.helpers.getStore();
+            var selectedCategory = localStorage.selectedCategory;
 
-                var selectedItems = $('.item-selected');
-                var lStorage = window.helpers.getStore();
-                var selectedCategory = localStorage.selectedCategory;
+            if ($(this).hasClass('delete')) {
 
-                if (!selectedItems.length) {
-                    selectedItems = i.draggable;
-                }
-
-                if ($(e.target).hasClass('delete')) {
-
-
+                if (selectedItems.length) {
                     swal({
                         title: "Are you sure?",
                         text: "This cannot be undone!",
@@ -182,11 +170,15 @@ window.dnd = function () {
                         }
                     })
 
+                } else {
+                    swal('First select tabs to delete', 'hold CMD/CTRL and click an item to select', 'info');
+                }
 
 
+            } else if ($(this).hasClass('share')) {
 
-                } else if ($(e.target).hasClass('share')) {
 
+                if (selectedItems.length) {
 
                     swal({
                         title: "Are you sure?",
@@ -198,12 +190,12 @@ window.dnd = function () {
                         ],
                     }).then(function (isConfirm) {
                         if (isConfirm) {
-                            Parse.initialize("myAppIddasdasdasdasd");
-                            Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
+                            // Parse.initialize("myAppIddasdasdasdasd");
+                            // Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
                             var tempValue = { all: [], similar: {} };
                             var modal = document.getElementById('dashboard-site-modal');
                             modal.innerHTML = 'Please Wait..';
-                            modal.classList.add( 'show' );
+                            modal.classList.add('show');
 
                             selectedItems.each(function (index, el) {
                                 var jEl = $(el);
@@ -260,17 +252,17 @@ window.dnd = function () {
                                     // Execute any logic that should take place after the object is saved.
                                     console.log('New object created with hash: ' + gameScore.get('hash'));
 
-                                    
+
                                     var overlay = $('#dashboard-overlay').addClass('show');
 
-                                    var url =gameScore.get('hash');
-                                    
+                                    var url = gameScore.get('hash');
 
-                                    modal.classList.add( 'sharer' );
+
+                                    modal.classList.add('sharer');
 
                                     modal.innerHTML = '';
-                                    modal.innerHTML += '<div class="modal-ulla"><div class="modal-site-padam" style="background:url(https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fitabsmanager.tk%2F%3FsecureCode%3D'+ url +'&amp;size=150x150&amp);background-size:cover;" ></div><div class="share-modal-details" ><div class="sahre-title" >Untitled</div><div><div class="share-right-item share-desc" >Share this link or scan QR Code to view tabs in mobile</div><div class="share-right-item url" >http://itabsmanager.tk/?secureCode='+ url +' </div></div><div class="share-right-item cpy-btn" ><div class="copy-url-btn"> Copy URL </div><div class="url-gone-notice" >This link expires in 30 Days</div></div></div>';
-                                
+                                    modal.innerHTML += '<div class="modal-ulla"><div class="modal-site-padam" style="background:url(https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fitabsmanager.tk%2F%3FsecureCode%3D' + url + '&amp;size=150x150&amp);background-size:cover;" ></div><div class="share-modal-details" ><div class="sahre-title" >Untitled</div><div><div class="share-right-item share-desc" >Share this link or scan QR Code to view tabs in mobile</div><div class="share-right-item url" >http://itabsmanager.tk/?secureCode=' + url + ' </div></div><div class="share-right-item cpy-btn" ><div class="copy-url-btn"> Copy URL </div><div class="url-gone-notice" >This link expires in 30 Days</div></div></div>';
+
                                     overlay.on('click', function () {
                                         overlay.removeClass('show');
                                         modal.classList.remove('show');
@@ -287,9 +279,12 @@ window.dnd = function () {
                             window.renderTabs();
                         }
                     });
-                    
-                } else if ($(e.target).hasClass('add')) {
+                } else {
+                    swal('First select tabs to share', 'hold CMD/CTRL and click an item to select', 'info');
+                }
+            } else if ($(this).hasClass('add')) {
 
+                if (selectedItems.length) {
 
                     swal({
                         title: "Are you sure?",
@@ -299,7 +294,6 @@ window.dnd = function () {
                             'No, forget it!',
                             'Yeah, go ahead!'
                         ],
-                        dangerMode: true,
                     }).then(function (isConfirm) {
                         if (isConfirm) {
 
@@ -356,65 +350,16 @@ window.dnd = function () {
                             window.renderTabs();
                         }
                     });
+                } else {
+                    var lStorage = window.helpers.getStore();
+                    var newGroupId = window.helpers.guid();
+
+                    lStorage.group = $.extend({}, lStorage.group, { [newGroupId]: { name: window.helpers.getCurrentDate(), all: [], similar: {} } });
+                    lStorage.groupOrder.unshift(newGroupId);
+                    window.helpers.setStore(lStorage);
+                    window.renderGroups();
+                    window.renderTabs();
                 }
-
-            },
-            over: function (e, i) {
-                $('.to-drop').droppable();
-                $('.to-drop').droppable('disable');
-                var selectedItems = $('.item-selected');
-                if (!selectedItems.length) {
-                    selectedItems = i.draggable;
-                }
-                selectedItems.css({
-                    'transform': 'scale(0.5)',
-                    'transition': 'all 200ms ease'
-                });
-
-            },
-            out: function (e, i) {
-                var selectedItems = $('.item-selected');
-                if (!selectedItems.length) {
-                    selectedItems = i.draggable;
-                }
-                $('.to-drop').droppable();
-                $('.to-drop').droppable('enable');
-                selectedItems.css({ 'transform': 'scale(1)' });
-                setTimeout(function () {
-                    selectedItems.css({ 'transition': '' });
-                }, 200);
-            },
-
-        });
-
-        //added a underlay beneath actions to avoid items to fall on overflowing groups
-        $('.dropper-things').droppable({
-            tolerance: 'pointer',
-            over: function () {
-                $('.to-drop').droppable();
-                $('.to-drop').droppable('disable');
-            },
-            out: function () {
-                $('.to-drop').droppable();
-                $('.to-drop').droppable('enable');
-            },
-            drop: function (e, i) {
-
-                if( $( '.ui-droppable-hover' ).length ){
-                    $( '.ui-droppable-hover' ).removeClass( 'ui-droppable-hover' );
-                }
-                var selectedItems = $('.item-selected');
-
-                if (!selectedItems.length) {
-                    selectedItems = i.draggable;
-                }
-
-                selectedItems.css('transform', 'scale(1)');
-
-                $('.to-drop').droppable();
-                setTimeout(function () {
-                    $('.to-drop').droppable('enable');
-                }, 210);
             }
         });
     }, 0);

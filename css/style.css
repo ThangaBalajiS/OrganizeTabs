@@ -415,13 +415,16 @@ div#open-all-of-this-site:hover {
     transition: opacity 0.3s ease;
     opacity: 0;
 }
+.dark-mode .remove-item {
+    background: #20cbd4;
+}
 
 .remove-item {
     position: absolute;
     top: 6px;
     right: 8px;
     z-index: 2;
-    background: #20cbd4;
+    background: #d46389;
     padding: 3px;
     cursor: pointer;
     transition: opacity 0.3s ease;
@@ -650,6 +653,7 @@ div#group-target {
 
 .group-options{
     opacity: 0;
+    padding: 0px 5px;
 }
 
 .group-list-item:hover .group-options,
@@ -744,7 +748,7 @@ input#group-name-editor {
     position: absolute;
     background: #03A9F4;
     right: 0;
-    padding: 10px;
+    padding: 10px 20px;
     color: #fff;
     top: 50%;
     transform: translateY(-50%);
@@ -758,15 +762,15 @@ input#group-name-editor {
  }
 
 .group-options-dd .group-dd-item {
-    padding: 7px;
+    padding: 5px 12px;
     z-index: 123;
 }
 
 .modal-ulla {display: flex;}
 
 .modal-site-padam {
-    height: 170px;
-    width: 170px;
+    height: 180px;
+    width: 180px;
     margin: 10px 30px 10px 10px;
 }
 
@@ -816,4 +820,8 @@ div#dashboard-site-modal.sharer {
 
 .swal-modal .swal-footer{
     text-align: center !important;
+}
+
+.group-dd-item svg {
+    fill: currentColor;
 }

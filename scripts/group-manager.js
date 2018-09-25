@@ -67,10 +67,10 @@
                                 ],
                             }).then(function (isConfirm) {
                                 if (isConfirm) {
-                                    Parse.initialize("myAppIddasdasdasdasd");
-                                    Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
+                                    // Parse.initialize("myAppIddasdasdasdasd");
+                                    // Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
                                     var modal = document.getElementById('dashboard-site-modal');
-                                    modal.innerHTML = '<img src="../assets/loading.svg" />';
+                                    modal.innerHTML = '<img class="loading-icon rotating" src="../assets/loading.svg" />';
                                     modal.classList.add('show');
                                     var GameScore = Parse.Object.extend("TabsData");
                                     var gameScore = new GameScore();

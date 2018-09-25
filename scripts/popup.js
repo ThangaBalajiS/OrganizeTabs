@@ -30,7 +30,7 @@ chrome.tabs.getAllInWindow(null, function (tabs) {
 setTimeout(function () {
     var items = document.getElementsByClassName('site-list-item');
     for (var i = 0; i < items.length; i++) {
-        items[i].addEventListener('click', function () {
+        items[i].addEventListener('click', function (e) {
             var siteName = this.getAttribute('data-domain');
             chrome.tabs.getAllInWindow(null, function (tabs) {
                 var tabsListForLocalStorage = [];

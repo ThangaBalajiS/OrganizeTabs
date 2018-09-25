@@ -108,7 +108,8 @@ window.dnd = function () {
                     groupOrderArray.push($(e).attr('data-id'));
                 });
                 localStorage.setItem('groupOrder', JSON.stringify(groupOrderArray));
-            }
+            },
+            delay: 100
         });
 
         $('.dropper-item').off();
@@ -194,7 +195,7 @@ window.dnd = function () {
                             // Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
                             var tempValue = { all: [], similar: {} };
                             var modal = document.getElementById('dashboard-site-modal');
-                            modal.innerHTML = '<img src="../assets/loading.svg" />';
+                            modal.innerHTML = '<img class="loading-icon rotating" src="../assets/loading.svg" />';
                             modal.classList.add('show');
 
                             selectedItems.each(function (index, el) {
@@ -299,16 +300,16 @@ window.dnd = function () {
 
                 if (selectedItems.length) {
 
-                    swal({
-                        title: "Are you sure?",
-                        text: "wanna create a new group with the selected tabs?",
-                        icon: "info",
-                        buttons: [
-                            'No, forget it!',
-                            'Yeah, go ahead!'
-                        ],
-                    }).then(function (isConfirm) {
-                        if (isConfirm) {
+                    // swal({
+                    //     title: "Are you sure?",
+                    //     text: "wanna create a new group with the selected tabs?",
+                    //     icon: "info",
+                    //     buttons: [
+                    //         'No, forget it!',
+                    //         'Yeah, go ahead!'
+                    //     ],
+                    // }).then(function (isConfirm) {
+                    //     if (isConfirm) {
 
                             var tempValue = { name: 'Untitled', all: [], similar: {} };
 
@@ -359,10 +360,10 @@ window.dnd = function () {
                                 window.renderTabs();
                                 window.renderGroups();
                             }, 300);
-                        } else {
-                            window.renderTabs();
-                        }
-                    });
+                    //     } else {
+                    //         window.renderTabs();
+                    //     }
+                    // });
                 } else {
                     var lStorage = window.helpers.getStore();
                     var newGroupId = window.helpers.guid();

@@ -17,12 +17,12 @@
                     selectedStyle = 'selected-group';
                 }
 
-                $('#group-target').append('<div class="group-list-item to-drop group-item-mods ' + selectedStyle + ' " data-id="' + item + '" ><div class="group-name" >' + groups[item].name + '</div><div class="group-options" >' + optionsIcon + '</div> <div class="group-options-dd" style="display:none;" > <div class="group-dd-item rename" data-action="rename" data-id="' + item + '" > '+editIcon+' </div><div class="group-dd-item share" data-action="share" data-id="' + item + '" > '+shareIcon+' </div> <div class="group-dd-item delete" data-action="delete" data-id="' + item + '" > '+deleteIcon+' </div> </div>  </div>');
+                $('#group-target').append('<div class="group-list-item to-drop group-item-mods ' + selectedStyle + ' " data-id="' + item + '" ><div class="group-name" >' + groups[item].name + '</div><div class="group-options" >' + optionsIcon + '</div> <div class="group-options-dd" style="display:none;" > <div class="group-dd-item rename" data-action="rename" data-id="' + item + '" > ' + editIcon + ' </div><div class="group-dd-item share" data-action="share" data-id="' + item + '" > ' + shareIcon + ' </div> <div class="group-dd-item delete" data-action="delete" data-id="' + item + '" > ' + deleteIcon + ' </div> </div>  </div>');
             });
             setTimeout(function () {
                 $('.group-options').off();
                 $('.group-options').on('click', function (e) {
-                        console.log(e)
+                    console.log(e)
                     e.stopPropagation();
                     var dropdownn = $(this).siblings('.group-options-dd');
                     dropdownn.css({ 'display': 'flex' });
@@ -71,7 +71,7 @@
                                     Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
                                     var modal = document.getElementById('dashboard-site-modal');
                                     modal.innerHTML = 'Please Wait..';
-                                    modal.classList.add( 'show' );
+                                    modal.classList.add('show');
                                     var GameScore = Parse.Object.extend("TabsData");
                                     var gameScore = new GameScore();
                                     var hash = window.helpers.guid() + window.helpers.guid();
@@ -95,24 +95,36 @@
                                             console.log('New object created with hash: ' + gameScore.get('hash'));
 
 
-                                    var overlay = $('#dashboard-overlay').addClass('show');
+                                            var overlay = $('#dashboard-overlay').addClass('show');
 
-                                    var url =gameScore.get('hash');
-                                   
-                                    
+                                            var url = gameScore.get('hash');
 
-                                    modal.classList.add( 'sharer' );
 
-                                    modal.innerHTML = '';
-                                    modal.innerHTML += '<div class="modal-ulla"><div class="modal-site-padam" style="background:url(https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fitabsmanager.tk%2F%3FsecureCode%3D'+ url +'&amp;size=150x150&amp);background-size:cover;" ></div><div class="share-modal-details" ><div class="sahre-title" >Untitled</div><div><div class="share-right-item share-desc" >Share this link or scan QR Code to view tabs in mobile</div><div class="share-right-item url" >http://itabsmanager.tk/?secureCode='+ url +' </div></div><div class="share-right-item cpy-btn" ><div class="copy-url-btn"> Copy URL </div><div class="url-gone-notice" >This link expires in 30 Days</div></div></div>';
-                                
-                                   
 
-                                    overlay.on('click', function () {
-                                        overlay.removeClass('show');
-                                        modal.classList.remove('show');
-                                        overlay.off();
-                                    });
+                                            modal.classList.add('sharer');
+
+                                            modal.innerHTML = '';
+                                            modal.innerHTML += '<div class="modal-ulla"><div class="modal-site-padam" style="background:url(https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fitabsmanager.tk%2F%3FsecureCode%3D' + url + '&amp;size=150x150&amp);background-size:contain;" ></div><div class="share-modal-details" ><div class="sahre-title" >Untitled</div><div><div class="share-right-item share-desc" >Share this link or scan QR Code to view tabs in mobile</div><div class="share-right-item url" > <input type="text" style="width:100%;"  value="http://itabsmanager.tk/?secureCode=' + url + '" id="myInput"> </div></div><div class="share-right-item cpy-btn" ><div class="copy-url-btn"> Copy URL </div><div class="url-gone-notice" >This link expires in 30 Days</div></div></div>';
+                                            setTimeout(function () {
+                                                $('.copy-url-btn').off()
+                                                $('.copy-url-btn').on('click', function () {
+                                                    var copyText = document.getElementById("myInput");
+
+                                                    /* Select the text field */
+                                                    copyText.select();
+
+                                                    /* Copy the text inside the text field */
+                                                    document.execCommand("copy");
+
+                                                });
+                                            }, 0);
+
+
+                                            overlay.on('click', function () {
+                                                overlay.removeClass('show');
+                                                modal.classList.remove('show');
+                                                overlay.off();
+                                            });
                                         }, (error) => {
                                             // Execute any logic that should take place if the save fails.
                                             // error is a Parse.Error with an error code and message.
@@ -147,10 +159,13 @@
                                         localStorage.selectedCategory = 'all';
                                     }
 
+                                    console.log('herre')
                                     window.helpers.setStore(lStorage);
+                                    setTimeout(function () {
+                                        window.renderGroups();
+                                        window.renderTabs();
+                                    }, 0);
 
-                                    window.renderGroups();
-                                    window.renderTabs();
                                 } else {
 
                                 }
@@ -173,6 +188,8 @@
                 }());
 
             }, 0);
+        } else {
+            $( '#group-target' ).html('');
         }
         window.dnd();
     }

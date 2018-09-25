@@ -257,7 +257,7 @@
         });
 
         var tempContent = selectedSites.map(function (site) {
-            return site ? '<div class="modal-item" ><a href="' + site.url + '" target="_blank" ><div class="modal-item-title">' + site.title + '</div></a><div data-site="' + selectedSiteName + '" data-item="' + site.id + '" class="modal-item-remove" >' + closeIcon + '</div></div>' : '';
+            return site ? '<div class="modal-item" ><a href="' + site.url + '" target="_blank" ><div class="modal-item-title">' + ( site.title ?  site.title : site.url ) + '</div></a><div data-site="' + selectedSiteName + '" data-item="' + site.id + '" class="modal-item-remove" >' + closeIcon + '</div></div>' : '';
         });
         modal.innerHTML = '';
         modal.innerHTML += '<div class="modal-header"><div class="modal-site-img" style="background:url(' + selectedSites[0].favIcon + ');background-size:cover;" ></div><div class="modal-header-title" >' + selectedSiteName + '</div><div id="open-all-of-this-site" data-site-name="' + selectedSiteName + '" >open all</div></div>';
@@ -342,34 +342,17 @@ function removeSite(site) {
     } else {
         document.getElementById('corousel-wrap-wrap').style.display = 'block';
     }
-    var slideIndex = 1;
-    showDivs(slideIndex);
-
-    function plusDivs(n) {
-        showDivs(slideIndex += n);
-    }
-
-    document.getElementById('btn-l').addEventListener('click', function (e) { e.stopPropagation(); plusDivs(-1) });
-    document.getElementById('btn-r').addEventListener('click', function (e) { e.stopPropagation(); plusDivs(1) });
-
-    function showDivs(n) {
-        var i;
-        var x = document.getElementsByClassName("mySlides");
-        if (n > x.length) { slideIndex = 1 }
-        if (n < 1) { slideIndex = x.length }
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        x[slideIndex - 1].style.display = "block";
-    }
 
     document.getElementById('take-a-tour').addEventListener('click', function () {
         document.getElementById('corousel-wrap-wrap').style.display = 'block';
     });
 
-    document.getElementById('corousel-wrap-wrap').addEventListener('click', function () {
-        this.style.display = 'none';
+    $('#corousel-wrap-wrap').off();
+    $('#corousel-wrap-wrap').on('click',function(){
+        $(this).css('display','none');
+        $('iframe').attr('src', $('iframe').attr('src'));
     });
+ 
 
 
 }());

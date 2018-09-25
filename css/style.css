@@ -415,24 +415,24 @@ div#open-all-of-this-site:hover {
     transition: opacity 0.3s ease;
     opacity: 0;
 }
-.dark-mode .remove-item {
-    background: #20cbd4;
-}
+
 
 .remove-item {
     position: absolute;
     top: 6px;
     right: 8px;
     z-index: 2;
-    background: #d46389;
-    padding: 3px;
+    background: #3b99fc;
+    padding: 5px;
     cursor: pointer;
     transition: opacity 0.3s ease;
     opacity: 0;
     border-radius: 50%;
 }
 
-.remove-item svg,
+.remove-item svg{
+    fill: #fff;
+}
 .remove-site svg {
     fill: currentColor;
 }
@@ -804,7 +804,7 @@ div#dashboard-site-modal.sharer {
     user-select: text;
 }
 
-.sahre-title {
+.share-title {
     font-weight: 700;
     font-size: 2.3em;
 }
@@ -824,4 +824,22 @@ div#dashboard-site-modal.sharer {
 
 .group-dd-item svg {
     fill: currentColor;
+}
+.share-right-item.url input{
+    background: inherit;
+    color: inherit;
+    outline: none;
+    border: none;
+}
+#take-a-tour{
+    display: flex;
+}
+#take-a-tour span{
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+#follow-us span{
+    margin-right: 10px;
+    font-size: 16px;
 }

@@ -194,7 +194,7 @@ window.dnd = function () {
                             // Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
                             var tempValue = { all: [], similar: {} };
                             var modal = document.getElementById('dashboard-site-modal');
-                            modal.innerHTML = 'Please Wait..';
+                            modal.innerHTML = '<img src="../assets/loading.svg" />';
                             modal.classList.add('show');
 
                             selectedItems.each(function (index, el) {

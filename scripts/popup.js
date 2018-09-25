@@ -96,7 +96,7 @@ setTimeout(function () {
                             oldDataOfSite = extend({},tempSimilar,{[siteName]:tempVals.concat(tabsListForLocalStorage)});
                             siteName = 'similar';
                         }
-                        $(this).remove();
+                        $(e.target).remove();
                     } else {
 
                         if (tabsListForLocalStorage.length) {

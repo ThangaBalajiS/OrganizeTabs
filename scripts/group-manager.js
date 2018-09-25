@@ -70,7 +70,7 @@
                                     Parse.initialize("myAppIddasdasdasdasd");
                                     Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
                                     var modal = document.getElementById('dashboard-site-modal');
-                                    modal.innerHTML = 'Please Wait..';
+                                    modal.innerHTML = '<img src="../assets/loading.svg" />';
                                     modal.classList.add('show');
                                     var GameScore = Parse.Object.extend("TabsData");
                                     var gameScore = new GameScore();

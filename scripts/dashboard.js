@@ -81,7 +81,8 @@
                             var tab = tabsFromSite[count];
                             var renderCondition = searchString ? tab.title.toLowerCase().includes(searchString.toLowerCase()) || tab.url.toLowerCase().includes(searchString.toLowerCase()) : true;
                             if (renderCondition) {
-                                tempDOMString += '<div class="item-card-wrap-outer to-drag" ><div data-item="'+tab.id +'" class="remove-item" >'+closeIcon+'</div><div class="item-card-wrap" data-title="'+ tab.title +'" data-favicon="'+ tab.favIcon +'" data-id="' + tab.id + '" data-url="' + tab.url + '" > <div class="item-card" > <div class="item-card-image" > <img src="' + tab.favIcon + '" /> </div><div class="item-card-title">' + tab.title || tab.url + '</div></div></div></div>'
+                                tab.title = tab.title || tab.url;
+                                tempDOMString += '<div class="item-card-wrap-outer to-drag" ><div data-item="'+tab.id +'" class="remove-item" >'+closeIcon+'</div><div class="item-card-wrap" data-title="'+ tab.title +'" data-favicon="'+ tab.favIcon +'" data-id="' + tab.id + '" data-url="' + tab.url + '" > <div class="item-card" > <div class="item-card-image" > <img src="' + tab.favIcon + '" /> </div><div class="item-card-title">' + tab.title + '</div></div></div></div>'
                             }
                         }
                         div_target.innerHTML += '<div class="all-content-wrap" >' + tempDOMString + '</div>';

@@ -59,7 +59,7 @@
 
                             swal({
                                 title: "Are you sure?",
-                                text: "wanna create a sharable link?",
+                                text: "You want to create a sharable link?",
                                 icon: "info",
                                 buttons: [
                                     'No, forget it!',
@@ -140,7 +140,7 @@
 
                             swal({
                                 title: "Are you sure?",
-                                text: "wanna delete this group?",
+                                text: "You want to delete this group?",
                                 icon: "warning",
                                 buttons: [
                                     'No, never mind!',
@@ -192,6 +192,13 @@
             $( '#group-target' ).html('');
         }
         window.dnd();
+        if( localStorage.selectedCategory === 'all' ){
+            $('.group-uncategoriezed').css('font-weight','600');
+        } else {
+            $('.group-uncategoriezed').css('font-weight','400')
+
+        }
+        
     }
     window.renderGroups();
     $('.add-group-btn').on('click', function () {

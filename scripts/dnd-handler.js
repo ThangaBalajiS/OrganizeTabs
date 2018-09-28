@@ -173,7 +173,7 @@ window.dnd = function () {
                     })
 
                 } else {
-                    swal('First select tabs to delete', 'hold CMD/CTRL and click an item to select', 'info');
+                    swal('Please select tabs to delete', 'Hold CMD/CTRL and click an item to select', 'info');
                 }
 
 
@@ -184,7 +184,7 @@ window.dnd = function () {
 
                     swal({
                         title: "Are you sure?",
-                        text: "wanna create a sharable link?",
+                        text: "You want to create a sharable link?",
                         icon: "info",
                         buttons: [
                             'No, forget it!',
@@ -295,7 +295,7 @@ window.dnd = function () {
                         }
                     });
                 } else {
-                    swal('First select tabs to share', 'hold CMD/CTRL and click an item to select', 'info');
+                    swal('Please select tabs to share', 'Hold CMD/CTRL and click an item to select', 'info');
                 }
             } else if ($(this).hasClass('add')) {
 

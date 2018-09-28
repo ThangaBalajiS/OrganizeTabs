@@ -635,7 +635,7 @@ div#group-target {
     padding-bottom: 1em;
     font-size: 1.5em;
     cursor: pointer;
-    font-weight: 600;
+    /* font-weight: 600; */
     border-bottom: 1px solid #e3e3e3;
 }
 

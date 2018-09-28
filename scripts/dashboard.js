@@ -288,7 +288,6 @@
 
     //removes a site from group of sites in category-similar tabs
     function removeThisPageFromSite() {
-        debugger
         var tabId = this.getAttribute("data-item");
         var siteOfPage = this.getAttribute("data-site");
         //var tabsFromSite = JSON.parse(localStorage.similar)[siteOfPage];
@@ -297,19 +296,26 @@
         var tabsFromSite = [];
         if( localStorage.selectedCategory === 'all' ){
             tabsFromSite = lStorage.similar[siteOfPage];
+            var newList = tabsFromSite.filter(function (item) {
+                return item.id !== tabId;
+            });
+            lStorage.similar[siteOfPage] = newList;
         }else{
             tabsFromSite = lStorage.group[localStorage.selectedCategory].similar[siteOfPage];
+            var newList = tabsFromSite.filter(function (item) {
+                return item.id !== tabId;
+            });
+            lStorage.group[localStorage.selectedCategory].similar[siteOfPage] = newList;
         }
 
-        var newList = tabsFromSite.filter(function (item) {
-            return item.id !== tabId;
-        });
-
-        lStorage.group[localStorage.selectedCategory].similar[siteOfPage] = newList;
         window.helpers.setStore(lStorage);
 
-        //localStorage.similar = JSON.stringify($.extend({}, JSON.parse(localStorage.similar), { [siteOfPage]: newList }));
         if (!newList.length) {
+           var modal = document.getElementById('dashboard-site-modal'),
+            overlay = document.getElementById('dashboard-overlay');
+            overlay.classList.remove('show');
+            modal.classList.remove('show');
+            overlay.removeEventListener('click', function () { });
             renderTabs();
         } else {
             similarItemClick(siteOfPage);

@@ -288,14 +288,27 @@
 
     //removes a site from group of sites in category-similar tabs
     function removeThisPageFromSite() {
+        debugger
         var tabId = this.getAttribute("data-item");
         var siteOfPage = this.getAttribute("data-site");
-        var tabsFromSite = JSON.parse(localStorage.similar)[siteOfPage];
+        //var tabsFromSite = JSON.parse(localStorage.similar)[siteOfPage];
+        var lStorage = window.helpers.getStore(); 
+
+        var tabsFromSite = [];
+        if( localStorage.selectedCategory === 'all' ){
+            tabsFromSite = lStorage.similar[siteOfPage];
+        }else{
+            tabsFromSite = lStorage.group[localStorage.selectedCategory].similar[siteOfPage];
+        }
 
         var newList = tabsFromSite.filter(function (item) {
-            return item.id !== Number(tabId);
+            return item.id !== tabId;
         });
-        localStorage.similar = JSON.stringify($.extend({}, JSON.parse(localStorage.similar), { [siteOfPage]: newList }));
+
+        lStorage.group[localStorage.selectedCategory].similar[siteOfPage] = newList;
+        window.helpers.setStore(lStorage);
+
+        //localStorage.similar = JSON.stringify($.extend({}, JSON.parse(localStorage.similar), { [siteOfPage]: newList }));
         if (!newList.length) {
             renderTabs();
         } else {

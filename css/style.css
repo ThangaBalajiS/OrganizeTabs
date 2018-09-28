@@ -166,6 +166,9 @@ body.dark-mode{
     cursor:pointer;
     transition: opacity 0.1s ease;
 }
+.modal-item-remove svg{
+    fill:currentColor;
+}
 .modal-item:hover {
     color: #000;
 }
@@ -542,8 +545,8 @@ span.nf-head-emoji img {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    height: 400px;
-    width: 640px;
+    height: 473px;
+    width: 840px;
 }
 
 #corousel-wrap-wrap{
@@ -885,4 +888,7 @@ div#dashboard-site-modal.sharer {
     left: calc(50% - 22px);
     top: calc(50% - 22px);
     transform: rotate(350deg);
+  }
+  a{
+      color: currentColor;
   }

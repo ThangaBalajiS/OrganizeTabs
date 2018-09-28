@@ -51,7 +51,7 @@ window.dnd = function () {
                 }
 
                 selectedItems.each(function (index, el) {
-
+                    debugger;
                     var jEl = $(el);
                     if (jEl.hasClass('item-card-wrap-outer')) {
                         jEl = jEl.find('.item-card-wrap');
@@ -61,7 +61,7 @@ window.dnd = function () {
                             favIcon: jEl.attr('data-favicon'),
                             url: jEl.attr('data-url')
                         };
-                        lStorage.group[dropTarget].all.push(newItem);
+                        
                         if (selectedCategory === 'all') {
                             var allArray = lStorage.all;
                             lStorage.all = window.helpers.removeFromArray(allArray, newItem.id);
@@ -69,6 +69,7 @@ window.dnd = function () {
                             var allArray = lStorage.group[selectedCategory].all;
                             lStorage.group[selectedCategory].all = window.helpers.removeFromArray(allArray, newItem.id);
                         }
+                        lStorage.group[dropTarget].all.push(newItem);
                     } else if (jEl.hasClass('site-card-wrap')) {
 
                         jEl = jEl.find('.site-card');

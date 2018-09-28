@@ -316,7 +316,7 @@
         if( e.target === this ){
             console.log($(e.target).delegate());
         }else{
-            console.log( 'aaa');
+           // console.log( 'aaa');
         }
         if ($(e.target).attr('id') === 'target_div') {
         //    / console.log('dasdsad');
@@ -361,6 +361,19 @@ function removeSite(site) {
         $('iframe').attr('src', $('iframe').attr('src'));
     });
  
+// google analytics
+var _AnalyticsCode = 'UA-126620358-1';
 
+var _gaq = window._gaq || [];
+_gaq.push(['_setAccount', _AnalyticsCode]);
+_gaq.push(['_trackPageview']);
+(function() {
+  var ga = document.createElement('script');
+  ga.type = 'text/javascript';
+  ga.async = true;
+  ga.src = 'https://ssl.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(ga, s);
+})();
 
 }());

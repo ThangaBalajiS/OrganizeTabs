@@ -39,7 +39,7 @@ window.dnd = function () {
             accept: '.to-drag',
             tolerance: 'pointer',
             drop: function (e, i) {
-                console.log('here');
+                //console.log('here');
                 $(this).addClass('drop-ok');
                 var selectedItems = $('.item-selected');
                 var lStorage = window.helpers.getStore();
@@ -121,7 +121,8 @@ window.dnd = function () {
             var selectedCategory = localStorage.selectedCategory;
 
             if ($(this).hasClass('delete')) {
-
+                var _gaq = _gaq || [];
+                _gaq.push(['_trackEvent', 'delete', 'clicked']);
                 if (selectedItems.length) {
                     swal({
                         title: "Are you sure?",
@@ -178,8 +179,8 @@ window.dnd = function () {
 
 
             } else if ($(this).hasClass('share')) {
-
-
+                var _gaq = _gaq || [];
+                _gaq.push(['_trackEvent', 'share', 'clicked']);
                 if (selectedItems.length) {
 
                     swal({
@@ -226,7 +227,7 @@ window.dnd = function () {
                                 }
                                 jEl.css('transform', 'scale(0)');
                                 window.renderTabs();
-                                console.log(tempValue);
+                                //console.log(tempValue);
 
                             });
 
@@ -252,7 +253,7 @@ window.dnd = function () {
                             gameScore.save()
                                 .then((gameScore) => {
                                     // Execute any logic that should take place after the object is saved.
-                                    console.log('New object created with hash: ' + gameScore.get('hash'));
+                                    //console.log('New object created with hash: ' + gameScore.get('hash'));
 
 
                                     var overlay = $('#dashboard-overlay').addClass('show');
@@ -298,7 +299,8 @@ window.dnd = function () {
                     swal('Please select tabs to share', 'Hold CMD/CTRL and click an item to select', 'info');
                 }
             } else if ($(this).hasClass('add')) {
-
+                var _gaq = _gaq || [];
+                _gaq.push(['_trackEvent', 'add', 'clicked']);
                 if (selectedItems.length) {
 
                     // swal({

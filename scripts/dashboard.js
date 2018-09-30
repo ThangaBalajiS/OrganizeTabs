@@ -316,7 +316,7 @@
         if( e.target === this ){
             console.log($(e.target).delegate());
         }else{
-           // console.log( 'aaa');
+            console.log( 'aaa');
         }
         if ($(e.target).attr('id') === 'target_div') {
         //    / console.log('dasdsad');
@@ -362,6 +362,7 @@ function removeSite(site) {
     });
  
 // google analytics
+debugger
 var _AnalyticsCode = 'UA-126620358-1';
 
 var _gaq = window._gaq || [];

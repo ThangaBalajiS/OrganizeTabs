@@ -51,7 +51,6 @@ window.dnd = function () {
                 }
 
                 selectedItems.each(function (index, el) {
-                    debugger;
                     var jEl = $(el);
                     if (jEl.hasClass('item-card-wrap-outer')) {
                         jEl = jEl.find('.item-card-wrap');

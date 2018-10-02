@@ -3,6 +3,7 @@ body {
     font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
     background: #f0f2fa;
     color: #313131;
+    -moz-user-select: none;
     user-select: none;
 }
 body.dark-mode{
@@ -577,6 +578,7 @@ span.nf-head-emoji img {
 .groups-list {
     margin: 2em auto 0px auto;
     width: 70%;
+    max-height: 40%;
 }
 
 .group-list-item {
@@ -621,7 +623,7 @@ span.group-options {
 }
 
 div#group-target {
-    max-height: 40%;
+    max-height: 100%;
     overflow-y: auto;
 }
 

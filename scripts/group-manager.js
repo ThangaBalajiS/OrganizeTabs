@@ -31,8 +31,6 @@
                         e.stopPropagation();
                         var dataId = $(e.target).closest('.group-dd-item').data('id');
                         if ($(e.target).closest('.group-dd-item').hasClass('rename')) {
-                            var _gaq = _gaq || [];
-                            _gaq.push(['_trackEvent', 'rename', 'clicked']);
                             $(this).parent().html('<input id="group-name-editor" type="text" value="' + groups[dataId].name + '"  />');
                             setTimeout(function () {
                                 $('#group-name-editor').off();
@@ -57,8 +55,6 @@
                             }, 0);
 
                         } else if ($(e.target).closest('.group-dd-item').hasClass('share')) {
-                            var _gaq = _gaq || [];
-                            _gaq.push(['_trackEvent', 'share', 'clicked']);
 
                             swal({
                                 title: "Are you sure?",
@@ -140,8 +136,6 @@
                             });
 
                         } else if ($(e.target).closest('.group-dd-item').hasClass('delete')) {
-                            var _gaq = _gaq || [];
-                            _gaq.push(['_trackEvent', 'delete', 'clicked']);
                             swal({
                                 title: "Are you sure?",
                                 text: "You want to delete this group?",

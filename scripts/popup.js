@@ -52,7 +52,7 @@ setTimeout(function () {
                             id: tab.id,
                             title: tab.title,
                             url: tab.url,
-                            favIcon: tab.favIconUrl,
+                            favIcon: tab.favIconUrl || '../assets/null-icon.png' ,
                         };
                         tabsListForLocalStorage.push(tempTabDetailObject);
 

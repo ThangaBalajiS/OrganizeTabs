@@ -120,8 +120,6 @@ window.dnd = function () {
             var selectedCategory = localStorage.selectedCategory;
 
             if ($(this).hasClass('delete')) {
-                var _gaq = _gaq || [];
-                _gaq.push(['_trackEvent', 'delete', 'clicked']);
                 if (selectedItems.length) {
                     swal({
                         title: "Are you sure?",
@@ -178,8 +176,6 @@ window.dnd = function () {
 
 
             } else if ($(this).hasClass('share')) {
-                var _gaq = _gaq || [];
-                _gaq.push(['_trackEvent', 'share', 'clicked']);
                 if (selectedItems.length) {
 
                     swal({
@@ -298,8 +294,6 @@ window.dnd = function () {
                     swal('Please select tabs to share', 'Hold CMD/CTRL and click an item to select', 'info');
                 }
             } else if ($(this).hasClass('add')) {
-                var _gaq = _gaq || [];
-                _gaq.push(['_trackEvent', 'add', 'clicked']);
                 if (selectedItems.length) {
 
                     // swal({

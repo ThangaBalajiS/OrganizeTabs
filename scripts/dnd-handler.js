@@ -39,13 +39,12 @@ window.dnd = function () {
             accept: '.to-drag',
             tolerance: 'pointer',
             drop: function (e, i) {
-                //console.log('here');
                 $(this).addClass('drop-ok');
                 var selectedItems = $('.item-selected');
                 var lStorage = window.helpers.getStore();
                 var selectedCategory = localStorage.selectedCategory;
                 var dropTarget = $(e.target).attr('data-id');
-
+                
                 if (!selectedItems.length) {
                     selectedItems = i.draggable;
                 }
@@ -96,7 +95,9 @@ window.dnd = function () {
 
                 window.helpers.setStore(lStorage);
                 setTimeout(function () {
+                    localStorage.selectedCategory = dropTarget;
                     window.renderTabs();
+                    window.renderGroups();
                 }, 300);
             }
         });

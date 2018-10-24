@@ -301,7 +301,6 @@ body.dark-mode{
     position: absolute;
     color: #000000;
     right: 10%;
-    width: 250px;
     font-size: 13px;
     justify-content: space-between;
 }

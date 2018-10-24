@@ -97,7 +97,9 @@ window.dnd = function () {
 
                 window.helpers.setStore(lStorage);
                 setTimeout(function () {
+                    localStorage.selectedCategory = dropTarget;
                     window.renderTabs();
+                    window.renderGroups();
                 }, 300);
             }
         });

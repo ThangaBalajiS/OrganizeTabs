@@ -347,7 +347,7 @@
 
 function openTheseTabs(tabs) {
     tabs.map(function (tab) {
-        chrome.tabs.create({ index: 1, url: tab.url });
+        chrome.tabs.create({ index: 100, url: tab.url });
     });
 }
 
@@ -380,20 +380,58 @@ function removeSite(site) {
         $('iframe').attr('src', $('iframe').attr('src'));
     });
  
-// google analytics
-debugger
-var _AnalyticsCode = 'UA-126620358-1';
-
-var _gaq = window._gaq || [];
-_gaq.push(['_setAccount', _AnalyticsCode]);
-_gaq.push(['_trackPageview']);
-(function() {
-  var ga = document.createElement('script');
-  ga.type = 'text/javascript';
-  ga.async = true;
-  ga.src = 'https://ssl.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(ga, s);
-})();
-
+}());
+(function(){
+    $('#open-all-tabs').click( function(){
+        var searchString = $( '#search-bar' ).val();
+        var actualCategories = ['similar', 'all'];
+        var selectedGroup = localStorage.selectedCategory;
+        for (var singleCategory in actualCategories) {
+            var siteName = actualCategories[singleCategory];
+                if (siteName === 'all') {
+                    var tabsFromSite = [];
+                    if( selectedGroup === 'all' ){
+                        tabsFromSite = JSON.parse(localStorage.all);
+                    }else{
+                        try{
+                            tabsFromSite = JSON.parse( localStorage.group )[selectedGroup].all;
+                        }catch(e){
+                            tabsFromSite = [];
+                        }
+                    }
+                    if (tabsFromSite.length) {
+                        for (count in tabsFromSite) {
+                            var tab = tabsFromSite[count];
+                            var renderCondition = searchString ? tab.title.toLowerCase().includes(searchString.toLowerCase()) || tab.url.toLowerCase().includes(searchString.toLowerCase()) : true;
+                            if (renderCondition) {
+                                chrome.tabs.create({index:100,url:tab.url});
+                             }
+                        }
+                    }
+                } else if (siteName === 'similar') {
+                    var sites = {}; 
+                    if( selectedGroup !== 'all' ){
+                        try{
+                            sites = JSON.parse( localStorage.group)[selectedGroup].similar;
+                        }catch(e){
+                            sites = {};
+                        }
+                    }else{
+                        sites = JSON.parse(localStorage.similar);
+                    }
+                    var sitesArray = Object.keys(sites);
+                    if (sitesArray.length) {
+                        for (var count in sitesArray) {
+                            var site = sitesArray[count];
+                            var renderCondition = searchString ? site.toLowerCase().includes(searchString.toLowerCase()) : true;
+                            if (sites[site].length && renderCondition  ) {
+                                openTheseTabs(sites[site]);
+                            } else if (!sites[site].length) {
+                                removeSite(site);
+                            }
+                        }
+                    }
+                }
+        }
+    });
 }());

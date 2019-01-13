@@ -59,13 +59,12 @@
                             swal({
                                 title: "Are you sure?",
                                 text: "You want to create a sharable link?",
-                                icon: "info",
-                                buttons: [
-                                    'No, forget it!',
-                                    'Yes, go ahead!'
-                                ],
-                            }).then(function (isConfirm) {
-                                if (isConfirm) {
+                                type : 'info',
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes, go ahead!',
+                                cancelButtonText: 'No, forget it!',
+                            }).then(function (result) {
+                                if (result.value) {
                                     // Parse.initialize("myAppIddasdasdasdasd");
                                     // Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
                                     var modal = document.getElementById('dashboard-site-modal');
@@ -139,14 +138,13 @@
                             swal({
                                 title: "Are you sure?",
                                 text: "You want to delete this group?",
-                                icon: "warning",
-                                buttons: [
-                                    'No, never mind!',
-                                    'Yes, go ahead!'
-                                ],
+                                type : 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes, go ahead!',
+                                cancelButtonText: 'No, forget it!',
                                 dangerMode: true,
-                            }).then(function (isConfirm) {
-                                if (isConfirm) {
+                            }).then(function (result) {
+                                if (result.value) {
 
                                     delete lStorage.group[dataId];
                                     lStorage.groupOrder = lStorage.groupOrder.filter(function (item) {

@@ -125,14 +125,13 @@ window.dnd = function () {
                     swal({
                         title: "Are you sure?",
                         text: "This cannot be undone!",
-                        icon: "warning",
-                        buttons: [
-                            'No, cancel it!',
-                            'Yes, I am sure!'
-                        ],
+                        type : 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, go ahead!',
+                        cancelButtonText: 'No, forget it!',
                         dangerMode: true,
-                    }).then(function (isConfirm) {
-                        if (isConfirm) {
+                    }).then(function (result) {
+                        if (result.value) {
                             selectedItems.each(function (index, el) {
                                 var jEl = $(el);
                                 if (jEl.hasClass('item-card-wrap-outer')) {
@@ -182,13 +181,12 @@ window.dnd = function () {
                     swal({
                         title: "Are you sure?",
                         text: "You want to create a sharable link?",
-                        icon: "info",
-                        buttons: [
-                            'No, forget it!',
-                            'Yes, go ahead!'
-                        ],
-                    }).then(function (isConfirm) {
-                        if (isConfirm) {
+                        type : 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, go ahead!',
+                        cancelButtonText: 'No, forget it!',
+                    }).then(function (result) {
+                        if (result.value)  {
                             // Parse.initialize("myAppIddasdasdasdasd");
                             // Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
                             var tempValue = { all: [], similar: {} };

@@ -7,8 +7,8 @@ if( !!window.chrome && !!window.chrome.webstore ){
 
 }else if ( typeof InstallTrigger !== 'undefined' ){
 
-	document.getElementsByClassName( 'download-btn' )[0].href = "https://addons.mozilla.org/en-US/firefox/addon/infinite-tabs-manager/"
-	document.getElementsByClassName( 'download-btn' )[1].href = "https://addons.mozilla.org/en-US/firefox/addon/infinite-tabs-manager/"
+	document.getElementsByClassName( 'download-btn' )[0].href = "https://addons.mozilla.org/en-US/firefox/addon/itabs-manager/"
+	document.getElementsByClassName( 'download-btn' )[1].href = "https://addons.mozilla.org/en-US/firefox/addon/itabs-manager/"
 
 }else{
 

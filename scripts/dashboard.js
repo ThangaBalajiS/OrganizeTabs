@@ -352,7 +352,7 @@ function openTheseTabs(tabs) {
 }
 
 function removeSite(site) {
-    lStorage = window.helpers.getStore();
+    var lStorage = window.helpers.getStore();
     var tempSites = {};
     if( localStorage.selectedCategory === 'all' ){
         delete lStorage.similar[site];
@@ -434,4 +434,48 @@ function removeSite(site) {
                 }
         }
     });
+
+    $('.share-history').click( function(){
+
+        var modal = document.getElementById('dashboard-site-modal'),
+            lStorage = window.helpers.getStore(),
+            links = lStorage.myLinks,
+            overlay = document.getElementById('dashboard-overlay');
+
+        var tempContent = links.map(function (link) {
+            return link ? '<div class="modal-item" ><a href="http://itabsmanager.tk/?secureCode=' + link + '" target="_blank" >http://itabsmanager.tk/?secureCode=' + link + '</a> <span class="copy-url-btn" data-url="http://itabsmanager.tk/?secureCode=' + link + '" >copy</span> </div>' : '';
+        });
+      
+        modal.innerHTML = '';
+        modal.innerHTML += '<div class="modal-header"><div class="modal-header-title" > Your Links </div></div>';
+        modal.innerHTML += '<div class="modal-body">' + tempContent.join("") + '</div>';
+        
+        modal.classList.add('show');
+        overlay.classList.add('show');
+
+        overlay.addEventListener('click', function () {
+            overlay.classList.remove('show');
+            modal.classList.remove('show');
+            overlay.removeEventListener('click', function () { });
+            renderTabs();
+        });
+
+        setTimeout(function () {
+            $('.copy-url-btn').off()
+            $('.copy-url-btn').on('click', function () {
+                
+                var copyElement = document.getElementById("linkCopyHelper");
+                
+                copyElement.value = ($(this).attr('data-url'));
+                
+                /* Select the text field */
+                copyElement.select();
+
+                /* Copy the text inside the text field */
+                document.execCommand("copy");
+
+            });
+        }, 0);
+    } );
+
 }());

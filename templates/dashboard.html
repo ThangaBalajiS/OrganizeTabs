@@ -1,69 +1,92 @@
 <html>
-
-<head>
+  <head>
     <title>Dashboard - Tabs Manager</title>
-    <link href="../css/jquery-ui.min.css" rel="stylesheet">
+    <link href="../css/jquery-ui.min.css" rel="stylesheet" />
 
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet" />
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="body-container">
-        <div class="dashboard-left-bar">
-            <div class="dashboard-left-bar-header">
-                <div class="logo-img">
-                    <img height="36px" src="../assets//logo.png" />
-                </div>
-                <div id="extension-name">Tabs Manager</div>
-            </div>
-            <div class="groups-list">
-                <div class="group-uncategoriezed group-item-mods" data-id="all">Uncatergorized</div>
-                <div id="group-target"></div>
-            </div>
-
-   
-
-            <div class="dashboard-left-bar-footer">
-                <div class="dropper-wrap">
-                    <div class="dropper-things">
-                        <div class="dropper-item tab-actions add">
-                            <img src="../assets/svg/add-group.svg" />
-                        </div>
-                        <div class="dropper-item tab-actions share">
-                            <img src="../assets/svg/share.svg" />
-                        </div>
-                        <div class="dropper-item tab-actions delete">
-                            <img src="../assets/svg/delete.svg" />
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-item">
-                    <div id="take-a-tour" style="cursor:pointer;"> <span>How it works </span><img height="20px" width="20px" src="../assets/paapa.png" /> </div>
-                </div>
-                <div class="footer-item" id="follow-us" >
-                    <a style="cursor:pointer;text-decoration: none;" target="_blank" href="https://twitter.com/itabsmanager"><span>Follow us on</span> <img height="20px" width="20px" src="../assets/twitter.svg" /> </a>
-                </div>
-            </div>
+      <div class="dashboard-left-bar">
+        <div class="dashboard-left-bar-header">
+          <div class="logo-img">
+            <img height="36px" src="../assets//logo.png" />
+          </div>
+          <div id="extension-name">
+            Tabs Manager <span class="ext-version"> v0.2.7 </span>
+          </div>
         </div>
-        <div class="full-page-options">
-            <div class="search-bar">
-                <input type="text" id="search-bar" placeholder="Search" />
-            </div>
-            <div class="tab-options">
-                <div id="open-all-tabs" class="open-all">
-                    Open These Tabs
-                </div>
-            </div>
+        <div class="groups-list">
+          <div class="group-uncategoriezed group-item-mods" data-id="all">
+            Uncatergorized
+          </div>
+          <div id="group-target"></div>
         </div>
-        <div id="dashboard-overlay" class="overlay" ></div><div id="dashboard-site-modal" class="modal" ></div>
-        <div id="target_div"></div>
+
+        <div class="dashboard-left-bar-footer">
+          <div class="dropper-wrap">
+            <div class="dropper-things">
+              <div class="dropper-item tab-actions add">
+                <img src="../assets/svg/add-group.svg" />
+              </div>
+              <div class="dropper-item tab-actions share">
+                <img src="../assets/svg/share.svg" />
+              </div>
+              <div class="dropper-item tab-actions delete">
+                <img src="../assets/svg/delete.svg" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="footer-item">
+              <div id="take-a-tour" style="cursor:pointer;">
+                <span>How it works </span
+                ><img height="20px" width="20px" src="../assets/paapa.png" />
+              </div>
+            </div>
+            <div class="footer-item" id="follow-us">
+              <a
+                style="cursor:pointer;text-decoration: none;"
+                target="_blank"
+                href="https://twitter.com/itabsmanager"
+                ><span>Follow us on</span>
+                <img height="20px" width="20px" src="../assets/twitter.svg" />
+              </a>
+            </div>
+						<div class="share-history" >
+							Share History
+						</div>
+          </div>
+        </div>
+      </div>
+      <div class="full-page-options">
+        <div class="search-bar">
+          <input type="text" id="search-bar" placeholder="Search" />
+        </div>
+        <div class="tab-options">
+          <div id="open-all-tabs" class="open-all">
+            Open These Tabs
+          </div>
+        </div>
+      </div>
+      <div id="dashboard-overlay" class="overlay"></div>
+      <div id="dashboard-site-modal" class="modal"></div>
+      <div id="target_div"></div>
     </div>
     <div id="corousel-wrap-wrap">
-        <div class="corousel-wrap">
-            <iframe width="840" height="473" src="https://www.youtube.com/embed/oStlzQDUigU?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
+      <div class="corousel-wrap">
+        <iframe
+          width="840"
+          height="473"
+          src="https://www.youtube.com/embed/oStlzQDUigU?rel=0"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+        ></iframe>
+      </div>
     </div>
+    <input type="text" id="linkCopyHelper"  />
     <script src="../scripts/vendor/swal.min.js"></script>
     <script src="../scripts/vendor/jquery.min.js"></script>
     <script src="../scripts/vendor/parse.min.js"></script>
@@ -72,6 +95,5 @@
     <script src="../scripts/dnd-handler.js"></script>
     <script src="../scripts/dashboard.js"></script>
     <script src="../scripts/group-manager.js"></script>
-</body>
-
+  </body>
 </html>

@@ -12,13 +12,17 @@ window.helpers = {
         if( !localStorage.groupOrder ){
             localStorage.groupOrder = '[]';
         }
+        if( !localStorage.myLinks ){
+            localStorage.myLinks = '[]';
+        }
     },
     getStore : function(){
         return  {
             all: JSON.parse( localStorage.all ),
             similar: JSON.parse( localStorage.similar ),
             group: JSON.parse(localStorage.group ),
-            groupOrder: JSON.parse(localStorage.groupOrder)
+            groupOrder: JSON.parse(localStorage.groupOrder),
+            myLinks : JSON.parse(localStorage.myLinks)
         }
     },
     setStore: function(lStorage){

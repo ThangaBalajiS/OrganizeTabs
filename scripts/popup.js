@@ -47,7 +47,7 @@ setTimeout(function () {
                         condition = domain === siteName;
                     }
 
-                    if (domain && condition && tab.audible && tab.pinned !== true) {
+                    if (domain && condition && (tab.audible || tab.pinned) !== true) {
 
 
                         var tempTabDetailObject = {

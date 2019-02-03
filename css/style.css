@@ -232,7 +232,8 @@ body.dark-mode{
     display:flex;
     align-items:center;
     justify-content: space-between;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #00000080;
 }
 .modal-header-title{
     /* margin-left: -100px; */
@@ -562,7 +563,7 @@ span.nf-head-emoji img {
     background: #00000080;
 }
 
-.modal-body {max-height: 450px;overflow-y: auto;overflow-x: hidden;}
+.modal-body {max-height: 450px;overflow-y: auto;overflow-x: hidden;padding-top: 20px;}
 
 .add-group-btn {
     padding: 15px;
@@ -896,3 +897,41 @@ div#dashboard-site-modal.sharer {
   a{
       color: currentColor;
   }
+
+.footer-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.share-history {
+    padding: 10px 30px;
+    background: #2f93ff;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.modal-item svg#Capa_1 {
+    fill: #000;
+    height: 20px;
+}
+.dark-mode .modal-item svg#Capa_1 {
+    fill: #fff;
+}
+
+.modal-item:hover span.your-links-btn {
+    opacity: 1;
+}
+
+.link-empty-notice {
+    text-align: center;
+    opacity: 0.8;
+}
+
+.modal-item:hover span.your-links-btn {
+    opacity: 1;
+}
+
+span.your-links-btn {
+    opacity: 0;
+}

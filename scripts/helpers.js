@@ -12,6 +12,9 @@ window.helpers = {
         if( !localStorage.groupOrder ){
             localStorage.groupOrder = '[]';
         }
+        if( !localStorage.myLinks ){
+            localStorage.myLinks = '[]';
+        }
     },
     getStore : function(){
         return  {

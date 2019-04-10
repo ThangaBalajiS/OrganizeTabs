@@ -1,7 +1,7 @@
 (function () {
     var div_target = document.getElementById('target_div');
     var closeIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 13 13"><polygon points="752.473 263.392 752.473 269.475 749.803 269.475 749.803 263.392 744.138 263.392 744.138 260.762 749.803 260.762 749.803 254.801 752.473 254.801 752.473 260.762 758.138 260.762 758.138 263.392" transform="rotate(45 687.657 -765.157)"/></svg>';
-    var nothingFound = '<div class="no-card-found" ><div class="nothing-found-head" >No Tabs Found <span class="nf-head-emoji" ><img src="../assets/emoji.png"/></span></div> <div class="nothing-found-desc" >Group tabs in the popup to make them appear here!</div><img style="height:350px;" src="../assets/nothing-found.jpg" /> </div>';
+    var nothingFound = '<div class="no-card-found" ><div class="nothing-found-head" >'+chrome.i18n.getMessage('nothing_found')+' <span class="nf-head-emoji" ><img src="../assets/emoji.png"/></span></div> <div class="nothing-found-desc" >'+chrome.i18n.getMessage('nothing_found_desc')+'</div><img style="height:350px;" src="../assets/nothing-found.jpg" /> </div>';
 
     window.helpers.initStore();
     $( document ).on( 'click',function(e){
@@ -452,7 +452,7 @@ function removeSite(site) {
                 return link ? '<div class="modal-item" ><a href="http://itabsmanager.tk/?secureCode=' + link + '" target="_blank" >http://itabsmanager.tk/?secureCode=' + link + '</a> <span class="your-links-btn" data-url="http://itabsmanager.tk/?secureCode=' + link + '" >'+copyIcon+'</span> </div>' : '';
             });
         } else {
-            tempContent = ['<div class="link-empty-notice" > You haven\'t created any links yet. CMD/CTRL + click an item to  select and click share to create a sharable link  </div>']
+            tempContent = ['<div class="link-empty-notice" >'+chrome.i18n.getMessage('nothing_found_share')+' </div>']
         }
         
       
@@ -487,4 +487,53 @@ function removeSite(site) {
         }, 0);
     } );
 
+    $('#a-sadist').click(function(){
+        var lStorage = window.helpers.getStore()
+        lStorage.rating.dontShow = true;
+        $('#rating-notice').removeClass('show');
+        window.helpers.setStore(lStorage);
+    });
+
+    $('#rate-later').click(function(){
+        var lStorage = window.helpers.getStore(),
+            d = new Date(),
+            today = (d.getFullYear() ) + "" + (d.getMonth()+1) + "" + d.getDate();
+        lStorage.rating.rateLater = true;
+
+        lStorage.rating.laterDate = today;
+
+
+        $('#rating-notice').removeClass('show');
+        window.helpers.setStore(lStorage);
+    });
+
+    $('#goto-store').click(function(){
+        var lStorage = window.helpers.getStore();
+        lStorage.rating.dontShow = true;
+
+        $('#rating-notice').removeClass('show');
+        window.helpers.setStore(lStorage);
+    });
+
 }());
+//rating later manager
+!(function(){
+
+    var lStorage = window.helpers.getStore(),
+        ratingData = lStorage.rating;
+    debugger
+    if( !ratingData.dontShow ){
+        if( ratingData.laterDate ){
+            var d = new Date(),
+                today = (d.getFullYear() ) + "" + (d.getMonth()+1) + "" + d.getDate(),
+                laterClickedDate = '';
+
+                laterClickedDate = parseInt(ratingData.laterDate);
+                if( today > laterClickedDate ){
+                    $('#rating-notice').addClass('show');
+                }
+        } else {
+            $('#rating-notice').addClass('show');
+        }
+    }
+}())

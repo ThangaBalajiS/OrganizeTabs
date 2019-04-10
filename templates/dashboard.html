@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="groups-list">
-          <div class="group-uncategoriezed group-item-mods" data-id="all">
+          <div class="group-uncategoriezed group-item-mods localize" data-localize="uncategorized" data-id="all">
             Uncatergorized
           </div>
           <div id="group-target"></div>
@@ -42,7 +42,7 @@
             <div class="footer-col" >
               <div class="footer-item">
                 <div id="take-a-tour" style="cursor:pointer;">
-                  <span>How it works </span
+                  <span class="localize" data-localize="how_it_works" >How it works </span
                   ><img height="20px" width="20px" src="../assets/paapa.png" />
                 </div>
               </div>
@@ -51,14 +51,14 @@
                   style="cursor:pointer;text-decoration: none;"
                   target="_blank"
                   href="https://twitter.com/itabsmanager"
-                  ><span>Follow us on</span>
+                  ><span class="localize" data-localize="follow_us" >Follow us on</span>
                   <img height="20px" width="20px" src="../assets/twitter.svg" />
                 </a>
               </div>
             </div>
             <div class="footer-col" >
               <div class="footer-item" >
-                <div class="share-history" >
+                <div class="share-history localize" data-localize="your_links" >
                   Your Links
                 </div>
               </div>
@@ -72,7 +72,7 @@
           <input type="text" id="search-bar" placeholder="Search" />
         </div>
         <div class="tab-options">
-          <div id="open-all-tabs" class="open-all">
+          <div id="open-all-tabs" class="open-all localize" data-localize="open_these_tabs">
             Open These Tabs
           </div>
         </div>
@@ -94,11 +94,28 @@
       </div>
     </div>
     <input type="text" id="linkCopyHelper"  />
+    <div id="rating-notice" class="rating-notice" >
+      <div class="rating-notice-text" >Hi! if you like this app, Please rate it at Chrome Web Store</div>
+      <div class="rating-actions" >
+        <div id="goto-store" class="rating-action ok" >
+          <a href="https://chrome.google.com/webstore/detail/infinite-tabs-manager/hjpahkeoabpccidknfdepajnfjncjiep" target="_blank" >
+          Goto store
+        </a>
+        </div>
+        <div id="rate-later" class="rating-action later" >
+          Later
+        </div>
+        <div id="a-sadist" class="rating-action never" >
+          Never
+        </div>
+      </div>
+    </div>
     <script src="../scripts/vendor/swal.min.js"></script>
     <script src="../scripts/vendor/jquery.min.js"></script>
     <script src="../scripts/vendor/parse.min.js"></script>
     <script src="../scripts/vendor/jquery-ui.min.js"></script>
     <script src="../scripts/helpers.js"></script>
+    <script src="../scripts/localizer.js"></script>
     <script src="../scripts/dnd-handler.js"></script>
     <script src="../scripts/dashboard.js"></script>
     <script src="../scripts/group-manager.js"></script>

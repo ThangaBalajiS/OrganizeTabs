@@ -15,6 +15,9 @@ window.helpers = {
         if( !localStorage.myLinks ){
             localStorage.myLinks = '[]';
         }
+        if( !localStorage.rating ){
+            localStorage.rating = '{}';
+        }
     },
     getStore : function(){
         return  {
@@ -22,7 +25,8 @@ window.helpers = {
             similar: JSON.parse( localStorage.similar ),
             group: JSON.parse(localStorage.group ),
             groupOrder: JSON.parse(localStorage.groupOrder),
-            myLinks : JSON.parse(localStorage.myLinks)
+            myLinks : JSON.parse(localStorage.myLinks),
+            rating : JSON.parse(localStorage.rating)
         }
     },
     setStore: function(lStorage){
@@ -30,6 +34,7 @@ window.helpers = {
         localStorage.similar = JSON.stringify( lStorage.similar );
         localStorage.group = JSON.stringify( lStorage.group );
         localStorage.groupOrder = JSON.stringify(lStorage.groupOrder);
+        localStorage.rating = JSON.stringify(lStorage.rating);
     },
     guid: function() {
         function s4() {

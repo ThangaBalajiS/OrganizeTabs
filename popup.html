@@ -14,13 +14,14 @@
     </head>
     <body>
       <div id="popup-space" > 
-      <div data-domain="all" class="site-list-item" >Collapse All</div>
-      <div data-domain="selected" class="site-list-item" >Collapse Selected</div>
+      <div data-domain="all" class="site-list-item localize" data-localize="collapse_all" >Collapse All</div>
+      <div data-domain="selected" class="site-list-item localize" data-localize="collapse_selected" >Collapse Selected</div>
       <div id="domain-list" ></div>
       </div>
-      <div id="open-dashboard" > Open Dashboard </div>
+      <div id="open-dashboard" class="localize" data-localize="open_dashboard" > Open Dashboard </div>
       <script src="./scripts/vendor/jquery.min.js"></script>
       <script src="./scripts/helpers.js"></script>
+      <script src="./scripts/localizer.js"></script>
       <script src="./scripts/popup.js"></script>
     </body>
   </html>

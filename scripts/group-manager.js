@@ -61,12 +61,12 @@
                             _gaq.push(['_trackEvent', 'share', 'clicked']);
 
                             swal({
-                                title: "Are you sure?",
-                                text: "You want to create a sharable link?",
+                                title: chrome.i18n.getMessage('are_you_sure'),
+                                text: chrome.i18n.getMessage('share_link_confirm'),
                                 icon: "info",
                                 buttons: [
-                                    'No, forget it!',
-                                    'Yes, go ahead!'
+                                    chrome.i18n.getMessage('no'),
+                                    chrome.i18n.getMessage('yes')
                                 ],
                             }).then(function (isConfirm) {
                                 if (isConfirm) {
@@ -143,12 +143,12 @@
                             var _gaq = _gaq || [];
                             _gaq.push(['_trackEvent', 'delete', 'clicked']);
                             swal({
-                                title: "Are you sure?",
+                                title: chrome.i18n.getMessage('are_you_sure'),
                                 text: "You want to delete this group?",
                                 icon: "warning",
                                 buttons: [
-                                    'No, never mind!',
-                                    'Yes, go ahead!'
+                                    chrome.i18n.getMessage('no'),
+                                    chrome.i18n.getMessage('yes')
                                 ],
                                 dangerMode: true,
                             }).then(function (isConfirm) {

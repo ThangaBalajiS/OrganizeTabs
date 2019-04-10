@@ -127,12 +127,12 @@ window.dnd = function () {
                 _gaq.push(['_trackEvent', 'delete', 'clicked']);
                 if (selectedItems.length) {
                     swal({
-                        title: "Are you sure?",
+                        title: chrome.i18n.getMessage('are_you_sure'),
                         text: "This cannot be undone!",
                         icon: "warning",
                         buttons: [
-                            'No, cancel it!',
-                            'Yes, I am sure!'
+                            chrome.i18n.getMessage('no'),
+                            chrome.i18n.getMessage('yes')
                         ],
                         dangerMode: true,
                     }).then(function (isConfirm) {
@@ -176,7 +176,7 @@ window.dnd = function () {
                     })
 
                 } else {
-                    swal('Please select tabs to delete', 'Hold CMD/CTRL and click an item to select', 'info');
+                    swal(chrome.i18n.getMessage('plz_select_to_delete'), chrome.i18n.getMessage('how_to_select_text'), 'info');
                 }
 
 
@@ -186,12 +186,12 @@ window.dnd = function () {
                 if (selectedItems.length) {
 
                     swal({
-                        title: "Are you sure?",
-                        text: "You want to create a sharable link?",
+                        title: chrome.i18n.getMessage('are_you_sure'),
+                        text: chrome.i18n.getMessage('share_link_confirm'),
                         icon: "info",
                         buttons: [
-                            'No, forget it!',
-                            'Yes, go ahead!'
+                            chrome.i18n.getMessage('no'),
+                            chrome.i18n.getMessage('yes')
                         ],
                     }).then(function (isConfirm) {
                         if (isConfirm) {
@@ -298,7 +298,7 @@ window.dnd = function () {
                         }
                     });
                 } else {
-                    swal('Please select tabs to share', 'Hold CMD/CTRL and click an item to select', 'info');
+                    swal(chrome.i18n.getMessage('plz_select_to_delete'), chrome.i18n.getMessage('how_to_select_text'), 'info');
                 }
             } else if ($(this).hasClass('add')) {
                 var _gaq = _gaq || [];

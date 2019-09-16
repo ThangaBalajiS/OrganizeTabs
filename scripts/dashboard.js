@@ -9,7 +9,7 @@
     } );
 
     Parse.initialize("myAppIddasdasdasdasd");
-    Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
+    Parse.serverURL = "https://tabsmanager.herokuapp.com/parse";
     var GameScore = Parse.Object.extend("TabsData");
     var query = new Parse.Query(GameScore);
     query.equalTo("hash", 'bc62ea66bfac6da3094dbb9f');
@@ -449,7 +449,7 @@ function removeSite(site) {
         var tempContent = '';
         if( links.length ){
             tempContent = links.map(function (link) {
-                return link ? '<div class="modal-item" ><a href="http://itabsmanager.tk/?secureCode=' + link + '" target="_blank" >http://itabsmanager.tk/?secureCode=' + link + '</a> <span class="your-links-btn" data-url="http://itabsmanager.tk/?secureCode=' + link + '" >'+copyIcon+'</span> </div>' : '';
+                return link ? '<div class="modal-item" ><a href="https://infinite-tabs-manager.herokuapp.com/?secureCode=' + link + '" target="_blank" >https://infinite-tabs-manager.herokuapp.com/?secureCode=' + link + '</a> <span class="your-links-btn" data-url="https://infinite-tabs-manager.herokuapp.com/?secureCode=' + link + '" >'+copyIcon+'</span> </div>' : '';
             });
         } else {
             tempContent = ['<div class="link-empty-notice" >'+chrome.i18n.getMessage('nothing_found_share')+' </div>']

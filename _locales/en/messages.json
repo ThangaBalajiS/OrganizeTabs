@@ -1,0 +1,82 @@
+{
+    "appDesc": {
+      "message": "Makes your Chrome faster and efficient", 
+      "description":"The description of the application, displayed in the web store."
+    },
+    "collapse_all": {
+        "message": "Collapse All",
+        "description": "Collapse all - collapses all tabs to dashboard"
+    },
+    "collapse_selected": {
+        "message": "Collapse Selected",
+        "description": "Collapse selected - collapses selected tabs to dashboard"
+    },
+    "open_dashboard": {
+        "message": "Open Dashboard",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "uncategorized": {
+        "message": "Uncategorized",
+        "description": "Uncategorized - shows things outside that are not inside tabs"
+    },
+    "how_it_works": {
+        "message": "How it works",
+        "description": "How it works btn, link to tutorial video"
+    },
+    "follow_us": {
+        "message": "Follow us on",
+        "description": "Follow us twitter link"
+    },
+    "open_these_tabs": {
+        "message": "Open these tabs",
+        "description": "Open tabs currently visible"
+    },
+    "nothing_found": {
+        "message": "No Tabs Found",
+        "description": "when there are no tabs"
+    },
+    "nothing_found_desc": {
+        "message": "Group tabs in the popup to make them appear here!",
+        "description": "when there are no tabs description"
+    },
+    "your_links": {
+        "message": "Your Links",
+        "description": "Previously shared links"
+    },
+    "how_to_select_text": {
+        "message": "Hold CMD/CTRL and click an item to select",
+        "description": "Appears when clicked action btn without selecting anything"
+    },
+    "nothing_found_share": {
+        "message": "You haven't created any links yet. CMD/CTRL + click an item to  select and click share to create a sharable link",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "plz_select_to_delete": {
+        "message": "Please select tabs to delete",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "plz_select_to_share": {
+        "message": "Please select tabs to share",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "are_you_sure": {
+        "message": "Are you sure?",
+        "description": "Are you sure text"
+    },
+    "share_link_confirm": {
+        "message": "You want to create a sharable link?",
+        "description": "Share Confirm Desc"
+    },
+    "delete_confirm": {
+        "message": "You want to delete this?",
+        "description": "Delete confirm desc"
+    },
+    "yes":{
+        "message": "Yes",
+        "description": "Yes"
+    },
+    "no":{
+        "message": "No",
+        "description": "No"
+    }
+}

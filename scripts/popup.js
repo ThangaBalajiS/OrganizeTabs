@@ -1,108 +1,102 @@
-var extBaseUrl = 'chrome-extension://' + chrome.runtime.id + '/';
-var reDirUrl = 'templates/dashboard.html';
-var siteExists = { flag: false, id: 0 };
+(async function () {
+    var extBaseUrl = 'chrome-extension://' + chrome.runtime.id + '/';
+    var reDirUrl = 'templates/dashboard.html';
+    var siteExists = { flag: false, id: 0 };
 
-document.body.style.background = '#fff';
+    await window.helpers.initStore();
+    const lStorage = await window.helpers.getStore();
 
-chrome.tabs.getAllInWindow(null, function (tabs) {
-    var itemArray = [];
-    for (tab in tabs) {
-        var tabDomain = getDomainFromUrl(tabs[tab].url),
-            tabUrl = tabs[tab].url,
-            tabTitle = tabs[tab].title,
-            tabFavIconUrl = tabs[tab].favIconUrl;
-        tabDomain = tabDomain.replace("www.", '');
-
-
-        if (tabDomain && itemArray.indexOf(tabDomain) === -1) {
-            document.getElementById('domain-list').innerHTML += '<div data-title="' + tabTitle + '" data-favicon="' + tabFavIconUrl + '" data-url="' + tabUrl + '" data-domain="' + tabDomain + '" class="site-list-item">' + tabDomain + '</div>';
-            itemArray.push(tabDomain);
-        }
+    if (lStorage.darkMode) {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.remove('dark-mode');
     }
-});
 
-setTimeout(function () {
-    var items = document.getElementsByClassName('site-list-item');
-    for (var i = 0; i < items.length; i++) {
-        items[i].addEventListener('click', function () {
-            var siteName = this.getAttribute('data-domain');
-            chrome.tabs.getAllInWindow(null, function (tabs) {
+    // Function to render the domain list
+    function renderDomainList() {
+        chrome.tabs.query({ currentWindow: true }, function (tabs) {
+            var itemArray = [];
+            var domainList = document.getElementById('domain-list');
+            domainList.innerHTML = '';
+            for (var i = 0; i < tabs.length; i++) {
+                var tab = tabs[i];
+                var tabDomain = getDomainFromUrl(tab.url);
+                if (!tabDomain) continue;
+                
+                tabDomain = tabDomain.replace("www.", '');
+                var tabUrl = tab.url;
+                var tabTitle = tab.title;
+                var tabFavIconUrl = tab.favIconUrl;
+
+                if (itemArray.indexOf(tabDomain) === -1) {
+                    domainList.innerHTML += '<div data-title="' + tabTitle + '" data-favicon="' + tabFavIconUrl + '" data-url="' + tabUrl + '" data-domain="' + tabDomain + '" class="site-list-item">' + tabDomain + '</div>';
+                    itemArray.push(tabDomain);
+                }
+            }
+        });
+    }
+
+    renderDomainList();
+
+    // Use event delegation for click handlers
+    document.body.addEventListener('click', async function (e) {
+        var item = e.target.closest('.site-list-item');
+        if (item) {
+            var siteName = item.getAttribute('data-domain');
+            const store = await window.helpers.getStore();
+            
+            chrome.tabs.query({ currentWindow: true }, async function (tabs) {
                 var tabsListForLocalStorage = [];
-                for (count in tabs) {
-                    var tab = tabs[count];
+                for (var i = 0; i < tabs.length; i++) {
+                    var tab = tabs[i];
                     var domain = getDomainFromUrl(tab.url);
                     domain = domain.replace("www.", '');
                     var condition = false;
+                    
                     if (siteName === 'all') {
                         condition = true;
                     } else if (siteName === 'selected') {
                         condition = tab.highlighted;
                     } else {
-                        condition = domain === siteName;
+                        condition = (domain === siteName);
                     }
 
-                    if (domain && condition && tab.audible !== true) {
-
-
+                    if (domain && condition && (tab.audible || tab.pinned) !== true) {
                         var tempTabDetailObject = {
-                            id: tab.id,
+                            id: guid(),
+                            originId: tab.id,
                             title: tab.title,
                             url: tab.url,
-                            favIcon: tab.favIconUrl,
+                            favIcon: tab.favIconUrl || '../assets/null-icon.png',
                         };
                         tabsListForLocalStorage.push(tempTabDetailObject);
-
-
                     } else {
                         if (tab.url === extBaseUrl + reDirUrl) {
                             siteExists = { flag: true, id: tab.id };
                         }
-
                     }
-
                 }
-
-
 
                 if (siteName === 'selected') {
                     siteName = 'all';
                 }
 
-                if (localStorage.hasOwnProperty(siteName) || siteName !== 'all' ) {
-                    if (!localStorage.hasOwnProperty('similar')) {
-                        localStorage.similar = JSON.stringify({});
+                if (siteName === 'all') {
+                    if (tabsListForLocalStorage.length) {
+                        store.all = (store.all || []).concat(tabsListForLocalStorage);
                     }
-                    var oldDataOfSite ='';
-                    if( siteName === 'all' ){
-                        oldDataOfSite = JSON.parse(localStorage[siteName]);
-                    }
-                    if (siteName !== 'all') {
-                        if( tabsListForLocalStorage.length ){
-                            
-                            var tempVals = [],
-                                tempSimilar = JSON.parse(localStorage.similar);
-                            if (tempSimilar.hasOwnProperty(siteName) ){
-                                tempVals = tempSimilar[siteName];
-                            }
-                            
-                            
-                            oldDataOfSite = extend({},tempSimilar,{[siteName]:tempVals.concat(tabsListForLocalStorage)});
-                            siteName = 'similar';
-                        }
-                    } else {
-
-                        if (tabsListForLocalStorage.length) {
-                            oldDataOfSite = oldDataOfSite.concat(tabsListForLocalStorage);
-                        }
-                    }
-                    var newDataOfSite = JSON.stringify(oldDataOfSite);
-                    localStorage.setItem(siteName, newDataOfSite);
-
                 } else {
-
-                    localStorage.setItem(siteName, JSON.stringify(tabsListForLocalStorage));
+                    // Site-wise collapse
+                    if (tabsListForLocalStorage.length) {
+                        if (!store.similar) store.similar = {};
+                        var tempVals = store.similar[siteName] || [];
+                        store.similar[siteName] = tempVals.concat(tabsListForLocalStorage);
+                    }
+                    item.remove();
                 }
 
+                store.selectedCategory = 'all';
+                await window.helpers.setStore(store);
 
                 if (siteExists.flag) {
                     chrome.tabs.reload(siteExists.id);
@@ -111,46 +105,45 @@ setTimeout(function () {
                 }
 
                 tabsListForLocalStorage.map(function (tabb) {
-                    chrome.tabs.remove(tabb.id);
+                    chrome.tabs.remove(tabb.originId);
                 });
             });
+        }
 
-
-        }, false);
-    }
-
-    document.getElementById('open-dashboard').addEventListener('click',function(){
-       chrome.tabs.getAllInWindow(null,function(tabs){
-           var hasDashboardOpened = false;
-           for( tab in tabs){
-               if( tabs[tab].url === extBaseUrl + reDirUrl ){
-                   hasDashboardOpened = true;
-                   chrome.tabs.update(tabs[tab].id,{selected:true});
-               }
-               
-              
-           }
-            if( !hasDashboardOpened ){
-                chrome.tabs.create({ index: 0, url: reDirUrl });
-            } 
-       }); 
+        if (e.target.id === 'open-dashboard') {
+            chrome.tabs.query({ currentWindow: true }, function (tabs) {
+                var hasDashboardOpened = false;
+                for (var i = 0; i < tabs.length; i++) {
+                    if (tabs[i].url === extBaseUrl + reDirUrl) {
+                        hasDashboardOpened = true;
+                        chrome.tabs.update(tabs[i].id, { active: true });
+                        break;
+                    }
+                }
+                if (!hasDashboardOpened) {
+                    chrome.tabs.create({ index: 0, url: reDirUrl });
+                }
+            });
+        }
     });
-}, 0);
 
 
-function getDomainFromUrl(url) {
-    var splitedUrl = url.split('/');
-    if (splitedUrl[0] !== 'chrome-extension:' && splitedUrl[0] !== 'chrome:') {
-        return url.split('/')[2] || '';
-    } else {
-        return '';
+    function getDomainFromUrl(url) {
+        if (!url) return '';
+        var splitedUrl = url.split('/');
+        if (splitedUrl[0] !== 'chrome-extension:' && splitedUrl[0] !== 'chrome:') {
+            return splitedUrl[2] || '';
+        } else {
+            return '';
+        }
     }
 
-}
-function extend() {
-    for (var i = 1; i < arguments.length; i++)
-        for (var key in arguments[i])
-            if (arguments[i].hasOwnProperty(key))
-                arguments[0][key] = arguments[i][key];
-    return arguments[0];
-}
+    function guid() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+        return s4() + s4() + s4();
+    }
+})();

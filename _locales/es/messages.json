@@ -1,0 +1,86 @@
+{
+    "appDesc": {
+      "message": "Hace que tu Chrome sea más rápido y eficiente", 
+      "description":"The description of the application, displayed in the web store."
+    },
+    "collapse_all": {
+        "message": "Colapsar todo",
+        "description": "Collapse all - collapses all tabs to dashboard"
+    },
+    "collapse_selected": {
+        "message": "Colapsar seleccionado",
+        "description": "Collapse selected - collapses selected tabs to dashboard"
+    },
+    "open_dashboard": {
+        "message": "Ir tablero",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "uncategorized": {
+        "message": "Sin categorizar",
+        "description": "Uncategorized - shows things outside that are not inside tabs"
+    },
+    "how_it_works": {
+        "message": "Cómo funciona",
+        "description": "How it works btn, link to tutorial video"
+    },
+    "follow_us": {
+        "message": "Síguenos",
+        "description": "Follow us twitter link"
+    },
+    "open_these_tabs": {
+        "message": "Abrir estos tabs",
+        "description": "Open tabs currently visible"
+    },
+    "nothing_found": {
+        "message": "Nada encontró",
+        "description": "when there are no tabs"
+    },
+    "nothing_found_desc": {
+        "message": "Agrupe las pestañas en la ventana emergente para que aparezcan aquí!",
+        "description": "when there are no tabs description"
+    },
+    "search": {
+        "message": "Buscar",
+        "description": "Search"
+    },
+    "your_links": {
+        "message": "Tus enlaces",
+        "description": "Previously shared links"
+    },
+    "how_to_select_text": {
+        "message": "Mantenga presionado CMD / CTRL y haga clic en un elemento para seleccionar",
+        "description": "Appears when clicked action btn without selecting anything"
+    },
+    "nothing_found_share": {
+        "message": "Aún no has creado ningún enlace. CMD / CTRL + haga clic en un elemento para seleccionar y haga clic en compartir para crear un enlace que se pueda compartir",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "plz_select_to_delete": {
+        "message": "Por favor, seleccione las pestañas para eliminar",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "plz_select_to_share": {
+        "message": "Por favor seleccione pestañas para compartir",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "are_you_sure": {
+        "message": "Estás seguro?",
+        "description": "Are you sure text"
+    },
+    "share_link_confirm": {
+        "message": "Quieres crear un enlace para compartir?",
+        "description": "Share Confirm Desc"
+    },
+    "delete_confirm": {
+        "message": "quieres borrar esto?",
+        "description": "Delete confirm desc"
+    },
+    "yes":{
+        "message": "Sí",
+        "description": "Yes"
+    },
+    "no":{
+        "message": "No",
+        "description": "No"
+    }
+}

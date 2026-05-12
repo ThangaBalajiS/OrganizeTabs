@@ -1,73 +1,125 @@
 <html>
-
-<head>
+  <head>
     <title>Dashboard - Tabs Manager</title>
-    <link href="../css/style.css" rel="stylesheet">
-    <link href="../css/corousel.css" rel="stylesheet">
-</head>
+    <link href="../css/jquery-ui.min.css" rel="stylesheet" />
 
-<body>
+    <link href="../css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
     <div class="body-container">
-        <div class="dashboard-left-bar">
-            <div class="dashboard-left-bar-header">
-                <div class="logo-img">
-                    <img height="36px" src="../assets//logo.png" />
-                </div>
-                <div id="extension-name">Tabs Manager</div>
-            </div>
-            <div class="dashboard-left-bar-categories">
-                <div data-category="all" class="categories-item">Varied
-                    <div id="all-count" class="count-class"></div>
-                </div>
-                <div data-category="similar" class="categories-item">Similar
-                    <div id="site-count" class="count-class"></div>
-                </div>
-            </div>
-
-            <div class="dashboard-left-bar-footer">
-
-                <div class="footer-item">
-                    <div id="take-a-tour" style="cursor:pointer;" >Take a tour</div>
-                </div>
-                <div class="footer-item">
-                    <a style="cursor:pointer;text-decoration: none;color:#000;" target="_blank" href="https://chrome.google.com/webstore/detail/infinite-tabs-manager/hjpahkeoabpccidknfdepajnfjncjiep/reviews">Leave a feedback</a>
-                </div>
-            </div>
+      <div class="dashboard-left-bar">
+        <div class="dashboard-left-bar-header">
+          <div class="logo-img">
+            <img height="36px" src="../assets//logo.png" />
+          </div>
+          <div id="extension-name">
+            Tabs Manager <span class="ext-version"> v0.2.9.5 </span>
+          </div>
         </div>
-        <div class="full-page-options">
-            <div class="search-bar">
-                <input type="text" id="search-bar" placeholder="Search" />
-
-            </div>
-            <div class="tab-options">
-                <div id="open-all-tabs" class="open-all">
-                    Open These Tabs
-                </div>
-                <div class="tab-option-separator">|</div>
-                <div id="remove-all-tabs" class="remove-all">
-                    Remove These Tabs
-                </div>
-            </div>
+        <div class="groups-list">
+          <div class="group-uncategoriezed group-item-mods localize" data-localize="uncategorized" data-id="all">
+            Uncatergorized
+          </div>
+          <div id="group-target"></div>
         </div>
-        <div id="target_div"></div>
+
+        <div class="dashboard-left-bar-footer">
+          <div class="dropper-wrap">
+            <div class="dropper-things">
+              <div class="dropper-item tab-actions add">
+                <img src="../assets/svg/add-group.svg" />
+              </div>
+              <div class="dropper-item tab-actions share">
+                <img src="../assets/svg/share.svg" />
+              </div>
+              <div class="dropper-item tab-actions delete">
+                <img src="../assets/svg/delete.svg" />
+              </div>
+            </div>
+          </div>
+          <div class="footer-items" >
+            <div class="footer-col" >
+              <div class="footer-item">
+                <div id="take-a-tour" style="cursor:pointer;">
+                  <span class="localize" data-localize="how_it_works" >How it works </span
+                  ><img height="20px" width="20px" src="../assets/paapa.png" />
+                </div>
+              </div>
+              <div class="footer-item" id="follow-us">
+                <a
+                  style="cursor:pointer;text-decoration: none;"
+                  target="_blank"
+                  href="https://twitter.com/itabsmanager"
+                  ><span class="localize" data-localize="follow_us" >Follow us on</span>
+                  <img height="20px" width="20px" src="../assets/twitter.svg" />
+                </a>
+              </div>
+            </div>
+            <div class="footer-col" >
+              <div class="footer-item" >
+                <div class="share-history localize" data-localize="your_links" >
+                  Your Links
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="full-page-options">
+        <div class="search-bar">
+          <input type="text" id="search-bar" placeholder="Search" />
+        </div>
+        <div class="tab-options">
+          <div id="open-all-tabs" class="open-all localize" data-localize="open_these_tabs">
+            Open These Tabs
+          </div>
+        </div>
+      </div>
+      <div id="dashboard-overlay" class="overlay"></div>
+      <div id="dashboard-site-modal" class="modal"></div>
+      <div id="dev-message-banner" class="dev-message-banner" style="display:none;">
+        <div class="dev-message-content">
+          <span class="dev-message-emoji"></span>
+          <div class="dev-message-text">
+            <strong>A Heartfelt Thank You!</strong><br>
+            It's been 8 years since I last worked on this, and I'm amazed that 131 of you are still using it every week. I'm back and ready to maintain this for you using new agentic development tools. 
+            Is there anything I can improve? I'd love to hear your suggestions!
+          </div>
+          <div class="dev-message-actions">
+            <a href="https://api.swipeone.com/forms/f/feedback-ed04d58a" target="_blank" class="dev-message-btn suggest">Suggest a Feature</a>
+            <button id="dismiss-dev-message" class="dev-message-btn dismiss">Dismiss</button>
+          </div>
+        </div>
+      </div>
+      <div id="target_div"></div>
     </div>
-    <div id="corousel-wrap-wrap">
-        <div class="corousel-wrap">
-            <div class="w3-content w3-display-container">
-                <img class="mySlides" src="../assets/tour/1.png" style="width:100%">
-                <img class="mySlides" src="../assets/tour/2.png" style="width:100%">
-                <img class="mySlides" src="../assets/tour/3.png" style="width:100%">
-                <img class="mySlides" src="../assets/tour/4.png" style="width:100%">
-                <img class="mySlides" src="../assets/tour/5.png" style="width:100%">
-                <img class="mySlides" src="../assets/tour/6.png" style="width:100%">
-                <img class="mySlides" src="../assets/tour/7.png" style="width:100%">
-
-                <button id="btn-l" class="w3-button w3-black w3-display-left">&#10094;</button>
-                <button id="btn-r" class="w3-button w3-black w3-display-right">&#10095;</button>
-            </div>
+    <input type="text" id="linkCopyHelper"  />
+    <div id="rating-notice" class="rating-notice" >
+      <div class="rating-notice-text" >Hi! if you like this app, Please rate it at Chrome Web Store</div>
+      <div class="rating-actions" >
+        <div id="goto-store" class="rating-action ok" >
+          <a href="https://chrome.google.com/webstore/detail/infinite-tabs-manager/hjpahkeoabpccidknfdepajnfjncjiep" target="_blank" >
+          Goto store
+        </a>
         </div>
+        <div id="rate-later" class="rating-action later" >
+          Later
+        </div>
+        <div id="a-sadist" class="rating-action never" >
+          Never
+        </div>
+      </div>
     </div>
+    <script src="../scripts/vendor/swal.min.js"></script>
+    <script src="../scripts/vendor/jquery.min.js"></script>
+    <script src="../scripts/vendor/parse.min.js"></script>
+    <script src="../scripts/vendor/jquery-ui.min.js"></script>
+    <script src="../scripts/helpers.js"></script>
+    <script src="../scripts/localizer.js"></script>
+    <script src="../scripts/dnd-handler.js"></script>
     <script src="../scripts/dashboard.js"></script>
-</body>
-
+    <script src="../scripts/group-manager.js"></script>
+  </body>
 </html>

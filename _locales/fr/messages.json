@@ -1,0 +1,86 @@
+{
+    "appDesc": {
+      "message": "Rend votre Chrome plus rapide et efficace", 
+      "description":"La description de l'application, affichée dans la boutique en ligne"
+    },
+    "collapse_all": {
+        "message": "Réduire tout",
+        "description": "Collapse all - collapses all tabs to dashboard"
+    },
+    "collapse_selected": {
+        "message": "Réduire sélectionné",
+        "description": "Collapse selected - collapses selected tabs to dashboard"
+    },
+    "open_dashboard": {
+        "message": "Tableau de bord ouvert",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "uncategorized": {
+        "message": "Non classé",
+        "description": "Uncatergorized - shows things outside that are not inside tabs"
+    },
+    "how_it_works": {
+        "message": "Comment ça fonctionne",
+        "description": "How it works btn, link to tutorial video"
+    },
+    "follow_us": {
+        "message": "Suivez nous on",
+        "description": "Follow us twitter link"
+    },
+    "open_these_tabs": {
+        "message": "Ouvrez ces onglets",
+        "description": "Open tabs currently visible"
+    },
+    "nothing_found": {
+        "message": "Aucun onglet trouvé",
+        "description": "when there are no tabs"
+    },
+    "nothing_found_desc": {
+        "message": "Les onglets de groupe dans la fenêtre contextuelle pour les faire apparaître ici!",
+        "description": "when there are no tabs description"
+    },
+    "search": {
+        "message": "Chercher",
+        "description": "Search"
+    },
+    "your_links": {
+        "message": "Vos liens",
+        "description": "Previously shared links"
+    },
+    "how_to_select_text": {
+        "message": "Maintenez CMD / CTRL et cliquez sur un élément pour le sélectionner",
+        "description": "Appears when clicked action btn without selecting anything"
+    },
+    "nothing_found_share": {
+        "message": "Vous n'avez pas encore créé de lien. CMD / CTRL + cliquez sur un élément à sélectionner et cliquez sur partager pour créer un lien que vous pouvez partager",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "plz_select_to_delete": {
+        "message": "Veuillez sélectionner les onglets à supprimer",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "plz_select_to_share": {
+        "message": "Veuillez sélectionner les onglets à partager",
+        "description": "Open Dashboard - an option in in popop js"
+    },
+    "are_you_sure": {
+        "message": "Êtes-vous sûr?",
+        "description": "Are you sure text"
+    },
+    "share_link_confirm": {
+        "message": "Vous voulez créer un lien partageable?",
+        "description": "Share Confirm Desc"
+    },
+    "delete_confirm": {
+        "message": "Voulez-vous supprimer ceci?",
+        "description": "Delete confirm desc"
+    },
+    "yes":{
+        "message": "Oui",
+        "description": "Yes"
+    },
+    "no":{
+        "message": "Non",
+        "description": "No"
+    }
+}

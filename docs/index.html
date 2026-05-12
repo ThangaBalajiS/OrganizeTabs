@@ -1,93 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home | Tabs Manager</title>
+    <title>Infinite Tabs Manager — For a Productive Browser Experience</title>
+    <meta name="description" content="Save, organize, and restore your browser tabs. Reduce memory usage and boost productivity with Infinite Tabs Manager.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="css/suttadhu.css" />
-
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="navbar-brand">
+            <img src="images/logo.png" alt="Logo" />
+            Infinite Tabs Manager
+        </a>
+        <div class="navbar-links">
+            <a href="#features">Features</a>
+            <a href="#tour">Take a Tour</a>
+            <a href="privacy-policy.html">Privacy</a>
+            <a href="#download" class="navbar-cta tryit-btn">Download Now</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
     <div class="itm-section home">
         <div class="left-content-wrap">
             <div class="left-content">
                 <div class="product-name">Infinite Tabs Manager</div>
                 <div class="product-desc">For a productive browser experience</div>
-                <a target="_blank" href="#" class="download-btn"> Download Now </a>
+                <a target="_blank" href="#" class="download-btn tryit-btn">Download Now</a>
             </div>
         </div>
         <div class="right-img">
-            <img src="images/home-pc.png" />
+            <img src="images/home-pc.png" alt="Infinite Tabs Manager dashboard preview" />
         </div>
     </div>
 
-    <div class="itm-section features">
-        <div class="feature1">
+    <!-- Features -->
+    <div class="itm-section features" id="features">
+
+        <!-- Feature 1 — Memory -->
+        <div class="feature1 fade-up">
             <div class="left-content-wrap">
                 <div class="left-content">
-                    <div class="feature-line1">Reduce your memory usage upto 96% </div>
-                    <div class="feature-line2">Organizing all tabs into one will make your browser faster and smoother </div>
+                    <div class="feature-line1">Reduce your memory usage up to 96%</div>
+                    <div class="feature-line2">Organizing all tabs into one will make your browser faster and smoother</div>
                 </div>
             </div>
             <div class="right-content-wrap">
-                <img src="images/feature1.png" />
+                <img src="images/feature1.png" alt="Memory usage reduction" />
             </div>
         </div>
-        <div class="feature2">
+
+        <!-- Feature 2 — Smart Grouping -->
+        <div class="feature2 fade-up">
             <div class="left-content-wrap">
-                <img src="images/feature2.png" />
+                <img src="images/feature2.png" alt="Smart tab grouping" />
             </div>
             <div class="right-content-wrap">
                 <div class="right-content">
                     <div class="feature-line1">Smart Grouping</div>
-                    <div class="feature-line2">Grouping nad organizing tabs has never been this easier</div>
+                    <div class="feature-line2">Grouping and organizing tabs has never been this easier</div>
                     <div class="grouping-list">
                         <div class="list-item">
-                            <img src="images/tick.svg" /> Group tabs from the same site </div>
+                            <img src="images/tick.svg" alt="" /> Group tabs from the same site
+                        </div>
                         <div class="list-item">
-                            <img src="images/tick.svg" /> Group tabs of multiple site </div>
+                            <img src="images/tick.svg" alt="" /> Group tabs of multiple sites
+                        </div>
                         <div class="list-item">
-                            <img src="images/tick.svg" /> or Just dump all the tabs in a click</div>
+                            <img src="images/tick.svg" alt="" /> Or just dump all the tabs in a click
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="feature1">
+
+        <!-- Feature 3 — Music -->
+        <div class="feature1 fade-up">
             <div class="left-content-wrap">
                 <div class="left-content">
-                    <div class="feature-line1">No pause to your favorite music </div>
-                    <div class="feature-line2">Tabs with music will keep playing </div>
+                    <div class="feature-line1">No pause to your favorite music</div>
+                    <div class="feature-line2">Tabs with music will keep playing</div>
                     <div class="list-item">
-                        <img height="10px" style="width:10px" src="images/pause.svg" /> or Just dump all the tabs in a click
+                        <img height="10" width="10" src="images/pause.svg" alt="" /> Audible tabs are automatically skipped
                     </div>
                 </div>
             </div>
             <div class="right-content-wrap">
-                <img src="images/feature3.png" />
+                <img src="images/feature3.png" alt="Music keeps playing" />
             </div>
         </div>
-        <div class="feature2">
+
+        <!-- Feature 4 — Productivity -->
+        <div class="feature2 fade-up">
             <div class="left-content-wrap">
-                <img src="images/feature4.png" />
+                <img src="images/feature4.png" alt="Productivity dashboard" />
             </div>
             <div class="right-content-wrap">
                 <div class="right-content">
                     <div class="feature-line1">Increase your Productivity</div>
                     <div class="feature-line2">Our minimalistic dashboard helps you organize and save tabs for later use</div>
-
-                </div>
-            </div>
-        </div>
-        <div class="feature1 f3">
-            <div class="left-content-wrap">
-                <div class="left-content">
-                    <div class="feature-line1">From the creators of this extension... </div>
-                    <div class="feature-line2">Only two humans involved in the production process. No animals were harmed during making of this site
-                        </div>
                 </div>
             </div>
             <div class="right-content-wrap">
@@ -96,24 +112,72 @@
         </div>
     </div>
 
-    <div class="how-it-works">
-        <h1>Take a tour</h1>
-        <div class="corousel-wrap">
-            <iframe width="840" height="473" src="https://www.youtube.com/embed/oStlzQDUigU?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <!-- Creators -->
+        <div class="feature1 f3 fade-up">
+            <div class="left-content-wrap">
+                <div class="left-content">
+                    <div class="feature-line1">From the creators of this extension...</div>
+                    <div class="feature-line2">Only two humans involved in the production process. No animals were harmed during making of this site</div>
+                </div>
+            </div>
+            <div class="right-content-wrap">
+                <img src="images/qoute-chat.png" alt="Creators" />
+            </div>
         </div>
     </div>
-    <div class="footer">
-        <div class="supports"> Supports chrome and firefox now </div>
-        <div class="download-txt"> Download for a better tommorow </div>
-        <a target="_blank" href="#" class="download-btn"> Download Now </a>
+
+    <!-- Tour -->
+    <div class="how-it-works fade-up" id="tour">
+        <h1>Take a Tour</h1>
+        <div class="corousel-wrap">
+            <div class="w3-content w3-display-container">
+                <img class="mySlides" src="./img/tour/1.png" alt="Tour step 1">
+                <img class="mySlides" src="./img/tour/2.png" alt="Tour step 2">
+                <img class="mySlides" src="./img/tour/3.png" alt="Tour step 3">
+                <img class="mySlides" src="./img/tour/4.png" alt="Tour step 4">
+                <img class="mySlides" src="./img/tour/5.png" alt="Tour step 5">
+                <img class="mySlides" src="./img/tour/6.png" alt="Tour step 6">
+                <img class="mySlides" src="./img/tour/7.png" alt="Tour step 7">
+
+                <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer" id="download">
+        <div class="supports">Supports Chrome and Firefox</div>
+        <div class="download-txt">Download for a better tomorrow</div>
+        <a target="_blank" href="#" class="download-btn tryit-btn">Download Now</a>
         <div class="cprt">
             <div>Contact us</div>
-            <div>Copyright @ Infinite Tabs Manager 2019 </div>
-            <div>Privacy Policy</div>
+            <div>Copyright &copy; Infinite Tabs Manager 2026</div>
+            <div><a href="privacy-policy.html">Privacy Policy</a></div>
         </div>
     </div>
 
     <script src="js/script.js"></script>
+    <script>
+        // Sticky navbar
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        // Scroll-triggered fade-in
+        const faders = document.querySelectorAll('.fade-up');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        faders.forEach(el => fadeObserver.observe(el));
+    </script>
 </body>
 
 </html>

@@ -17,25 +17,24 @@ function showDivs(n) {
 }
 
 
-if( !!window.chrome && !!window.chrome.webstore ){
+// Set download URLs for all .tryit-btn elements
+(function () {
+	var btns = document.getElementsByClassName('tryit-btn');
 
-	document.getElementsByClassName( 'tryit-btn' )[0].href = "https://chrome.google.com/webstore/detail/infinite-tabs-manager/hjpahkeoabpccidknfdepajnfjncjiep"
-	document.getElementsByClassName( 'tryit-btn' )[1].href = "https://chrome.google.com/webstore/detail/infinite-tabs-manager/hjpahkeoabpccidknfdepajnfjncjiep"
-
-
-
-}else if ( typeof InstallTrigger !== 'undefined' ){
-
-	document.getElementsByClassName( 'tryit-btn' )[0].href = "https://addons.mozilla.org/en-US/firefox/addon/infinite-tabs-manager/"
-	document.getElementsByClassName( 'tryit-btn' )[1].href = "https://addons.mozilla.org/en-US/firefox/addon/infinite-tabs-manager/"
-
-}else{
-
-	document.getElementsByClassName( 'tryit-btn' )[0].addEventListener('click',function(){
-		alert( "Sorry! This extension is not compatible with your browser yet" );
-		this.target = "";
-	});	document.getElementsByClassName( 'tryit-btn' )[1].addEventListener('click',function(){
-		alert( "Sorry! This extension is not compatible with your browser yet" );
-		this.target = "";
-	});
-}
+	if (!!window.chrome && !!window.chrome.runtime) {
+		for (var i = 0; i < btns.length; i++) {
+			btns[i].href = "https://chrome.google.com/webstore/detail/infinite-tabs-manager/hjpahkeoabpccidknfdepajnfjncjiep";
+		}
+	} else if (typeof InstallTrigger !== 'undefined') {
+		for (var i = 0; i < btns.length; i++) {
+			btns[i].href = "https://addons.mozilla.org/en-US/firefox/addon/infinite-tabs-manager/";
+		}
+	} else {
+		for (var i = 0; i < btns.length; i++) {
+			btns[i].addEventListener('click', function () {
+				alert("Sorry! This extension is not compatible with your browser yet");
+				this.target = "";
+			});
+		}
+	}
+})();

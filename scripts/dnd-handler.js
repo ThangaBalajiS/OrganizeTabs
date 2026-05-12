@@ -38,12 +38,12 @@ window.dnd = function () {
         $('.to-drop').droppable({
             accept: '.to-drag',
             tolerance: 'pointer',
-            drop: function (e, i) {
+            drop: async function (e, i) {
                 //console.log('here');
                 $(this).addClass('drop-ok');
                 var selectedItems = $('.item-selected');
-                var lStorage = window.helpers.getStore();
-                var selectedCategory = localStorage.selectedCategory;
+                const lStorage = await window.helpers.getStore();
+                var selectedCategory = lStorage.selectedCategory;
                 var dropTarget = $(e.target).attr('data-id');
 
                 if (!selectedItems.length) {
@@ -51,7 +51,6 @@ window.dnd = function () {
                 }
 
                 selectedItems.each(function (index, el) {
-                    debugger;
                     var jEl = $(el);
                     if (jEl.hasClass('item-card-wrap-outer')) {
                         jEl = jEl.find('.item-card-wrap');
@@ -95,32 +94,32 @@ window.dnd = function () {
                     jEl.css('transform', 'scale(0)');
                 });
 
-                window.helpers.setStore(lStorage);
-                setTimeout(function () {
-                    localStorage.selectedCategory = dropTarget;
-                    window.renderTabs();
-                    window.renderGroups();
+                await window.helpers.setStore(lStorage);
+                setTimeout(async function () {
+                    await window.helpers.setStore({selectedCategory: dropTarget});
+                    await window.renderTabs();
+                    await window.renderGroups();
                 }, 300);
             }
         });
 
         $('#group-target').sortable({
-            stop: function () {
+            stop: async function () {
                 var groupOrderArray = [];
                 $('#group-target').children().each(function (i, e) {
                     groupOrderArray.push($(e).attr('data-id'));
                 });
-                localStorage.setItem('groupOrder', JSON.stringify(groupOrderArray));
+                await window.helpers.setStore({groupOrder: groupOrderArray});
             },
             delay: 100
         });
 
         $('.dropper-item').off();
-        $('.dropper-item').on('click', function (e) {
+        $('.dropper-item').on('click', async function (e) {
             e.stopPropagation();
             var selectedItems = $('.item-selected');
-            var lStorage = window.helpers.getStore();
-            var selectedCategory = localStorage.selectedCategory;
+            const lStorage = await window.helpers.getStore();
+            var selectedCategory = lStorage.selectedCategory;
 
             if ($(this).hasClass('delete')) {
                 var _gaq = _gaq || [];
@@ -135,7 +134,7 @@ window.dnd = function () {
                             chrome.i18n.getMessage('yes')
                         ],
                         dangerMode: true,
-                    }).then(function (isConfirm) {
+                    }).then(async function (isConfirm) {
                         if (isConfirm) {
                             selectedItems.each(function (index, el) {
                                 var jEl = $(el);
@@ -165,13 +164,13 @@ window.dnd = function () {
                                 jEl.css('transform', 'scale(0)');
                             });
 
-                            window.helpers.setStore(lStorage);
-                            setTimeout(function () {
-                                window.renderTabs();
+                            await window.helpers.setStore(lStorage);
+                            setTimeout(async function () {
+                                await window.renderTabs();
                             }, 300);
                         } else {
                             // swal("Cancelled", "Your tabs are now safe :)", "info");
-                            window.renderTabs();
+                            await window.renderTabs();
                         }
                     })
 
@@ -183,139 +182,23 @@ window.dnd = function () {
             } else if ($(this).hasClass('share')) {
                 var _gaq = _gaq || [];
                 _gaq.push(['_trackEvent', 'share', 'clicked']);
-                if (selectedItems.length) {
+                
+                var modal = document.getElementById('dashboard-site-modal');
+                var overlay = document.getElementById('dashboard-overlay');
+                
+                modal.innerHTML = '<div style="padding: 50px; text-align: center; font-size: 18px; line-height: 1.6;">This one is currently broken. <br> <a href="https://twitter.com/itabsmanager" target="_blank" style="color: #3b99fc; font-weight: 600; text-decoration: underline;">Please click here to request the developer to enable it.</a></div>';
+                modal.classList.add('show');
+                overlay.classList.add('show');
 
-                    swal({
-                        title: chrome.i18n.getMessage('are_you_sure'),
-                        text: chrome.i18n.getMessage('share_link_confirm'),
-                        icon: "info",
-                        buttons: [
-                            chrome.i18n.getMessage('no'),
-                            chrome.i18n.getMessage('yes')
-                        ],
-                    }).then(function (isConfirm) {
-                        if (isConfirm) {
-                            // Parse.initialize("myAppIddasdasdasdasd");
-                            // Parse.serverURL = "http://tabsmanager.herokuapp.com/parse";
-                            var tempValue = { all: [], similar: {} };
-                            var modal = document.getElementById('dashboard-site-modal');
-                            modal.innerHTML = '<img class="loading-icon rotating" src="../assets/loading.svg" />';
-                            modal.classList.add('show');
-
-                            selectedItems.each(function (index, el) {
-                                var jEl = $(el);
-
-                                if (jEl.hasClass('item-card-wrap-outer')) {
-                                    jEl = jEl.find('.item-card-wrap');
-                                    var newItem = {
-                                        id: jEl.attr('data-id'),
-                                        title: jEl.attr('data-title'),
-                                        favIcon: jEl.attr('data-favicon'),
-                                        url: jEl.attr('data-url')
-                                    };
-
-                                    tempValue.all.push(newItem);
-
-                                } else if (jEl.hasClass('site-card-wrap')) {
-                                    jEl = jEl.find('.site-card');
-                                    var itemId = jEl.attr('data-site');
-
-                                    if (selectedCategory === 'all') {
-
-                                        tempValue.similar = $.extend({}, tempValue.similar, { [itemId]: lStorage.similar[itemId] });
-                                    } else {
-                                        tempValue.similar = $.extend({}, tempValue.similar, { [itemId]: lStorage.group[selectedCategory].similar[itemId] });
-                                    }
-                                }
-                                jEl.css('transform', 'scale(0)');
-                                window.renderTabs();
-                                //console.log(tempValue);
-
-                            });
-
-
-
-                            var GameScore = Parse.Object.extend("TabsData");
-                            var gameScore = new GameScore();
-                            var hash = window.helpers.guid() + window.helpers.guid();
-
-                            var tempLinks = [];
-                            if (localStorage.myLinks) {
-                                tempLinks = JSON.parse(localStorage.myLinks);
-                            } else {
-                                tempLinks = [];
-                            }
-
-                            tempLinks.push(hash);
-
-                            localStorage.myLinks = JSON.stringify(tempLinks);
-
-                            gameScore.set("hash", hash);
-                            gameScore.set("data", JSON.stringify(tempValue));
-                            gameScore.save()
-                                .then((gameScore) => {
-                                    // Execute any logic that should take place after the object is saved.
-                                    //console.log('New object created with hash: ' + gameScore.get('hash'));
-
-
-                                    var overlay = $('#dashboard-overlay').addClass('show');
-
-                                    var url = gameScore.get('hash');
-
-
-                                    modal.classList.add('sharer');
-
-                                    modal.innerHTML = '';
-                                    modal.innerHTML += '<div class="modal-ulla"><div class="modal-site-padam" style="background:url(https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Finfinite-tabs-manager.herokuapp.com%2F%3FsecureCode%3D' + url + '&amp;size=150x150&amp);background-size:contain;" ></div><div class="share-modal-details" ><div class="sahre-title" >Untitled</div><div><div class="share-right-item share-desc" >Share this link or scan QR Code to view tabs in mobile</div><div class="share-right-item url" > <input type="text" style="width:100%;"  value="https://infinite-tabs-manager.herokuapp.com/?secureCode=' + url + '" id="myInput"> </div></div><div class="share-right-item cpy-btn" ><div class="copy-url-btn"> Copy URL </div><div class="url-gone-notice" >Will be valid till August 13 00:00 GMT</div></div></div>';
-                                    setTimeout(function () {
-                                        $('.copy-url-btn').off()
-                                        $('.copy-url-btn').on('click', function () {
-                                            var copyText = document.getElementById("myInput");
-
-                                            /* Select the text field */
-                                            copyText.select();
-
-                                            /* Copy the text inside the text field */
-                                            document.execCommand("copy");
-
-                                        });
-                                    }, 0);
-
-                                    overlay.on('click', function () {
-                                        overlay.removeClass('show');
-                                        modal.classList.remove('show');
-                                        overlay.off();
-                                    });
-
-                                }, (error) => {
-                                    // Execute any logic that should take place if the save fails.
-                                    // error is a Parse.Error with an error code and message.
-                                    alert('Failed to create new object, with error code: ' + error.message);
-                                });
-
-                        } else {
-                            window.renderTabs();
-                        }
-                    });
-                } else {
-                    swal(chrome.i18n.getMessage('plz_select_to_delete'), chrome.i18n.getMessage('how_to_select_text'), 'info');
-                }
+                $(overlay).on('click', function () {
+                    $(overlay).removeClass('show');
+                    $(modal).removeClass('show');
+                    $(overlay).off('click');
+                });
             } else if ($(this).hasClass('add')) {
                 var _gaq = _gaq || [];
                 _gaq.push(['_trackEvent', 'add', 'clicked']);
                 if (selectedItems.length) {
-
-                    // swal({
-                    //     title: "Are you sure?",
-                    //     text: "wanna create a new group with the selected tabs?",
-                    //     icon: "info",
-                    //     buttons: [
-                    //         'No, forget it!',
-                    //         'Yeah, go ahead!'
-                    //     ],
-                    // }).then(function (isConfirm) {
-                    //     if (isConfirm) {
-
                             var tempValue = { name: 'Untitled', all: [], similar: {} };
 
                             selectedItems.each(function (index, el) {
@@ -360,24 +243,19 @@ window.dnd = function () {
                             var newGroupId = window.helpers.guid();
                             lStorage.group = $.extend({}, lStorage.group, { [newGroupId]: tempValue });
                             lStorage.groupOrder.unshift(newGroupId);
-                            window.helpers.setStore(lStorage);
-                            setTimeout(function () {
-                                window.renderTabs();
-                                window.renderGroups();
+                            await window.helpers.setStore(lStorage);
+                            setTimeout(async function () {
+                                await window.renderTabs();
+                                await window.renderGroups();
                             }, 300);
-                    //     } else {
-                    //         window.renderTabs();
-                    //     }
-                    // });
                 } else {
-                    var lStorage = window.helpers.getStore();
                     var newGroupId = window.helpers.guid();
 
                     lStorage.group = $.extend({}, lStorage.group, { [newGroupId]: { name: window.helpers.getCurrentDate(), all: [], similar: {} } });
                     lStorage.groupOrder.unshift(newGroupId);
-                    window.helpers.setStore(lStorage);
-                    window.renderGroups();
-                    window.renderTabs();
+                    await window.helpers.setStore(lStorage);
+                    await window.renderGroups();
+                    await window.renderTabs();
                 }
             }
         });

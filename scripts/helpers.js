@@ -1,40 +1,32 @@
 window.helpers = {
-    initStore : function(){
-        if( !localStorage.all ){
-            localStorage.all = '[]';
+    initStore : async function(){
+        const defaults = {
+            all: [],
+            similar: {},
+            group: {},
+            groupOrder: [],
+            myLinks: [],
+            rating: {},
+            darkMode: false,
+            selectedCategory: 'all',
+            devMessageDismissed: false
+        };
+        const data = await chrome.storage.local.get(Object.keys(defaults));
+        const toSet = {};
+        for (const key in defaults) {
+            if (data[key] === undefined) {
+                toSet[key] = defaults[key];
+            }
         }
-        if( !localStorage.similar ){
-            localStorage.similar = '{}';
-        }
-        if( !localStorage.group ){
-            localStorage.group = '{}';
-        }
-        if( !localStorage.groupOrder ){
-            localStorage.groupOrder = '[]';
-        }
-        if( !localStorage.myLinks ){
-            localStorage.myLinks = '[]';
-        }
-        if( !localStorage.rating ){
-            localStorage.rating = '{}';
-        }
-    },
-    getStore : function(){
-        return  {
-            all: JSON.parse( localStorage.all ),
-            similar: JSON.parse( localStorage.similar ),
-            group: JSON.parse(localStorage.group ),
-            groupOrder: JSON.parse(localStorage.groupOrder),
-            myLinks : JSON.parse(localStorage.myLinks),
-            rating : JSON.parse(localStorage.rating)
+        if (Object.keys(toSet).length > 0) {
+            await chrome.storage.local.set(toSet);
         }
     },
-    setStore: function(lStorage){
-        localStorage.all = JSON.stringify( lStorage.all );
-        localStorage.similar = JSON.stringify( lStorage.similar );
-        localStorage.group = JSON.stringify( lStorage.group );
-        localStorage.groupOrder = JSON.stringify(lStorage.groupOrder);
-        localStorage.rating = JSON.stringify(lStorage.rating);
+    getStore : async function(){
+        return await chrome.storage.local.get(['all', 'similar', 'group', 'groupOrder', 'myLinks', 'rating', 'darkMode', 'selectedCategory', 'devMessageDismissed']);
+    },
+    setStore: async function(lStorage){
+        await chrome.storage.local.set(lStorage);
     },
     guid: function() {
         function s4() {

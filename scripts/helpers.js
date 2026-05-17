@@ -9,9 +9,38 @@ window.helpers = {
             rating: {},
             darkMode: false,
             selectedCategory: 'all',
-            devMessageDismissed: false
+            devMessageDismissed: false,
+            migratedFromLocalStorage: false
         };
+
         const data = await chrome.storage.local.get(Object.keys(defaults));
+        
+        // --- Migration Logic ---
+        if (!data.migratedFromLocalStorage) {
+            const migrationData = {};
+            const keysToMigrate = ['all', 'similar', 'group', 'groupOrder', 'myLinks', 'rating', 'darkMode', 'selectedCategory'];
+            
+            keysToMigrate.forEach(key => {
+                const oldVal = localStorage.getItem(key);
+                if (oldVal !== null) {
+                    try {
+                        // localStorage stores everything as strings, so we parse it
+                        migrationData[key] = JSON.parse(oldVal);
+                    } catch (e) {
+                        // If it's a simple string like darkMode or selectedCategory
+                        migrationData[key] = oldVal === 'true' ? true : (oldVal === 'false' ? false : oldVal);
+                    }
+                }
+            });
+
+            migrationData.migratedFromLocalStorage = true;
+            await chrome.storage.local.set(migrationData);
+            
+            // Re-fetch data after migration to ensure defaults logic works on updated state
+            Object.assign(data, await chrome.storage.local.get(Object.keys(defaults)));
+        }
+        // --- End Migration Logic ---
+
         const toSet = {};
         for (const key in defaults) {
             if (data[key] === undefined) {

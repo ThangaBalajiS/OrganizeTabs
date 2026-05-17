@@ -63,7 +63,7 @@
                             var modal = document.getElementById('dashboard-site-modal');
                             var overlay = document.getElementById('dashboard-overlay');
                             
-                            modal.innerHTML = '<div style="padding: 50px; text-align: center; font-size: 18px; line-height: 1.6;">This one is currently broken. <br> <a href="https://twitter.com/itabsmanager" target="_blank" style="color: #3b99fc; font-weight: 600; text-decoration: underline;">Please click here to request the developer to enable it.</a></div>';
+                            modal.innerHTML = '<div style="padding: 50px; text-align: center; font-size: 18px; line-height: 1.6;">This one is currently broken. <br> <a href="https://api.swipeone.com/forms/f/feedback-ed04d58a" target="_blank" style="color: #3b99fc; font-weight: 600; text-decoration: underline;">Please click here to request the developer to enable it.</a></div>';
                             modal.classList.add('show');
                             overlay.classList.add('show');
 

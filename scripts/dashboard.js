@@ -10,6 +10,17 @@
 
     const initialStore = await window.helpers.getStore();
 
+    if (!initialStore.releaseNotesDismissed) {
+        document.getElementById('release-notes-banner').style.display = 'block';
+    }
+
+    document.getElementById('dismiss-release-notes').addEventListener('click', async function () {
+        const store = await window.helpers.getStore();
+        store.releaseNotesDismissed = true;
+        await window.helpers.setStore(store);
+        document.getElementById('release-notes-banner').style.display = 'none';
+    });
+
     const theme = initialStore.theme || (initialStore.darkMode ? 'dark' : 'light');
     
     async function setTheme(newTheme) {

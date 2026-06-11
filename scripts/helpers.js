@@ -10,6 +10,7 @@ window.helpers = {
             darkMode: false,
             theme: 'system',
             selectedCategory: 'all',
+            releaseNotesDismissed: false,
             migratedFromLocalStorage: false
         };
 
@@ -57,7 +58,7 @@ window.helpers = {
         }
     },
     getStore : async function(){
-        return await chrome.storage.local.get(['all', 'similar', 'group', 'groupOrder', 'myLinks', 'rating', 'darkMode', 'theme', 'selectedCategory']);
+        return await chrome.storage.local.get(['all', 'similar', 'group', 'groupOrder', 'myLinks', 'rating', 'darkMode', 'theme', 'selectedCategory', 'releaseNotesDismissed']);
     },
     setStore: async function(lStorage){
         await chrome.storage.local.set(lStorage);

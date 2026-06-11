@@ -8,8 +8,8 @@ window.helpers = {
             myLinks: [],
             rating: {},
             darkMode: false,
+            theme: 'system',
             selectedCategory: 'all',
-            devMessageDismissed: false,
             migratedFromLocalStorage: false
         };
 
@@ -18,7 +18,7 @@ window.helpers = {
         // --- Migration Logic ---
         if (!data.migratedFromLocalStorage) {
             const migrationData = {};
-            const keysToMigrate = ['all', 'similar', 'group', 'groupOrder', 'myLinks', 'rating', 'darkMode', 'selectedCategory'];
+            const keysToMigrate = ['all', 'similar', 'group', 'groupOrder', 'myLinks', 'rating', 'darkMode', 'theme', 'selectedCategory'];
             
             keysToMigrate.forEach(key => {
                 const oldVal = localStorage.getItem(key);
@@ -32,6 +32,11 @@ window.helpers = {
                     }
                 }
             });
+
+            // Handle legacy darkMode migration to theme
+            if (migrationData.darkMode !== undefined && migrationData.theme === undefined) {
+                migrationData.theme = migrationData.darkMode ? 'dark' : 'light';
+            }
 
             migrationData.migratedFromLocalStorage = true;
             await chrome.storage.local.set(migrationData);
@@ -52,7 +57,7 @@ window.helpers = {
         }
     },
     getStore : async function(){
-        return await chrome.storage.local.get(['all', 'similar', 'group', 'groupOrder', 'myLinks', 'rating', 'darkMode', 'selectedCategory', 'devMessageDismissed']);
+        return await chrome.storage.local.get(['all', 'similar', 'group', 'groupOrder', 'myLinks', 'rating', 'darkMode', 'theme', 'selectedCategory']);
     },
     setStore: async function(lStorage){
         await chrome.storage.local.set(lStorage);

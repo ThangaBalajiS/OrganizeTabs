@@ -38,6 +38,7 @@ body.dark-mode {
     font-weight: 500;
     font-size: 0.7em;
     color: #a5a5a5;
+    margin-right: 2px;
 }
 
 .site-list-item:hover {
@@ -227,6 +228,99 @@ body.dark-mode {
     padding: 20px;
     display: flex;
     align-items: center;
+    position: relative;
+}
+
+#extension-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-controller {
+    position: relative;
+}
+
+.theme-btn {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a5a5a5;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.theme-btn:hover {
+    background: #f0f2fa;
+    color: #3B99FC;
+}
+
+.dark-mode .theme-btn:hover {
+    background: #1a1a1a;
+}
+
+.theme-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 30px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 100;
+    min-width: 120px;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.dark-mode .theme-dropdown {
+    background: #2a2a2a;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.theme-dropdown.show {
+    display: block;
+}
+
+.theme-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    color: #666;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.theme-option svg {
+    margin-right: 10px;
+    opacity: 0.7;
+}
+
+.dark-mode .theme-option {
+    color: #ccc;
+}
+
+.theme-option:hover {
+    background: #f0f2fa;
+    color: #3B99FC;
+}
+
+.dark-mode .theme-option:hover {
+    background: #333;
+}
+
+.theme-option.active {
+    color: #3B99FC;
+    background: #f0f2fa;
+}
+
+.dark-mode .theme-option.active {
+    background: #333;
 }
 
 .categories-item {

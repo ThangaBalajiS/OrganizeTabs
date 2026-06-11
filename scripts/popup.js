@@ -6,11 +6,30 @@
     await window.helpers.initStore();
     const lStorage = await window.helpers.getStore();
 
-    if (lStorage.darkMode) {
-        document.body.classList.add('dark-mode');
-    } else {
-        document.body.classList.remove('dark-mode');
+    const theme = lStorage.theme || (lStorage.darkMode ? 'dark' : 'light');
+
+    function setTheme(newTheme) {
+        function applyTheme(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+        }
+
+        if (newTheme === 'system') {
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            applyTheme(systemPrefersDark.matches);
+            
+            systemPrefersDark.addEventListener('change', (e) => {
+                applyTheme(e.matches);
+            }, { once: true }); // Popup is short-lived, so once is fine or just let it be
+        } else {
+            applyTheme(newTheme === 'dark');
+        }
     }
+
+    setTheme(theme);
 
     // Function to render the domain list
     function renderDomainList() {

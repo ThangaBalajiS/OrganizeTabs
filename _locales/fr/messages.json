@@ -82,5 +82,17 @@
     "no":{
         "message": "Non",
         "description": "No"
+    },
+    "light": {
+        "message": "Clair",
+        "description": "Light theme option"
+    },
+    "dark": {
+        "message": "Sombre",
+        "description": "Dark theme option"
+    },
+    "system": {
+        "message": "Système",
+        "description": "System theme option"
     }
 }

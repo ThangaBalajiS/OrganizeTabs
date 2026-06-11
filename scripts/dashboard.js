@@ -8,46 +8,91 @@
         $('.group-options-dd').css('display', 'none');
     });
 
-    Parse.initialize("myAppIddasdasdasdasd");
-    Parse.serverURL = "https://tabsmanager.herokuapp.com/parse";
-    var GameScore = Parse.Object.extend("TabsData");
-    var query = new Parse.Query(GameScore);
-    query.equalTo("hash", 'bc62ea66bfac6da3094dbb9f');
-    query.find()
-        .then((gameScore) => {
-            console.log(gameScore);
-        });
-
     const initialStore = await window.helpers.getStore();
 
-    if (!initialStore.devMessageDismissed) {
-        document.getElementById('dev-message-banner').style.display = 'block';
+    const theme = initialStore.theme || (initialStore.darkMode ? 'dark' : 'light');
+    
+    async function setTheme(newTheme) {
+        const store = await window.helpers.getStore();
+        store.theme = newTheme;
+        window.currentTheme = newTheme;
+        
+        function applyTheme(isDark) {
+            if (isDark) {
+                $('body').addClass('dark-mode');
+                window.darkMode = true;
+                store.darkMode = true;
+            } else {
+                $('body').removeClass('dark-mode');
+                window.darkMode = false;
+                store.darkMode = false;
+            }
+        }
+
+        if (newTheme === 'system') {
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            applyTheme(systemPrefersDark.matches);
+            
+            // Remove previous listener if any
+            if (window.themeMediaQueryListener) {
+                systemPrefersDark.removeEventListener('change', window.themeMediaQueryListener);
+            }
+            
+            window.themeMediaQueryListener = (e) => {
+                if (window.currentTheme === 'system') {
+                    applyTheme(e.matches);
+                }
+            };
+            systemPrefersDark.addEventListener('change', window.themeMediaQueryListener);
+        } else {
+            applyTheme(newTheme === 'dark');
+            if (window.themeMediaQueryListener) {
+                window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', window.themeMediaQueryListener);
+                window.themeMediaQueryListener = null;
+            }
+        }
+        
+        await window.helpers.setStore(store);
+        updateThemeSelectorUI(newTheme);
     }
 
-    document.getElementById('dismiss-dev-message').addEventListener('click', async function () {
-        const store = await window.helpers.getStore();
-        store.devMessageDismissed = true;
-        await window.helpers.setStore(store);
-        document.getElementById('dev-message-banner').style.display = 'none';
+    function updateThemeSelectorUI(currentTheme) {
+        $('.theme-option').removeClass('active');
+        $(`.theme-option[data-theme="${currentTheme}"]`).addClass('active');
+        
+        // Update main button icon
+        const iconHtml = $(`.theme-option[data-theme="${currentTheme}"] svg`).prop('outerHTML');
+        $('#theme-btn').html(iconHtml);
+    }
+
+    // Initialize theme
+    setTheme(theme);
+
+    // Toggle dropdown
+    $('#theme-btn').on('click', function(e) {
+        e.stopPropagation();
+        $('#theme-dropdown').toggleClass('show');
     });
 
-    if (initialStore.darkMode) {
-        $('body').addClass('dark-mode');
-        window.darkMode = true;
-    }
+    // Close dropdown on click outside
+    $(document).on('click', function() {
+        $('#theme-dropdown').removeClass('show');
+    });
 
+    // Theme selector click
+    $(document).on('click', '.theme-option', async function(e) {
+        e.stopPropagation();
+        const selectedTheme = $(this).data('theme');
+        await setTheme(selectedTheme);
+        $('#theme-dropdown').removeClass('show');
+    });
+
+    // Legacy logo click to cycle through themes
     $('.logo-img').on('click', async function () {
-        const store = await window.helpers.getStore();
-        if (!window.darkMode) {
-            $('body').addClass('dark-mode');
-            window.darkMode = true;
-            store.darkMode = true;
-        } else {
-            $('body').removeClass('dark-mode');
-            window.darkMode = false;
-            store.darkMode = false;
-        }
-        await window.helpers.setStore(store);
+        const themes = ['light', 'dark', 'system'];
+        let currentIndex = themes.indexOf(window.currentTheme);
+        let nextIndex = (currentIndex + 1) % themes.length;
+        await setTheme(themes[nextIndex]);
     });
 
     $(document).keydown(function (e) {
